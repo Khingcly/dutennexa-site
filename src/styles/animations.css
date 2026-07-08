@@ -1,4 +1,9 @@
-/* Scroll reveal */
+/* ============================================================
+   Ambient CSS keyframe animations (independent of motion.js).
+   The global prefers-reduced-motion block disables all of these.
+   ============================================================ */
+
+/* --- Effect A: scroll reveal (state classes; observer lives in motion.js) --- */
 .reveal {
   opacity: 0;
   transform: translateY(24px);
@@ -8,13 +13,13 @@
   opacity: 1;
   transform: translateY(0);
 }
-.d-1 { transition-delay: 0.1s; }
-.d-2 { transition-delay: 0.2s; }
-.d-3 { transition-delay: 0.3s; }
-.d-4 { transition-delay: 0.4s; }
-.d-5 { transition-delay: 0.5s; }
+[data-reveal-delay='1'] { transition-delay: 0.1s; }
+[data-reveal-delay='2'] { transition-delay: 0.2s; }
+[data-reveal-delay='3'] { transition-delay: 0.3s; }
+[data-reveal-delay='4'] { transition-delay: 0.4s; }
+[data-reveal-delay='5'] { transition-delay: 0.5s; }
 
-/* Testimonial marquee */
+/* --- Testimonial marquee --- */
 .marquee-track {
   display: flex;
   width: max-content;
@@ -28,7 +33,7 @@
   to { transform: translateX(-50%); }
 }
 
-/* Hero background mesh */
+/* --- Hero neural mesh --- */
 .mesh-line {
   stroke-dasharray: 300;
   stroke-dashoffset: 300;
@@ -40,11 +45,12 @@
   to { stroke-dashoffset: 0; }
 }
 @keyframes mesh-shimmer {
-  0%, 100% { opacity: 0.18; }
-  50% { opacity: 0.4; }
+  0%, 100% { opacity: 0.16; }
+  50% { opacity: 0.38; }
 }
 .mesh-node {
   transform-origin: center;
+  transform-box: fill-box;
   animation: node-twinkle 3s ease-in-out infinite;
 }
 @keyframes node-twinkle {
@@ -52,9 +58,8 @@
   50% { opacity: 1; transform: scale(1.15); }
 }
 
-/* Hero stack: traveling pulse + node flash */
+/* --- Hero stack: traveling pulses (CSS loop) --- */
 .pulse-dot {
-  offset-rotate: 0deg;
   animation: pulse-travel 2.6s linear infinite;
 }
 @keyframes pulse-travel {
@@ -63,6 +68,8 @@
   90% { opacity: 1; }
   100% { offset-distance: 100%; opacity: 0; }
 }
+
+/* Layer flash: teal for data layers, violet for the AI layer, synced to pulse */
 .node-flash {
   animation: node-flash 5.2s ease-in-out infinite;
 }
@@ -70,8 +77,15 @@
   0%, 8%, 100% { fill: var(--surface-card); }
   4% { fill: rgba(63, 224, 208, 0.21); }
 }
+.node-flash-ai {
+  animation: node-flash-ai 5.2s ease-in-out infinite;
+}
+@keyframes node-flash-ai {
+  0%, 8%, 100% { fill: rgba(124, 92, 255, 0.12); }
+  4% { fill: rgba(124, 92, 255, 0.32); }
+}
 
-/* Hero floating mini-cards */
+/* --- Hero floating mini-cards --- */
 .float-card {
   animation: card-float 5s ease-in-out infinite;
 }
@@ -80,7 +94,7 @@
   50% { transform: translateY(-10px); }
 }
 
-/* Revenue bars breathing */
+/* --- Revenue bars breathing --- */
 .bar-breathe {
   transform-origin: bottom;
   animation: bar-breathe 2.4s ease-in-out infinite;
@@ -90,7 +104,7 @@
   50% { transform: scaleY(1); }
 }
 
-/* Progress ring oscillation */
+/* --- AI agent progress ring + pulsing dot --- */
 .ring-oscillate {
   animation: ring-oscillate 3s ease-in-out infinite;
 }
@@ -98,8 +112,15 @@
   0%, 100% { stroke-dashoffset: 90; }
   50% { stroke-dashoffset: 40; }
 }
+.ai-pulse {
+  animation: ai-pulse 2s ease-in-out infinite;
+}
+@keyframes ai-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
 
-/* Connector line draw-in on reveal */
+/* --- Connector line draw-in on reveal --- */
 .line-draw {
   stroke-dasharray: 1000;
   stroke-dashoffset: 1000;
@@ -109,6 +130,10 @@
   stroke-dashoffset: 0;
 }
 
+/* ============================================================
+   Reduced motion: hard-disable every ambient animation.
+   (motion.js also exits early; global.css zeroes durations.)
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none !important;
@@ -121,9 +146,11 @@
   .mesh-node,
   .pulse-dot,
   .node-flash,
+  .node-flash-ai,
   .float-card,
   .bar-breathe,
-  .ring-oscillate {
+  .ring-oscillate,
+  .ai-pulse {
     animation: none !important;
   }
   .mesh-line {

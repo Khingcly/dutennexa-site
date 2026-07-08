@@ -16,8 +16,41 @@ body {
     sans-serif,
     'Apple Color Emoji',
     'Segoe UI Emoji';
-  background-color: var(--color-navy);
-  color: var(--color-white);
+  background-color: var(--navy);
+  color: var(--white);
+}
+
+/* Gradient-clipped text. Solid teal fallback is declared FIRST so the text
+   stays readable (and exposes a real color to AT) if background-clip fails. */
+.grad-text {
+  color: #3fe0d0;
+  background-image: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.grad-text-ai {
+  /* Violet→indigo AI identity, lightened so the *visible* gradient itself
+     clears AA-large on navy (both stops ≥5.4:1), not just the solid fallback. */
+  color: #9c86ff;
+  background-image: linear-gradient(120deg, #9c86ff, #5b92ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Scroll-progress bar (Effect C). Width driven via scaleX transform. */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background-image: var(--grad-accent);
+  z-index: 60;
+  pointer-events: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -28,5 +61,8 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  #scroll-progress {
+    display: none;
   }
 }

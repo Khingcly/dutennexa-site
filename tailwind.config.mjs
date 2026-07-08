@@ -4,17 +4,29 @@ export default {
   theme: {
     extend: {
       colors: {
-        // navy/teal are literal hex (not var()) so Tailwind can compute
-        // opacity-modifier utilities (bg-teal/10, etc.) — must stay in sync
-        // with the values in src/styles/tokens.css.
+        // Brand core + bridge/accent hues. Literal hex (not var()) so Tailwind
+        // can compute opacity-modifier utilities (bg-teal/30, etc.). Keep in
+        // sync with the values in src/styles/tokens.css.
         navy: '#002141',
-        'navy-800': '#04345c',
+        'navy-800': '#052A5A',
+        'navy-900': '#001628',
+        indigo: '#1E5AE8',
+        violet: '#7C5CFF',
+        'violet-text': '#9C86FF',
         teal: '#3FE0D0',
-        'purple-overlay': 'var(--color-purple-overlay)',
+        mint: '#8BF5E8',
+        'purple-overlay': 'var(--purple-overlay)',
         'surface-card': 'var(--surface-card)',
-        'border-teal-soft': 'var(--border-teal-soft)',
+        'border-soft': 'var(--border-soft)',
+        'border-teal': 'var(--border-teal)',
+        'border-violet': 'var(--border-violet)',
         'text-dim': 'var(--text-dim)',
         'text-faint': 'var(--text-faint)',
+      },
+      backgroundImage: {
+        'grad-hero': 'var(--grad-hero)',
+        'grad-accent': 'var(--grad-accent)',
+        'grad-ai': 'var(--grad-ai)',
       },
       fontSize: {
         h1: ['clamp(2.2rem, 5vw, 3.4rem)', { fontWeight: '700' }],

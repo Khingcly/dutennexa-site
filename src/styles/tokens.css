@@ -1,12 +1,31 @@
 :root {
-  --color-navy: #002141;
-  --color-teal: #3FE0D0;
-  --color-white: #FFFFFF;
-  --color-purple-overlay: rgba(52, 24, 75, 0.6);
+  --navy: #002141; /* primary bg */
+  --navy-800: #052a5a; /* raised sections */
+  --navy-900: #001628; /* deepest */
+  --indigo: #1e5ae8; /* bridge hue, tech signal */
+  --violet: #7c5cff; /* AI-only accent — fills, borders, large display text */
+  --violet-text: #9c86ff; /* AI accent for small/medium text (AA on navy: 5.6:1) */
+  --teal: #3fe0d0; /* accent */
+  --mint: #8bf5e8; /* accent highlight */
+  --white: #ffffff;
+  --purple-overlay: rgba(52, 24, 75, 0.6);
 
-  --navy-800: #04345c;
-  --surface-card: rgba(255, 255, 255, 0.07);
-  --border-teal-soft: rgba(63, 224, 208, 0.19);
-  --text-dim: rgba(255, 255, 255, 0.67);
-  --text-faint: rgba(255, 255, 255, 0.53);
+  --text-dim: rgba(255, 255, 255, 0.8);
+  --text-faint: rgba(255, 255, 255, 0.55);
+  --surface-card: rgba(255, 255, 255, 0.06);
+  --border-soft: rgba(255, 255, 255, 0.12);
+  --border-teal: rgba(63, 224, 208, 0.3);
+  --border-violet: rgba(124, 92, 255, 0.35);
+
+  /* Aliases kept for backwards-compatible token names */
+  --color-navy: var(--navy);
+  --color-teal: var(--teal);
+  --color-white: var(--white);
+  --color-purple-overlay: var(--purple-overlay);
+
+  /* Gradient system */
+  --grad-hero: radial-gradient(1100px 480px at 78% -8%, #143a7a 0%, #06254c 42%, #002141 78%);
+  --grad-accent: linear-gradient(120deg, #1e5ae8, #3fe0d0);
+  --grad-ai: linear-gradient(135deg, #031b3a 0%, #3a2a6b 60%, #7c5cff 150%);
+  --grad-text: linear-gradient(120deg, #8bf5e8, #3fe0d0 40%, #7c5cff);
 }
