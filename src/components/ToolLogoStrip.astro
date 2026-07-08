@@ -1,0 +1,54 @@
+---
+// Real, official brand marks only — sourced from simple-icons (CC0-licensed,
+// unmodified monochrome outlines maintained for exactly this "works with"
+// use case). ClickUp / Make / Zapier / Google Analytics / Google Sheets are
+// available there.
+//
+// NEEDS ASSET: Excel, Power BI, and Power Automate are NOT in simple-icons —
+// Microsoft doesn't license its product icons into open icon sets, and this
+// build environment's network policy blocks reaching microsoft.com's brand
+// pages directly. Rather than hand-draw them (explicitly excluded), these
+// three render as plain text placeholders until official SVGs are supplied.
+// Human task: download from https://aka.ms/BrandCentral (Microsoft brand
+// guidelines) and I'll swap the placeholders for the real marks.
+import { siClickup, siMake, siZapier, siGoogleanalytics, siGooglesheets } from 'simple-icons';
+
+const tools = [
+  { name: 'ClickUp', icon: siClickup },
+  { name: 'Make', icon: siMake },
+  { name: 'Zapier', icon: siZapier },
+  { name: 'Google Analytics', icon: siGoogleanalytics },
+  { name: 'Google Sheets', icon: siGooglesheets },
+];
+
+const pending = ['Excel', 'Power BI', 'Power Automate'];
+---
+
+<div class="reveal border-y border-border-soft bg-navy-900/60 py-8" data-reveal>
+  <div class="mx-auto max-w-6xl px-5">
+    <p class="text-center text-xs font-medium uppercase tracking-[0.14em] text-text-faint">
+      Built on the tools you already run
+    </p>
+    <div class="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-5">
+      {tools.map((t) => (
+        <div
+          class="cursor-link flex items-center text-white/50 transition-colors duration-200 hover:text-[var(--brand)]"
+          style={`--brand:#${t.icon.hex}`}
+        >
+          <svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor" aria-hidden="true">
+            <path d={t.icon.path}></path>
+          </svg>
+          <span class="sr-only">{t.name}</span>
+        </div>
+      ))}
+      {pending.map((name) => (
+        <div
+          class="rounded border border-dashed border-white/15 px-2.5 py-1 text-[11px] text-text-faint"
+          title={`${name} logo pending official brand asset`}
+        >
+          {name}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
