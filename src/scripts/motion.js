@@ -1,4 +1,4 @@
-// Duten Nexa motion layer — four independent effects, one rAF loop.
+// Duten Nexa motion layer: four independent effects, one rAF loop.
 // Performance contract: only transform + opacity are animated; scroll/pointer
 // handlers set a dirty flag and all work happens in the rAF loop with passive
 // listeners. Everything hard-disables under prefers-reduced-motion.
@@ -13,9 +13,11 @@ function setCount(el, value) {
 }
 
 if (reduce) {
-  // Set final states and exit — no observers, no loop, no listeners.
+  // Set final states and exit: no observers, no loop, no listeners.
   revealEls.forEach((el) => el.classList.add('in-view'));
   countEls.forEach((el) => setCount(el, el.getAttribute('data-count')));
+  const staticFill = document.querySelector('[data-os-fill]');
+  if (staticFill) staticFill.style.transform = 'scaleX(1)';
 } else {
   /* --- Effect A + B: reveal + count-up, driven by one observer --- */
   function animateCount(el) {
@@ -53,6 +55,7 @@ if (reduce) {
   }));
   const osSection = document.querySelector('[data-os-section]');
   const osPulse = document.querySelector('[data-os-pulse]');
+  const osFill = document.querySelector('[data-os-fill]');
   const meshEl = document.querySelector('[data-mesh]');
   const desktopFine = window.matchMedia('(min-width: 768px) and (pointer: fine)').matches;
 
@@ -107,19 +110,23 @@ if (reduce) {
           item.el.style.transform = '';
           continue;
         }
-        const y = Math.min(scrollY * item.factor, 60);
+        const y = Math.min(scrollY * item.factor, 120);
         const dx = item.mesh ? driftX : 0;
         const dy = item.mesh ? driftY : 0;
         item.el.style.transform = `translate3d(${dx}px, ${-y + dy}px, 0)`;
       }
 
-      // Effect D(a): scroll-linked pulse through the "what we build" connector
+      // Effect D(a): scroll-linked pulse + fill through the "what we build" connector.
+      // Map the section's travel through the viewport to 0..1 and remap the middle
+      // band to a full 0..100% sweep so the data visibly flows as you scroll.
       if (osSection && osPulse) {
         const rect = osSection.getBoundingClientRect();
         const vh = window.innerHeight;
-        const prog = Math.max(0, Math.min(1, (vh - rect.top) / (rect.height + vh)));
+        const raw = (vh - rect.top) / (rect.height + vh);
+        const prog = Math.max(0, Math.min(1, (raw - 0.15) / 0.6));
         osPulse.style.transform = `translateX(${prog * 100}%)`;
-        osPulse.style.opacity = prog > 0.02 && prog < 0.98 ? '1' : '0';
+        osPulse.style.opacity = prog > 0.01 && prog < 0.99 ? '1' : '0';
+        if (osFill) osFill.style.transform = `scaleX(${prog})`;
       }
 
       dirty = false;

@@ -1,24 +1,43 @@
 ---
 const layers = [
-  { title: 'ClickUp', body: 'the command center [NEEDS INPUT — complete one-liner]', ai: false },
-  { title: 'Make', body: 'the nervous system [NEEDS INPUT — complete one-liner]', ai: false },
   {
-    title: 'Dashboards',
-    body: 'the eyes. Clients have cut manual reporting time by up to 75%.',
+    title: 'ClickUp',
+    body: 'The command center. Every project, task, and handoff in one workspace, structured to how you actually run.',
     ai: false,
   },
-  { title: 'AI agents', body: 'the muscle [NEEDS INPUT — complete one-liner]', ai: true },
+  {
+    title: 'Make',
+    body: 'The nervous system. Your tools finally talk. Leads route themselves. Invoices trigger themselves. Nothing waits on someone remembering.',
+    ai: false,
+  },
+  {
+    title: 'Dashboards',
+    body: 'The eyes. Sales, delivery, cash, team load, all visible in one place, refreshed automatically. Clients have cut manual reporting time by up to 75%.',
+    ai: false,
+  },
+  {
+    title: 'AI agents',
+    body: "The muscle. Qualify inbound. Handle Tier 1 support. Research prospects. The work you'd hire someone to do, without hiring someone to do it.",
+    ai: true,
+  },
 ];
 ---
 
 <div class="relative">
-  <!-- Horizontal connector + scroll-linked pulse (desktop). The clip band is
-       10px tall (to show the dot) and overflow-hidden, so the full-width mover's
-       translateX(100%) sweep is clipped instead of extending the page width. -->
-  <div class="absolute left-0 right-0 top-6 hidden h-2.5 -translate-y-1/2 overflow-hidden md:block" aria-hidden="true">
-    <div class="line-draw absolute left-0 top-1/2 h-px w-full bg-gradient-to-r from-teal via-indigo to-violet" data-reveal></div>
+  <!-- Horizontal connector, scroll-driven fill + traveling pulse (desktop).
+       The clip band (14px tall, overflow-hidden) shows the dot and keeps the
+       full-width pulse mover's translateX(100%) sweep from widening the page. -->
+  <div class="absolute left-0 right-0 top-6 hidden h-3.5 -translate-y-1/2 overflow-hidden md:block" aria-hidden="true">
+    <!-- dim base rail -->
+    <div class="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 rounded bg-white/10"></div>
+    <!-- bright fill that grows left-to-right with scroll progress -->
+    <div
+      data-os-fill
+      class="absolute left-0 top-1/2 h-0.5 w-full origin-left -translate-y-1/2 scale-x-0 rounded bg-gradient-to-r from-teal via-indigo to-violet shadow-[0_0_10px_1px_rgba(63,224,208,0.5)]"
+    ></div>
+    <!-- glowing pulse dot riding the leading edge of the fill -->
     <div data-os-pulse class="pointer-events-none absolute inset-y-0 left-0 w-full opacity-0">
-      <span class="absolute left-0 top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-mint shadow-[0_0_8px_2px_rgba(139,245,232,0.6)]"></span>
+      <span class="absolute left-0 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-mint shadow-[0_0_14px_4px_rgba(139,245,232,0.85)]"></span>
     </div>
   </div>
 
