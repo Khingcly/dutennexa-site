@@ -1,0 +1,89 @@
+---
+const links = [
+  { href: '/solutions', label: 'Solutions' },
+  { href: '/case-studies', label: 'Case studies' },
+  { href: '/scorecard', label: 'Scorecard' },
+  { href: '/about', label: 'About' },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-white/5 bg-navy/90 backdrop-blur-md">
+  <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
+    <a href="/" class="shrink-0">
+      <img src="/brand/logo-on-navy.png" alt="Duten Nexa" class="h-7 w-auto" />
+    </a>
+
+    <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
+      {links.map((link) => (
+        <a
+          href={link.href}
+          class="text-sm font-medium text-text-dim transition-colors hover:text-white"
+        >
+          {link.label}
+        </a>
+      ))}
+    </nav>
+
+    <a
+      href="/audit"
+      class="hidden rounded-lg bg-teal px-6 py-3 text-sm font-medium text-navy transition-[transform,filter] duration-200 hover:scale-[1.02] hover:brightness-105 md:inline-block"
+    >
+      Book an Audit
+    </a>
+
+    <button
+      id="nav-toggle"
+      type="button"
+      aria-label="Open menu"
+      aria-expanded="false"
+      aria-controls="nav-mobile-menu"
+      class="flex h-10 w-10 flex-col items-center justify-center gap-1.5 md:hidden"
+    >
+      <span class="h-0.5 w-6 bg-white"></span>
+      <span class="h-0.5 w-6 bg-white"></span>
+      <span class="h-0.5 w-6 bg-white"></span>
+    </button>
+  </div>
+
+  <div id="nav-mobile-menu" class="flex-col items-center justify-center gap-8 bg-navy">
+    <nav class="flex flex-col items-center gap-8" aria-label="Mobile">
+      {links.map((link) => (
+        <a href={link.href} class="text-2xl font-medium text-white">
+          {link.label}
+        </a>
+      ))}
+    </nav>
+    <a href="/audit" class="rounded-lg bg-teal px-6 py-3 text-base font-medium text-navy">
+      Book an Audit
+    </a>
+  </div>
+</header>
+
+<style>
+  #nav-mobile-menu {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+  }
+  #nav-mobile-menu.is-open {
+    display: flex;
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('nav-toggle');
+  const menu = document.getElementById('nav-mobile-menu');
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = menu?.classList.toggle('is-open');
+    toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => {
+      menu.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

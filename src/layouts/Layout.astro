@@ -3,9 +3,12 @@ import '../styles/global.css';
 
 interface Props {
   title: string;
+  description: string;
+  ogImage?: string;
 }
 
-const { title } = Astro.props;
+const { title, description, ogImage = '/brand/logo-teal.png' } = Astro.props;
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://www.dutennexa.com');
 ---
 
 <!doctype html>
@@ -13,9 +16,62 @@ const { title } = Astro.props;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/brand/icon-teal.png" type="image/png" />
+
     <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
     <slot />
+
+    <script>
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      function animateCount(el: Element) {
+        const target = parseFloat(el.getAttribute('data-count') || '0');
+        const suffix = el.getAttribute('data-suffix') || '';
+
+        if (reduced) {
+          el.textContent = target + suffix;
+          return;
+        }
+
+        const duration = 1800;
+        const start = performance.now();
+
+        function step(now: number) {
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (p < 1) requestAnimationFrame(step);
+        }
+
+        requestAnimationFrame(step);
+      }
+
+      const targets = new Set(document.querySelectorAll('[data-reveal], [data-count]'));
+
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('in-view');
+            if (entry.target.hasAttribute('data-count')) animateCount(entry.target);
+            io.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      targets.forEach((el) => io.observe(el));
+    </script>
   </body>
 </html>
