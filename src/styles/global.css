@@ -39,6 +39,118 @@ body {
   -webkit-text-fill-color: transparent;
 }
 
+/* --- Custom cursor (desktop + pointer:fine only; cursor.js adds this class) --- */
+html.cursor-active,
+html.cursor-active a,
+html.cursor-active button,
+html.cursor-active * {
+  cursor: none !important;
+}
+.cx-root {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+}
+.cx-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 12px 2px rgba(63, 224, 208, 0.55);
+  transform: translate(-50%, -50%);
+  transition: opacity 150ms ease, background-color 150ms ease, box-shadow 150ms ease;
+}
+.cx-ring {
+  position: absolute;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(63, 224, 208, 0.55);
+  background: rgba(63, 224, 208, 0.08);
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+.cx-chip {
+  position: absolute;
+  min-width: 28px;
+  height: 28px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--teal);
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  transform: translate(-50%, -50%) scale(0);
+  opacity: 0;
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+.cx-ibeam {
+  position: absolute;
+  width: 2px;
+  height: 14px;
+  background: var(--teal);
+  transform: translate(-50%, -50%) scaleY(0);
+  opacity: 0;
+  transition: transform 150ms ease, opacity 150ms ease;
+}
+.cx-root[data-state='link'] .cx-dot {
+  opacity: 0;
+}
+.cx-root[data-state='link'] .cx-ring {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.cx-root[data-state='button'] .cx-dot {
+  opacity: 0;
+}
+.cx-root[data-state='button'] .cx-chip {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.cx-root[data-state='ai'] .cx-dot {
+  background: var(--violet);
+  box-shadow: 0 0 12px 2px rgba(124, 92, 255, 0.55);
+}
+.cx-root[data-state='text'] .cx-dot {
+  opacity: 0;
+}
+.cx-root[data-state='text'] .cx-ibeam {
+  opacity: 1;
+  transform: translate(-50%, -50%) scaleY(1);
+}
+.cx-particle {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--violet);
+  pointer-events: none;
+  z-index: 9998;
+  animation: cx-particle-fade 400ms ease-out forwards;
+}
+@keyframes cx-particle-fade {
+  from {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3);
+  }
+}
+
 /* Scroll-progress bar (Effect C). Width driven via scaleX transform. */
 #scroll-progress {
   position: fixed;
