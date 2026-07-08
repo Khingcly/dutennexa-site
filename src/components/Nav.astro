@@ -1,38 +1,48 @@
 ---
 const links = [
-  { href: '/solutions', label: 'Solutions' },
+  { href: '#what-we-build', label: 'What we build' },
+  { href: '#proof', label: 'Proof' },
+  { href: '#how-it-works', label: 'How it works' },
   { href: '/case-studies', label: 'Case studies' },
-  { href: '/scorecard', label: 'Scorecard' },
-  { href: '/about', label: 'About' },
 ];
 ---
 
 <header
   id="site-nav"
-  class="fixed top-0 left-0 right-0 z-50 transition-colors duration-300"
+  class="fixed top-0 left-0 right-0 z-50 border-b border-transparent transition-[background-color,backdrop-filter,border-color,padding] duration-300"
 >
   <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
-    <a href="/" class="shrink-0">
-      <img src="/brand/logo-on-navy.png" alt="Duten Nexa" class="h-7 w-auto" />
+    <a href="/" class="flex shrink-0 items-center gap-2.5 cursor-link">
+      <img src="/brand/logo-on-navy.png" alt="Duten Nexa" class="h-6 w-auto" />
+      <span class="hidden flex-col leading-none sm:flex">
+        <span class="text-[11px] font-semibold tracking-[0.16em] text-white">DUTEN NEXA</span>
+        <span class="text-[9px] font-medium tracking-[0.22em] text-text-faint">OPERATING SYSTEM</span>
+      </span>
     </a>
 
     <nav class="hidden items-center gap-8 md:flex" aria-label="Primary">
       {links.map((link) => (
         <a
           href={link.href}
-          class="text-sm font-medium text-text-dim transition-colors hover:text-white"
+          class="cursor-link text-sm font-medium text-text-dim transition-colors hover:text-white"
         >
           {link.label}
         </a>
       ))}
     </nav>
 
-    <a
-      href="/audit"
-      class="hidden rounded-lg bg-grad-accent px-6 py-3 text-sm font-medium text-navy transition-[transform,filter] duration-200 hover:scale-[1.02] hover:brightness-105 md:inline-block"
-    >
-      Book an Audit
-    </a>
+    <div class="hidden items-center gap-5 md:flex">
+      <span class="flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.14em] text-teal">
+        <span class="ai-pulse inline-block h-1.5 w-1.5 rounded-full bg-teal"></span>
+        ALL SYSTEMS LIVE
+      </span>
+      <a
+        href="/audit"
+        class="cursor-button rounded-lg bg-grad-accent px-6 py-3 text-sm font-medium text-navy transition-[transform,filter] duration-200 hover:brightness-105"
+      >
+        Book an Audit
+      </a>
+    </div>
 
     <button
       id="nav-toggle"
@@ -64,9 +74,13 @@ const links = [
 
 <style>
   #site-nav.scrolled {
-    background-color: var(--navy-900);
+    background-color: rgba(0, 22, 40, 0.82);
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border-soft);
+    border-bottom-color: var(--border-soft);
+  }
+  #site-nav.scrolled .px-5 {
+    padding-top: 0.625rem;
+    padding-bottom: 0.625rem;
   }
   #nav-mobile-menu {
     display: none;
