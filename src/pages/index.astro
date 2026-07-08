@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import HeroMesh from '../components/HeroMesh.astro';
 import HeroStack from '../components/HeroStack.astro';
 import OSLayers from '../components/OSLayers.astro';
+import AutomationAdvisor from '../components/AutomationAdvisor.astro';
 import TestimonialMarquee from '../components/TestimonialMarquee.astro';
 
 const btnPrimary =
@@ -165,6 +166,22 @@ const steps = [
         <p class="reveal mt-12 text-center text-lg font-medium text-white" data-reveal>
           One story, one spine, not nine services.
         </p>
+      </div>
+    </section>
+
+    <!-- 3b. Live AI advisor (see the AI layer work) -->
+    <section class="bg-navy-800 pb-20 md:pb-28">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="reveal mx-auto max-w-2xl text-center" data-reveal>
+          <h2 class="text-h2 text-white">See the AI layer work.</h2>
+          <p class="mt-4 text-text-dim">
+            Tell our automation advisor your biggest operational bottleneck. It will point you at
+            what to automate first, the same way our audit does.
+          </p>
+        </div>
+        <div class="mt-10">
+          <AutomationAdvisor />
+        </div>
       </div>
     </section>
 

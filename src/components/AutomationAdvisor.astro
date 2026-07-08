@@ -1,0 +1,161 @@
+---
+const examples = [
+  'Leads sit for days before anyone follows up.',
+  'Every Monday I rebuild the same status report by hand.',
+  'My tools do not talk, so numbers never match.',
+];
+---
+
+<div class="reveal mx-auto max-w-3xl rounded-2xl border border-border-violet bg-surface-card p-6 backdrop-blur-sm md:p-8" data-reveal>
+  <div class="flex items-center gap-2">
+    <span class="ai-pulse inline-block h-2 w-2 rounded-full bg-violet"></span>
+    <p class="text-sm font-medium text-violet-text">Live AI agent</p>
+  </div>
+
+  <div
+    id="advisor-log"
+    class="mt-5 flex max-h-80 flex-col gap-4 overflow-y-auto"
+    role="log"
+    aria-live="polite"
+    aria-label="Conversation with the automation advisor"
+  >
+    <div class="max-w-[85%] self-start rounded-xl rounded-tl-sm bg-white/5 px-4 py-3 text-sm text-text-dim">
+      Describe the bottleneck slowing your business down, and I'll tell you what to automate first.
+    </div>
+  </div>
+
+  <div id="advisor-examples" class="mt-4 flex flex-wrap gap-2">
+    {examples.map((ex) => (
+      <button
+        type="button"
+        class="advisor-example rounded-full border border-border-soft px-3 py-1.5 text-left text-xs text-text-dim transition-colors hover:border-teal hover:text-white"
+      >
+        {ex}
+      </button>
+    ))}
+  </div>
+
+  <form id="advisor-form" class="mt-5 flex items-end gap-3">
+    <label for="advisor-input" class="sr-only">Describe your operational bottleneck</label>
+    <textarea
+      id="advisor-input"
+      rows="1"
+      maxlength="2000"
+      placeholder="e.g. Follow-ups keep slipping through the cracks..."
+      class="min-h-[2.75rem] flex-1 resize-none rounded-lg border border-border-soft bg-navy-900/60 px-4 py-3 text-sm text-white placeholder:text-text-faint focus:border-teal focus:outline-none"
+    ></textarea>
+    <button
+      id="advisor-send"
+      type="submit"
+      class="shrink-0 rounded-lg bg-grad-accent px-5 py-3 text-sm font-medium text-navy transition-[transform,filter] duration-200 hover:scale-[1.02] hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      Ask
+    </button>
+  </form>
+
+  <p class="mt-3 text-xs text-text-faint">
+    Powered by Claude. Answers are guidance, not a quote, so <a href="/audit" class="text-teal hover:underline">book an audit</a> for a costed plan.
+  </p>
+</div>
+
+<style>
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+<script>
+  type Msg = { role: 'user' | 'assistant'; content: string };
+
+  const log = document.getElementById('advisor-log') as HTMLDivElement | null;
+  const form = document.getElementById('advisor-form') as HTMLFormElement | null;
+  const input = document.getElementById('advisor-input') as HTMLTextAreaElement | null;
+  const send = document.getElementById('advisor-send') as HTMLButtonElement | null;
+  const examplesRow = document.getElementById('advisor-examples');
+
+  if (log && form && input && send) {
+    const history: Msg[] = [];
+
+    function bubble(role: 'user' | 'assistant', text: string): HTMLDivElement {
+      const el = document.createElement('div');
+      el.className =
+        role === 'user'
+          ? 'max-w-[85%] self-end rounded-xl rounded-tr-sm bg-teal/15 px-4 py-3 text-sm text-white'
+          : 'max-w-[85%] self-start rounded-xl rounded-tl-sm bg-white/5 px-4 py-3 text-sm text-text-dim';
+      el.textContent = text; // textContent, never innerHTML, since model output is untrusted
+      log!.appendChild(el);
+      log!.scrollTop = log!.scrollHeight;
+      return el;
+    }
+
+    function setBusy(busy: boolean) {
+      send!.disabled = busy;
+      input!.disabled = busy;
+      send!.textContent = busy ? '...' : 'Ask';
+    }
+
+    async function ask(text: string) {
+      const trimmed = text.trim();
+      if (!trimmed) return;
+
+      examplesRow?.remove();
+      bubble('user', trimmed);
+      history.push({ role: 'user', content: trimmed });
+      input!.value = '';
+      input!.style.height = 'auto';
+      setBusy(true);
+
+      const thinking = bubble('assistant', 'Thinking...');
+
+      try {
+        const res = await fetch('/api/advisor', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ messages: history.slice(-12) }),
+        });
+        const data = await res.json();
+        const reply =
+          data.reply ||
+          "I couldn't work that out just now. Book an audit and we'll map it in person.";
+        thinking.textContent = reply;
+        history.push({ role: 'assistant', content: reply });
+      } catch {
+        thinking.textContent =
+          "I couldn't reach the advisor (network issue). You can still book a 5-day Automation Audit. Email admin@dutennexa.com.";
+      } finally {
+        setBusy(false);
+        input!.focus();
+      }
+    }
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      ask(input.value);
+    });
+
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        form.requestSubmit();
+      }
+    });
+
+    // auto-grow the textarea
+    input.addEventListener('input', () => {
+      input.style.height = 'auto';
+      input.style.height = Math.min(input.scrollHeight, 160) + 'px';
+    });
+
+    examplesRow?.querySelectorAll('.advisor-example').forEach((btn) => {
+      btn.addEventListener('click', () => ask((btn as HTMLButtonElement).textContent || ''));
+    });
+  }
+</script>
