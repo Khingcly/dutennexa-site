@@ -1,0 +1,137 @@
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+.d-1 { transition-delay: 0.1s; }
+.d-2 { transition-delay: 0.2s; }
+.d-3 { transition-delay: 0.3s; }
+.d-4 { transition-delay: 0.4s; }
+.d-5 { transition-delay: 0.5s; }
+
+/* Testimonial marquee */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 45s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Hero background mesh */
+.mesh-line {
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation:
+    mesh-draw 4s ease-out forwards,
+    mesh-shimmer 6s ease-in-out 4s infinite;
+}
+@keyframes mesh-draw {
+  to { stroke-dashoffset: 0; }
+}
+@keyframes mesh-shimmer {
+  0%, 100% { opacity: 0.18; }
+  50% { opacity: 0.4; }
+}
+.mesh-node {
+  transform-origin: center;
+  animation: node-twinkle 3s ease-in-out infinite;
+}
+@keyframes node-twinkle {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* Hero stack: traveling pulse + node flash */
+.pulse-dot {
+  offset-rotate: 0deg;
+  animation: pulse-travel 2.6s linear infinite;
+}
+@keyframes pulse-travel {
+  0% { offset-distance: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { offset-distance: 100%; opacity: 0; }
+}
+.node-flash {
+  animation: node-flash 5.2s ease-in-out infinite;
+}
+@keyframes node-flash {
+  0%, 8%, 100% { fill: var(--surface-card); }
+  4% { fill: rgba(63, 224, 208, 0.21); }
+}
+
+/* Hero floating mini-cards */
+.float-card {
+  animation: card-float 5s ease-in-out infinite;
+}
+@keyframes card-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* Revenue bars breathing */
+.bar-breathe {
+  transform-origin: bottom;
+  animation: bar-breathe 2.4s ease-in-out infinite;
+}
+@keyframes bar-breathe {
+  0%, 100% { transform: scaleY(0.6); }
+  50% { transform: scaleY(1); }
+}
+
+/* Progress ring oscillation */
+.ring-oscillate {
+  animation: ring-oscillate 3s ease-in-out infinite;
+}
+@keyframes ring-oscillate {
+  0%, 100% { stroke-dashoffset: 90; }
+  50% { stroke-dashoffset: 40; }
+}
+
+/* Connector line draw-in on reveal */
+.line-draw {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 1000;
+  transition: stroke-dashoffset 1.2s ease-out;
+}
+.line-draw.in-view {
+  stroke-dashoffset: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none !important;
+    transform: none !important;
+  }
+  .marquee-viewport {
+    overflow-x: auto;
+  }
+  .mesh-line,
+  .mesh-node,
+  .pulse-dot,
+  .node-flash,
+  .float-card,
+  .bar-breathe,
+  .ring-oscillate {
+    animation: none !important;
+  }
+  .mesh-line {
+    stroke-dashoffset: 0 !important;
+    opacity: 0.3 !important;
+  }
+  .line-draw {
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+}

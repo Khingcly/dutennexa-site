@@ -3,4 +3,10 @@
   --color-teal: #3FE0D0;
   --color-white: #FFFFFF;
   --color-purple-overlay: rgba(52, 24, 75, 0.6);
+
+  --navy-800: #04345c;
+  --surface-card: rgba(255, 255, 255, 0.07);
+  --border-teal-soft: rgba(63, 224, 208, 0.19);
+  --text-dim: rgba(255, 255, 255, 0.67);
+  --text-faint: rgba(255, 255, 255, 0.53);
 }
