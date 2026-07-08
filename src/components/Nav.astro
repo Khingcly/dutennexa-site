@@ -7,7 +7,10 @@ const links = [
 ];
 ---
 
-<header class="sticky top-0 z-50 border-b border-white/5 bg-navy/90 backdrop-blur-md">
+<header
+  id="site-nav"
+  class="fixed top-0 left-0 right-0 z-50 transition-colors duration-300"
+>
   <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4">
     <a href="/" class="shrink-0">
       <img src="/brand/logo-on-navy.png" alt="Duten Nexa" class="h-7 w-auto" />
@@ -26,7 +29,7 @@ const links = [
 
     <a
       href="/audit"
-      class="hidden rounded-lg bg-teal px-6 py-3 text-sm font-medium text-navy transition-[transform,filter] duration-200 hover:scale-[1.02] hover:brightness-105 md:inline-block"
+      class="hidden rounded-lg bg-grad-accent px-6 py-3 text-sm font-medium text-navy transition-[transform,filter] duration-200 hover:scale-[1.02] hover:brightness-105 md:inline-block"
     >
       Book an Audit
     </a>
@@ -45,7 +48,7 @@ const links = [
     </button>
   </div>
 
-  <div id="nav-mobile-menu" class="flex-col items-center justify-center gap-8 bg-navy">
+  <div id="nav-mobile-menu" class="flex-col items-center justify-center gap-8 bg-navy-900">
     <nav class="flex flex-col items-center gap-8" aria-label="Mobile">
       {links.map((link) => (
         <a href={link.href} class="text-2xl font-medium text-white">
@@ -53,13 +56,18 @@ const links = [
         </a>
       ))}
     </nav>
-    <a href="/audit" class="rounded-lg bg-teal px-6 py-3 text-base font-medium text-navy">
+    <a href="/audit" class="rounded-lg bg-grad-accent px-6 py-3 text-base font-medium text-navy">
       Book an Audit
     </a>
   </div>
 </header>
 
 <style>
+  #site-nav.scrolled {
+    background-color: var(--navy-900);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+  }
   #nav-mobile-menu {
     display: none;
     position: fixed;
@@ -72,18 +80,33 @@ const links = [
 </style>
 
 <script>
+  const nav = document.getElementById('site-nav');
   const toggle = document.getElementById('nav-toggle');
   const menu = document.getElementById('nav-mobile-menu');
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      nav?.classList.toggle('scrolled', window.scrollY > 40);
+      ticking = false;
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
 
   toggle?.addEventListener('click', () => {
     const isOpen = menu?.classList.toggle('is-open');
     toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    toggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
   });
 
   menu?.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => {
       menu.classList.remove('is-open');
       toggle?.setAttribute('aria-expanded', 'false');
+      toggle?.setAttribute('aria-label', 'Open menu');
     });
   });
 </script>

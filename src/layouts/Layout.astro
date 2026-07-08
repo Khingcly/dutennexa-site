@@ -30,48 +30,11 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://www.dute
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
+    <div id="scroll-progress" aria-hidden="true"></div>
     <slot />
 
     <script>
-      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-      function animateCount(el: Element) {
-        const target = parseFloat(el.getAttribute('data-count') || '0');
-        const suffix = el.getAttribute('data-suffix') || '';
-
-        if (reduced) {
-          el.textContent = target + suffix;
-          return;
-        }
-
-        const duration = 1800;
-        const start = performance.now();
-
-        function step(now: number) {
-          const p = Math.min((now - start) / duration, 1);
-          const eased = 1 - Math.pow(1 - p, 3);
-          el.textContent = Math.round(target * eased) + suffix;
-          if (p < 1) requestAnimationFrame(step);
-        }
-
-        requestAnimationFrame(step);
-      }
-
-      const targets = new Set(document.querySelectorAll('[data-reveal], [data-count]'));
-
-      const io = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add('in-view');
-            if (entry.target.hasAttribute('data-count')) animateCount(entry.target);
-            io.unobserve(entry.target);
-          });
-        },
-        { threshold: 0.15 }
-      );
-
-      targets.forEach((el) => io.observe(el));
+      import '../scripts/motion.js';
     </script>
   </body>
 </html>
