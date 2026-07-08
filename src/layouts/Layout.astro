@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import BootSequence from '../components/BootSequence.astro';
 
 interface Props {
   title: string;
@@ -30,11 +31,13 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? 'https://www.dute
     <meta name="twitter:card" content="summary_large_image" />
   </head>
   <body>
+    <BootSequence />
     <div id="scroll-progress" aria-hidden="true"></div>
     <slot />
 
     <script>
       import '../scripts/motion.js';
+      import '../scripts/cursor.js';
     </script>
   </body>
 </html>

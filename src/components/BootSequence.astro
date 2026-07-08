@@ -1,0 +1,142 @@
+---
+// Simplification note: rather than choreographing individual hero elements
+// (H1/sub/CTAs/stats) via JS during F4, the overlay itself cross-fades away
+// to reveal the hero, which is already fully server-rendered and static.
+// This keeps the H1 as the LCP element with zero JS dependency (per the
+// non-negotiable "H1 renders immediately" rule) and means a slow/disabled-JS
+// visitor sees a normal, already-usable page instead of a stuck overlay.
+const N = 14;
+const COLORS = ['var(--teal)', 'var(--violet)', 'var(--indigo)'];
+const particles = Array.from({ length: N }).map((_, i) => {
+  const angle = (i / N) * Math.PI * 2;
+  const ringR = 46;
+  const tx = Math.round(Math.cos(angle) * ringR);
+  const ty = Math.round(Math.sin(angle) * ringR);
+  const scatterR = 120 + (i % 3) * 40;
+  const sAngle = angle + (i % 2 === 0 ? 0.3 : -0.3);
+  const sx = Math.round(Math.cos(sAngle) * scatterR);
+  const sy = Math.round(Math.sin(sAngle) * scatterR);
+  return { tx, ty, sx, sy, color: COLORS[i % 3], delay: (i % 5) * 20 };
+});
+---
+
+<div id="boot-overlay" class="boot-overlay" data-frame="1" aria-hidden="true">
+  <div class="boot-particles">
+    {particles.map((p) => (
+      <span
+        class="boot-particle"
+        style={`--sx:${p.sx}px;--sy:${p.sy}px;--tx:${p.tx}px;--ty:${p.ty}px;--c:${p.color};animation-delay:${p.delay}ms`}
+      ></span>
+    ))}
+  </div>
+  <img src="/brand/icon-teal.png" alt="" class="boot-logo" />
+</div>
+
+<style>
+  .boot-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9997;
+    background: #001020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 350ms ease;
+  }
+  .boot-overlay.boot-hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .boot-particles {
+    position: absolute;
+    inset: 0;
+  }
+  .boot-particle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--c);
+    transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) scale(0);
+    opacity: 0;
+    animation: boot-particle-in 300ms ease-out forwards;
+  }
+  .boot-overlay[data-frame='2'] .boot-particle,
+  .boot-overlay[data-frame='3'] .boot-particle {
+    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1);
+    opacity: 0.9;
+    transition: transform 350ms ease-in-out, opacity 350ms ease;
+  }
+  .boot-overlay[data-frame='4'] .boot-particle {
+    transform: translate(calc(-200% + var(--tx) * 3), calc(-200% + var(--ty) * 3)) scale(0.4);
+    opacity: 0;
+    transition: transform 400ms ease-in, opacity 400ms ease-in;
+  }
+  @keyframes boot-particle-in {
+    to {
+      opacity: 0.9;
+      transform: translate(calc(-50% + var(--sx)), calc(-50% + var(--sy))) scale(1);
+    }
+  }
+
+  .boot-logo {
+    position: relative;
+    width: 56px;
+    height: auto;
+    opacity: 0;
+    transform: scale(0.8);
+    filter: drop-shadow(0 0 0 rgba(63, 224, 208, 0));
+    transition: opacity 200ms ease, transform 200ms ease, filter 200ms ease;
+  }
+  .boot-overlay[data-frame='3'] .boot-logo {
+    opacity: 1;
+    transform: scale(1);
+    filter: drop-shadow(0 0 18px rgba(63, 224, 208, 0.85));
+  }
+  .boot-overlay[data-frame='4'] .boot-logo {
+    opacity: 0;
+    transform: scale(1.3);
+    filter: drop-shadow(0 0 18px rgba(63, 224, 208, 0.85));
+    transition: opacity 350ms ease-in, transform 350ms ease-in;
+  }
+</style>
+
+<script>
+  const KEY = 'dutennexa-boot-shown';
+  const overlay = document.getElementById('boot-overlay');
+
+  if (overlay) {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let seen = false;
+    try {
+      seen = sessionStorage.getItem(KEY) === '1';
+    } catch {
+      // storage unavailable (privacy mode); treat as not-seen but non-fatal
+    }
+
+    if (reduce || seen) {
+      overlay.remove();
+    } else {
+      try {
+        sessionStorage.setItem(KEY, '1');
+      } catch {
+        // ignore
+      }
+
+      const mobile = window.matchMedia('(max-width: 767px)').matches;
+      const scale = mobile ? 800 / 1200 : 1;
+      const frames = [0, 300, 650, 850, 1200].map((t) => Math.round(t * scale));
+
+      setTimeout(() => (overlay.dataset.frame = '2'), frames[1]);
+      setTimeout(() => (overlay.dataset.frame = '3'), frames[2]);
+      setTimeout(() => (overlay.dataset.frame = '4'), frames[3]);
+      setTimeout(() => {
+        overlay.classList.add('boot-hide');
+        setTimeout(() => overlay.remove(), 400);
+      }, frames[4]);
+    }
+  }
+</script>
