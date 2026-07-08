@@ -8,74 +8,84 @@ const layers = [
 const nodeHeight = 80;
 ---
 
-<div class="relative mx-auto" style="width: 280px; height: 460px;">
-  <svg
-    class="absolute inset-0"
-    width="280"
-    height="460"
-    viewBox="0 0 280 460"
-    fill="none"
+<!-- Stack + floating cards live in separate flex tracks so the cards never
+     overlap the stack. Below lg the cards sit in a wrapping row under the
+     stack; at lg+ they move into their own column beside it. -->
+<div class="flex flex-col items-center gap-8 lg:flex-row lg:items-center lg:justify-center lg:gap-4 xl:gap-8">
+  <!-- The operating-system stack (fixed 280x460 so the pulse-dot paths stay aligned) -->
+  <div class="relative shrink-0" style="width: 280px; height: 460px;">
+    <svg
+      class="absolute inset-0"
+      width="280"
+      height="460"
+      viewBox="0 0 280 460"
+      fill="none"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="stack-connector" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="var(--teal)" />
+          <stop offset="100%" stop-color="var(--violet)" />
+        </linearGradient>
+      </defs>
+
+      <line
+        x1="140"
+        y1="50"
+        x2="140"
+        y2="410"
+        stroke="url(#stack-connector)"
+        stroke-width="2"
+        opacity="0.5"
+      />
+
+      {layers.map((layer) => (
+        <>
+          <rect
+            class={layer.ai ? 'node-flash-ai' : 'node-flash'}
+            x="20"
+            y={layer.top}
+            width="240"
+            height={nodeHeight}
+            rx="12"
+            fill={layer.ai ? 'rgba(124,92,255,0.12)' : 'var(--surface-card)'}
+            stroke={layer.ai ? 'var(--border-violet)' : 'var(--border-teal)'}
+            style={`animation-delay:${layer.delay}s`}
+          />
+          <text
+            x="40"
+            y={layer.top + 34}
+            font-size="16"
+            font-weight="700"
+            fill={layer.ai ? 'var(--violet-text)' : 'var(--white)'}
+          >
+            {layer.title}
+          </text>
+          <text x="40" y={layer.top + 56} font-size="12" fill="var(--text-dim)">
+            {layer.subtitle}
+          </text>
+        </>
+      ))}
+    </svg>
+
+    <span
+      class="pulse-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-teal"
+      style="offset-path: path('M140,50 L140,410');"
+      aria-hidden="true"
+    ></span>
+    <span
+      class="pulse-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-violet"
+      style="offset-path: path('M140,50 L140,410'); animation-delay: 1.3s;"
+      aria-hidden="true"
+    ></span>
+  </div>
+
+  <!-- Floating cards: own column at lg+, wrapping row under the stack below lg -->
+  <div
+    class="hidden flex-wrap items-center justify-center gap-4 sm:flex lg:flex-col lg:flex-nowrap lg:items-stretch"
     aria-hidden="true"
   >
-    <defs>
-      <linearGradient id="stack-connector" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="var(--teal)" />
-        <stop offset="100%" stop-color="var(--violet)" />
-      </linearGradient>
-    </defs>
-
-    <line
-      x1="140"
-      y1="50"
-      x2="140"
-      y2="410"
-      stroke="url(#stack-connector)"
-      stroke-width="2"
-      opacity="0.5"
-    />
-
-    {layers.map((layer) => (
-      <>
-        <rect
-          class={layer.ai ? 'node-flash-ai' : 'node-flash'}
-          x="20"
-          y={layer.top}
-          width="240"
-          height={nodeHeight}
-          rx="12"
-          fill={layer.ai ? 'rgba(124,92,255,0.12)' : 'var(--surface-card)'}
-          stroke={layer.ai ? 'var(--border-violet)' : 'var(--border-teal)'}
-          style={`animation-delay:${layer.delay}s`}
-        />
-        <text
-          x="40"
-          y={layer.top + 34}
-          font-size="16"
-          font-weight="700"
-          fill={layer.ai ? 'var(--violet-text)' : 'var(--white)'}
-        >
-          {layer.title}
-        </text>
-        <text x="40" y={layer.top + 56} font-size="12" fill="var(--text-dim)">
-          {layer.subtitle}
-        </text>
-      </>
-    ))}
-  </svg>
-
-  <span
-    class="pulse-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-teal"
-    style="offset-path: path('M140,50 L140,410');"
-    aria-hidden="true"
-  ></span>
-  <span
-    class="pulse-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-violet"
-    style="offset-path: path('M140,50 L140,410'); animation-delay: 1.3s;"
-    aria-hidden="true"
-  ></span>
-
-  <!-- Float card A: revenue bars (indigo→teal→mint) -->
-  <div class="absolute -left-6 -top-4 hidden sm:block" data-parallax="0.38" aria-hidden="true">
+    <!-- Card A: revenue bars (indigo -> teal -> mint) -->
     <div class="float-card w-36 rounded-xl border border-border-teal bg-surface-card p-3 backdrop-blur-sm">
       <p class="text-xs text-text-dim">Revenue by week</p>
       <div class="mt-2 flex h-10 items-end gap-1.5">
@@ -85,12 +95,10 @@ const nodeHeight = 80;
         <span class="bar-breathe h-full w-2 rounded-sm bg-teal" style="animation-delay:1.2s"></span>
       </div>
     </div>
-  </div>
 
-  <!-- Float card B: violet AI agent card -->
-  <div class="absolute -right-6 bottom-8 hidden sm:block" data-parallax="0.22" aria-hidden="true">
-    <div class="float-card flex w-44 items-center gap-3 rounded-xl border border-border-violet bg-surface-card p-3 backdrop-blur-sm" style="animation-delay: 2.5s;">
-      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+    <!-- Card B: violet AI agent card -->
+    <div class="float-card flex w-40 items-center gap-3 rounded-xl border border-border-violet bg-surface-card p-3 backdrop-blur-sm" style="animation-delay: 2.5s;">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none" class="shrink-0">
         <circle cx="20" cy="20" r="16" stroke="var(--border-violet)" stroke-width="4" />
         <circle
           class="ring-oscillate"
