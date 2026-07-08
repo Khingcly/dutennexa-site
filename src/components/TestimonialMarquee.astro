@@ -1,0 +1,81 @@
+---
+const testimonials = [
+  {
+    quote:
+      'They optimized our ClickUp workspace, integrated Apollo CRM, and built automations that now handle our follow-ups automatically. The live dashboards completely changed how we make decisions.',
+    name: 'Dr. Ronak Mehta',
+    role: 'Founder, Nerbugs',
+    country: 'USA',
+  },
+  {
+    quote:
+      'An integrated system connecting ClickUp with Google Sheets — exactly what we needed. As a shipping company, visibility and automation are crucial, and they nailed it.',
+    name: 'Khalid Abdulla',
+    role: 'CEO, K-Brands',
+    country: 'USA',
+  },
+  {
+    quote:
+      'High-quality Power BI reporting for a complex HubSpot project, on a tight timeline. They navigated a 12-hour time difference to an exceptional outcome.',
+    name: 'Deanna Walker',
+    role: 'Playground Centre Ltd.',
+    country: 'USA',
+  },
+  {
+    quote:
+      'A game-changer for our team. Their deep ClickUp knowledge helped us completely reorganize our workflows for better efficiency and clarity.',
+    name: 'Leon Sarkis',
+    role: 'Founder, Aquirio',
+    country: 'Switzerland',
+  },
+  {
+    quote:
+      "Incredibly intuitive, extremely helpful, and highly knowledgeable. Their expertise made a real difference in our project's success.",
+    name: 'Jonathan Jordan',
+    role: 'CEO, Haven Cleaning',
+    country: 'USA',
+  },
+  {
+    quote:
+      'They really know their stuff when it comes to project management. They helped me get my tasks organized and made everything easier to handle.',
+    name: 'Anandaraj TK',
+    role: 'CEO, Pixio Digital Marketing',
+    country: 'Australia',
+  },
+  {
+    quote:
+      "They didn't just set things up — they took the time to explain how everything works. It felt more like a personalized training session than a typical service.",
+    name: 'Juanita Lewis',
+    role: 'Founder, Fitness Company',
+    country: 'USA',
+  },
+  {
+    quote:
+      'They greatly helped us build Power Automate flows for our business. Communication was great throughout — super pleasant to work with.',
+    name: 'Daniel Meka',
+    role: 'Founder, Duelix Pte. Ltd',
+    country: 'USA',
+  },
+];
+
+const looped = [...testimonials, ...testimonials];
+---
+
+<div class="marquee-viewport overflow-hidden">
+  <div class="marquee-track gap-6 py-2">
+    {looped.map((t, i) => (
+      <blockquote
+        class="w-80 shrink-0 rounded-xl border border-border-teal-soft bg-surface-card p-6"
+        aria-hidden={i >= testimonials.length ? 'true' : undefined}
+      >
+        <p class="text-sm leading-relaxed text-text-dim">&ldquo;{t.quote}&rdquo;</p>
+        <footer class="mt-4 text-sm">
+          <p class="font-semibold text-white">{t.name}</p>
+          <p class="text-text-faint">
+            {t.role} · {t.country}
+          </p>
+        </footer>
+      </blockquote>
+    ))}
+  </div>
+</div>

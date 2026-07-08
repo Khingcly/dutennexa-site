@@ -1,0 +1,32 @@
+---
+const layers = [
+  { title: 'ClickUp', body: 'the command center [NEEDS INPUT — complete one-liner]' },
+  { title: 'Make', body: 'the nervous system [NEEDS INPUT — complete one-liner]' },
+  {
+    title: 'Dashboards',
+    body: 'the eyes. Clients have cut manual reporting time by up to 75%.',
+  },
+  { title: 'AI agents', body: 'the muscle [NEEDS INPUT — complete one-liner]' },
+];
+---
+
+<div class="relative">
+  <div
+    class="line-draw absolute left-0 right-0 top-6 hidden h-px bg-border-teal-soft md:block"
+    data-reveal
+    aria-hidden="true"
+  ></div>
+
+  <div class="grid grid-cols-1 gap-6 md:grid-cols-4 md:gap-4">
+    {layers.map((layer, i) => (
+      <div
+        class={`reveal d-${i + 1} relative rounded-xl border border-border-teal-soft bg-surface-card p-6`}
+        data-reveal
+      >
+        <span class="mb-4 hidden h-3 w-3 rounded-full bg-teal md:block" aria-hidden="true"></span>
+        <h3 class="text-lg font-semibold text-white">{layer.title}</h3>
+        <p class="mt-2 text-sm text-text-dim">{layer.body}</p>
+      </div>
+    ))}
+  </div>
+</div>

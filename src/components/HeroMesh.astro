@@ -1,0 +1,40 @@
+---
+const nodes = [
+  { x: 100, y: 80, delay: 0 },
+  { x: 300, y: 40, delay: 0.4 },
+  { x: 500, y: 120, delay: 0.8 },
+  { x: 700, y: 60, delay: 1.2 },
+  { x: 150, y: 300, delay: 1.6 },
+  { x: 450, y: 350, delay: 2.0 },
+  { x: 680, y: 320, delay: 2.4 },
+];
+
+const lines = [
+  'M100,80 L300,40',
+  'M300,40 L500,120',
+  'M500,120 L700,60',
+  'M100,80 L150,300',
+  'M150,300 L450,350',
+  'M450,350 L680,320',
+  'M300,40 L450,350',
+];
+---
+
+<svg
+  class="pointer-events-none absolute inset-0 h-full w-full opacity-40"
+  viewBox="0 0 800 600"
+  preserveAspectRatio="xMidYMid slice"
+  fill="none"
+  aria-hidden="true"
+>
+  <g stroke="var(--color-teal)" stroke-width="0.7">
+    {lines.map((d) => (
+      <path class="mesh-line" pathLength="300" d={d} />
+    ))}
+  </g>
+  <g fill="var(--color-teal)">
+    {nodes.map((n) => (
+      <circle class="mesh-node" cx={n.x} cy={n.y} r="5" style={`animation-delay:${n.delay}s`} />
+    ))}
+  </g>
+</svg>

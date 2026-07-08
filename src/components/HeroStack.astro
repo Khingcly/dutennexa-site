@@ -1,0 +1,97 @@
+---
+const layers = [
+  { title: 'ClickUp', subtitle: 'the command center', top: 10, delay: 0 },
+  { title: 'Make', subtitle: 'the nervous system', top: 130, delay: 1.3 },
+  { title: 'Dashboards', subtitle: 'the eyes', top: 250, delay: 2.6 },
+  { title: 'AI agents', subtitle: 'the muscle', top: 370, delay: 3.9 },
+];
+const nodeHeight = 80;
+---
+
+<div class="relative mx-auto" style="width: 280px; height: 460px;">
+  <svg
+    class="absolute inset-0"
+    width="280"
+    height="460"
+    viewBox="0 0 280 460"
+    fill="none"
+    aria-hidden="true"
+  >
+    <line
+      x1="140"
+      y1="50"
+      x2="140"
+      y2="410"
+      stroke="var(--color-teal)"
+      stroke-width="1.5"
+      opacity="0.4"
+    />
+    {layers.map((layer) => (
+      <>
+        <rect
+          class="node-flash"
+          x="20"
+          y={layer.top}
+          width="240"
+          height={nodeHeight}
+          rx="12"
+          fill="var(--surface-card)"
+          stroke="var(--border-teal-soft)"
+          style={`animation-delay:${layer.delay}s`}
+        />
+        <text x="40" y={layer.top + 34} font-size="16" font-weight="700" fill="var(--color-white)">
+          {layer.title}
+        </text>
+        <text x="40" y={layer.top + 56} font-size="12" fill="var(--text-dim)">
+          {layer.subtitle}
+        </text>
+      </>
+    ))}
+  </svg>
+
+  <span
+    class="pulse-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-teal"
+    style="offset-path: path('M140,50 L140,410');"
+    aria-hidden="true"
+  ></span>
+  <span
+    class="pulse-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-teal"
+    style="offset-path: path('M140,50 L140,410'); animation-delay: 1.3s;"
+    aria-hidden="true"
+  ></span>
+
+  <div
+    class="float-card absolute -left-6 -top-4 hidden w-36 rounded-xl border border-border-teal-soft bg-surface-card p-3 backdrop-blur-sm sm:block"
+    aria-hidden="true"
+  >
+    <p class="text-xs text-text-dim">Revenue by week</p>
+    <div class="mt-2 flex h-10 items-end gap-1.5">
+      <span class="bar-breathe h-full w-2 rounded-sm bg-teal/70" style="animation-delay:0s"></span>
+      <span class="bar-breathe h-full w-2 rounded-sm bg-teal/70" style="animation-delay:.4s"></span>
+      <span class="bar-breathe h-full w-2 rounded-sm bg-teal/70" style="animation-delay:.8s"></span>
+      <span class="bar-breathe h-full w-2 rounded-sm bg-teal/70" style="animation-delay:1.2s"></span>
+    </div>
+  </div>
+
+  <div
+    class="float-card absolute -right-6 bottom-8 hidden w-40 items-center gap-3 rounded-xl border border-border-teal-soft bg-surface-card p-3 backdrop-blur-sm sm:flex"
+    style="animation-delay: 2.5s;"
+    aria-hidden="true"
+  >
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+      <circle cx="20" cy="20" r="16" stroke="var(--border-teal-soft)" stroke-width="4" />
+      <circle
+        class="ring-oscillate"
+        cx="20"
+        cy="20"
+        r="16"
+        stroke="var(--color-teal)"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-dasharray="100"
+        transform="rotate(-90 20 20)"
+      />
+    </svg>
+    <p class="text-xs text-text-dim">On track<br />workflows healthy</p>
+  </div>
+</div>
