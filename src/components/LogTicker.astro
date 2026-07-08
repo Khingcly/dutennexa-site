@@ -1,0 +1,109 @@
+---
+// Illustrative only — a static cycling array, not a real data feed. Labeled
+// as such beneath the ticker so it never reads as a false live-data claim.
+const LINES = [
+  { icon: '→', text: 'Lead #4821 routed to sales', age: '0.4s ago' },
+  { icon: '→', text: 'Invoice #310 generated + sent', age: '12s ago' },
+  { icon: '◆', text: 'Agent qualified 3 inbound leads', age: '26s ago' },
+  { icon: '→', text: 'Follow-up sequence triggered for 6 leads', age: '41s ago' },
+  { icon: '◆', text: 'Weekly report compiled automatically', age: '58s ago' },
+  { icon: '→', text: 'Support ticket auto-tagged and routed', age: '1m ago' },
+];
+---
+
+<div class="log-ticker relative hidden w-full max-w-sm overflow-hidden rounded-xl border border-border-teal bg-surface-card p-3 backdrop-blur-sm sm:block" data-lines={JSON.stringify(LINES)}>
+  <div class="scan-sweep pointer-events-none absolute inset-0"></div>
+  <div id="log-ticker-rows" class="relative flex flex-col gap-2"></div>
+</div>
+<p class="mt-2 hidden text-[11px] text-text-faint sm:block">Sample activity, illustrative only</p>
+
+<style is:global>
+  /* Global, not scoped: .ticker-row/.ticker-icon/.ticker-age elements are
+     created client-side via document.createElement, so they never receive
+     Astro's scoped-style attribute and a scoped <style> here would silently
+     match nothing. */
+  .scan-sweep {
+    background: linear-gradient(100deg, transparent 40%, rgba(63, 224, 208, 0.14) 50%, transparent 60%);
+    transform: translateX(-120%);
+    animation: scan-sweep-move 3.5s ease-in-out infinite;
+  }
+  @keyframes scan-sweep-move {
+    0%, 15% { transform: translateX(-120%); }
+    50%, 100% { transform: translateX(120%); }
+  }
+
+  .ticker-row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 400ms ease, transform 400ms ease;
+  }
+  .ticker-row.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .ticker-row.out {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  .ticker-icon {
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+  .ticker-age {
+    margin-left: auto;
+    color: var(--text-faint);
+    flex-shrink: 0;
+    font-size: 0.6875rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scan-sweep {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const box = document.querySelector('.log-ticker') as HTMLElement | null;
+  const rows = document.getElementById('log-ticker-rows');
+  if (box && rows) {
+    const lines = JSON.parse(box.dataset.lines || '[]') as { icon: string; text: string; age: string }[];
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const VISIBLE = 3;
+
+    function renderRow(line: { icon: string; text: string; age: string }): HTMLDivElement {
+      const el = document.createElement('div');
+      el.className = 'ticker-row';
+      el.innerHTML = `<span class="ticker-icon">${line.icon}</span><span>${line.text}</span><span class="ticker-age">${line.age}</span>`;
+      return el;
+    }
+
+    let i = 0;
+    for (; i < Math.min(VISIBLE, lines.length); i++) {
+      const row = renderRow(lines[i]);
+      rows.appendChild(row);
+      requestAnimationFrame(() => row.classList.add('in'));
+    }
+
+    if (!reduce && lines.length > VISIBLE) {
+      setInterval(() => {
+        const next = lines[i % lines.length];
+        i++;
+        const first = rows.firstElementChild as HTMLElement | null;
+        if (first) {
+          first.classList.add('out');
+          first.classList.remove('in');
+          setTimeout(() => first.remove(), 400);
+        }
+        const row = renderRow(next);
+        rows.appendChild(row);
+        requestAnimationFrame(() => row.classList.add('in'));
+      }, 6000);
+    }
+  }
+</script>

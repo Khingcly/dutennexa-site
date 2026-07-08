@@ -1,0 +1,123 @@
+---
+import LogTicker from './LogTicker.astro';
+
+const nodes = [
+  { key: 'clickup', title: 'ClickUp', subtitle: 'the command center', x: 10, y: 10, ai: false, delay: 0 },
+  { key: 'make', title: 'Make', subtitle: 'the nervous system', x: 175, y: 10, ai: false, delay: 0.6 },
+  { key: 'dashboards', title: 'Dashboards', subtitle: 'the eyes', x: 10, y: 390, ai: false, delay: 1.2 },
+  { key: 'ai', title: 'AI agents', subtitle: 'the muscle', x: 175, y: 390, ai: true, delay: 1.8 },
+];
+const NODE_W = 155;
+const NODE_H = 80;
+const HUB = { x: 170, y: 240, r: 22 };
+const durations = [1.8, 2.0, 2.2, 2.4];
+
+function center(n: { x: number; y: number }) {
+  return { cx: n.x + NODE_W / 2, cy: n.y + NODE_H / 2 };
+}
+---
+
+<div class="flex flex-col items-center gap-6">
+  <!-- Desktop / tablet: hub-and-spoke topology -->
+  <div class="relative hidden md:block" style="width: 340px; height: 480px;" data-parallax="0.1">
+    <svg width="340" height="480" viewBox="0 0 340 480" fill="none" aria-hidden="true">
+      <defs>
+        <filter id="topo-blur" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur stdDeviation="10" />
+        </filter>
+      </defs>
+
+      {nodes.map((n, i) => {
+        const { cx, cy } = center(n);
+        return (
+          <line
+            class="topo-line"
+            x1={HUB.x}
+            y1={HUB.y}
+            x2={cx}
+            y2={cy}
+            stroke={n.ai ? 'var(--violet)' : 'var(--teal)'}
+            stroke-width="1.5"
+            opacity="0.45"
+            style={`animation-duration:${durations[i]}s; animation-delay:${n.delay * 0.3}s`}
+          />
+        );
+      })}
+
+      <!-- AI node glow bloom (backing blurred rect) -->
+      <rect
+        class="topo-ai-glow"
+        x="165"
+        y="385"
+        width="165"
+        height="90"
+        rx="16"
+        fill="var(--violet)"
+        filter="url(#topo-blur)"
+      />
+
+      {nodes.map((n) => (
+        <g class={`topo-node ${n.ai ? 'cursor-ai' : ''}`} style={`animation-delay:${n.delay}s`}>
+          <rect
+            x={n.x}
+            y={n.y}
+            width={NODE_W}
+            height={NODE_H}
+            rx="12"
+            fill={n.ai ? 'rgba(124,92,255,0.14)' : 'var(--surface-card)'}
+            stroke={n.ai ? 'var(--border-violet)' : 'var(--border-teal)'}
+          />
+          <text x={n.x + 18} y={n.y + 32} font-size="16" font-weight="700" fill={n.ai ? 'var(--violet-text)' : 'var(--white)'}>
+            {n.title}
+          </text>
+          <text x={n.x + 18} y={n.y + 54} font-size="12" fill="var(--text-dim)">
+            {n.subtitle}
+          </text>
+        </g>
+      ))}
+
+      <circle class="topo-hub" cx={HUB.x} cy={HUB.y} r={HUB.r} fill="var(--navy-900)" stroke="var(--teal)" stroke-width="2" />
+      <circle cx={HUB.x} cy={HUB.y} r="6" fill="var(--teal)" />
+    </svg>
+  </div>
+
+  <!-- Mobile: compact vertical stack with a single traveling spark -->
+  <div class="relative mx-auto md:hidden" style="width: 240px; height: 380px;">
+    <svg width="240" height="380" viewBox="0 0 240 380" fill="none" aria-hidden="true">
+      <line x1="120" y1="40" x2="120" y2="340" stroke="var(--teal)" stroke-width="1.5" opacity="0.4" />
+      {nodes.map((n, i) => (
+        <>
+          <rect
+            x="10"
+            y={10 + i * 100}
+            width="220"
+            height="70"
+            rx="12"
+            fill={n.ai ? 'rgba(124,92,255,0.14)' : 'var(--surface-card)'}
+            stroke={n.ai ? 'var(--border-violet)' : 'var(--border-teal)'}
+          />
+          <text x="28" y={10 + i * 100 + 30} font-size="15" font-weight="700" fill={n.ai ? 'var(--violet-text)' : 'var(--white)'}>
+            {n.title}
+          </text>
+          <text x="28" y={10 + i * 100 + 50} font-size="11" fill="var(--text-dim)">
+            {n.subtitle}
+          </text>
+        </>
+      ))}
+    </svg>
+    <span
+      class="topo-spark absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-teal"
+      style="offset-path: path('M120,40 L120,340');"
+      aria-hidden="true"
+    ></span>
+  </div>
+
+  <LogTicker />
+
+  <div class="scroll-cue mt-2 hidden flex-col items-center gap-1 text-[10px] font-semibold tracking-[0.14em] text-text-faint md:flex">
+    <span>SCROLL TO SEE THE SYSTEM</span>
+    <svg width="14" height="8" viewBox="0 0 14 8" fill="none" aria-hidden="true">
+      <path d="M1 1l6 6 6-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </div>
+</div>
