@@ -1,9 +1,9 @@
 ---
 const layers = [
-  { title: 'ClickUp', subtitle: 'the command center', top: 10, delay: 0 },
-  { title: 'Make', subtitle: 'the nervous system', top: 130, delay: 1.3 },
-  { title: 'Dashboards', subtitle: 'the eyes', top: 250, delay: 2.6 },
-  { title: 'AI agents', subtitle: 'the muscle', top: 370, delay: 3.9 },
+  { title: 'ClickUp', subtitle: 'the command center', top: 10, delay: 0, ai: false },
+  { title: 'Make', subtitle: 'the nervous system', top: 130, delay: 1.3, ai: false },
+  { title: 'Dashboards', subtitle: 'the eyes', top: 250, delay: 2.6, ai: false },
+  { title: 'AI agents', subtitle: 'the muscle', top: 370, delay: 3.9, ai: true },
 ];
 const nodeHeight = 80;
 ---
@@ -17,29 +17,43 @@ const nodeHeight = 80;
     fill="none"
     aria-hidden="true"
   >
+    <defs>
+      <linearGradient id="stack-connector" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="var(--teal)" />
+        <stop offset="100%" stop-color="var(--violet)" />
+      </linearGradient>
+    </defs>
+
     <line
       x1="140"
       y1="50"
       x2="140"
       y2="410"
-      stroke="var(--color-teal)"
-      stroke-width="1.5"
-      opacity="0.4"
+      stroke="url(#stack-connector)"
+      stroke-width="2"
+      opacity="0.5"
     />
+
     {layers.map((layer) => (
       <>
         <rect
-          class="node-flash"
+          class={layer.ai ? 'node-flash-ai' : 'node-flash'}
           x="20"
           y={layer.top}
           width="240"
           height={nodeHeight}
           rx="12"
-          fill="var(--surface-card)"
-          stroke="var(--border-teal-soft)"
+          fill={layer.ai ? 'rgba(124,92,255,0.12)' : 'var(--surface-card)'}
+          stroke={layer.ai ? 'var(--border-violet)' : 'var(--border-teal)'}
           style={`animation-delay:${layer.delay}s`}
         />
-        <text x="40" y={layer.top + 34} font-size="16" font-weight="700" fill="var(--color-white)">
+        <text
+          x="40"
+          y={layer.top + 34}
+          font-size="16"
+          font-weight="700"
+          fill={layer.ai ? 'var(--violet-text)' : 'var(--white)'}
+        >
           {layer.title}
         </text>
         <text x="40" y={layer.top + 56} font-size="12" fill="var(--text-dim)">
@@ -55,43 +69,48 @@ const nodeHeight = 80;
     aria-hidden="true"
   ></span>
   <span
-    class="pulse-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-teal"
+    class="pulse-dot absolute left-0 top-0 h-2.5 w-2.5 rounded-full bg-violet"
     style="offset-path: path('M140,50 L140,410'); animation-delay: 1.3s;"
     aria-hidden="true"
   ></span>
 
-  <div
-    class="float-card absolute -left-6 -top-4 hidden w-36 rounded-xl border border-border-teal-soft bg-surface-card p-3 backdrop-blur-sm sm:block"
-    aria-hidden="true"
-  >
-    <p class="text-xs text-text-dim">Revenue by week</p>
-    <div class="mt-2 flex h-10 items-end gap-1.5">
-      <span class="bar-breathe h-full w-2 rounded-sm bg-teal/70" style="animation-delay:0s"></span>
-      <span class="bar-breathe h-full w-2 rounded-sm bg-teal/70" style="animation-delay:.4s"></span>
-      <span class="bar-breathe h-full w-2 rounded-sm bg-teal/70" style="animation-delay:.8s"></span>
-      <span class="bar-breathe h-full w-2 rounded-sm bg-teal/70" style="animation-delay:1.2s"></span>
+  <!-- Float card A: revenue bars (indigo→teal→mint) -->
+  <div class="absolute -left-6 -top-4 hidden sm:block" data-parallax="0.2" aria-hidden="true">
+    <div class="float-card w-36 rounded-xl border border-border-teal bg-surface-card p-3 backdrop-blur-sm">
+      <p class="text-xs text-text-dim">Revenue by week</p>
+      <div class="mt-2 flex h-10 items-end gap-1.5">
+        <span class="bar-breathe h-full w-2 rounded-sm bg-indigo" style="animation-delay:0s"></span>
+        <span class="bar-breathe h-full w-2 rounded-sm bg-teal" style="animation-delay:.4s"></span>
+        <span class="bar-breathe h-full w-2 rounded-sm bg-mint" style="animation-delay:.8s"></span>
+        <span class="bar-breathe h-full w-2 rounded-sm bg-teal" style="animation-delay:1.2s"></span>
+      </div>
     </div>
   </div>
 
-  <div
-    class="float-card absolute -right-6 bottom-8 hidden w-40 items-center gap-3 rounded-xl border border-border-teal-soft bg-surface-card p-3 backdrop-blur-sm sm:flex"
-    style="animation-delay: 2.5s;"
-    aria-hidden="true"
-  >
-    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
-      <circle cx="20" cy="20" r="16" stroke="var(--border-teal-soft)" stroke-width="4" />
-      <circle
-        class="ring-oscillate"
-        cx="20"
-        cy="20"
-        r="16"
-        stroke="var(--color-teal)"
-        stroke-width="4"
-        stroke-linecap="round"
-        stroke-dasharray="100"
-        transform="rotate(-90 20 20)"
-      />
-    </svg>
-    <p class="text-xs text-text-dim">On track<br />workflows healthy</p>
+  <!-- Float card B: violet AI agent card -->
+  <div class="absolute -right-6 bottom-8 hidden sm:block" data-parallax="0.1" aria-hidden="true">
+    <div class="float-card flex w-44 items-center gap-3 rounded-xl border border-border-violet bg-surface-card p-3 backdrop-blur-sm" style="animation-delay: 2.5s;">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="16" stroke="var(--border-violet)" stroke-width="4" />
+        <circle
+          class="ring-oscillate"
+          cx="20"
+          cy="20"
+          r="16"
+          stroke="var(--violet)"
+          stroke-width="4"
+          stroke-linecap="round"
+          stroke-dasharray="100"
+          transform="rotate(-90 20 20)"
+        />
+      </svg>
+      <div>
+        <p class="flex items-center gap-1.5 text-xs font-medium text-violet-text">
+          <span class="ai-pulse inline-block h-1.5 w-1.5 rounded-full bg-violet"></span>
+          Agent live
+        </p>
+        <p class="text-xs text-text-dim">qualifying leads</p>
+      </div>
+    </div>
   </div>
 </div>

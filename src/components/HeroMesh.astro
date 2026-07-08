@@ -1,40 +1,40 @@
 ---
 const nodes = [
-  { x: 100, y: 80, delay: 0 },
-  { x: 300, y: 40, delay: 0.4 },
-  { x: 500, y: 120, delay: 0.8 },
-  { x: 700, y: 60, delay: 1.2 },
-  { x: 150, y: 300, delay: 1.6 },
-  { x: 450, y: 350, delay: 2.0 },
-  { x: 680, y: 320, delay: 2.4 },
+  { x: 100, y: 80, delay: 0, color: 'var(--teal)' },
+  { x: 300, y: 40, delay: 0.4, color: 'var(--indigo)' },
+  { x: 500, y: 120, delay: 0.8, color: 'var(--violet)' },
+  { x: 700, y: 60, delay: 1.2, color: 'var(--teal)' },
+  { x: 150, y: 300, delay: 1.6, color: 'var(--indigo)' },
+  { x: 450, y: 350, delay: 2.0, color: 'var(--violet)' },
+  { x: 680, y: 320, delay: 2.4, color: 'var(--teal)' },
 ];
 
 const lines = [
-  'M100,80 L300,40',
-  'M300,40 L500,120',
-  'M500,120 L700,60',
-  'M100,80 L150,300',
-  'M150,300 L450,350',
-  'M450,350 L680,320',
-  'M300,40 L450,350',
+  { d: 'M100,80 L300,40', color: 'var(--teal)' },
+  { d: 'M300,40 L500,120', color: 'var(--indigo)' },
+  { d: 'M500,120 L700,60', color: 'var(--violet)' },
+  { d: 'M100,80 L150,300', color: 'var(--indigo)' },
+  { d: 'M150,300 L450,350', color: 'var(--teal)' },
+  { d: 'M450,350 L680,320', color: 'var(--violet)' },
+  { d: 'M300,40 L450,350', color: 'var(--indigo)' },
 ];
 ---
 
 <svg
-  class="pointer-events-none absolute inset-0 h-full w-full opacity-40"
+  class="pointer-events-none absolute inset-0 h-full w-full opacity-40 will-change-transform"
   viewBox="0 0 800 600"
   preserveAspectRatio="xMidYMid slice"
   fill="none"
   aria-hidden="true"
+  data-mesh
+  data-parallax="0.12"
 >
-  <g stroke="var(--color-teal)" stroke-width="0.7">
-    {lines.map((d) => (
-      <path class="mesh-line" pathLength="300" d={d} />
+  <g stroke-width="0.6">
+    {lines.map((line) => (
+      <path class="mesh-line" pathLength="300" d={line.d} stroke={line.color} />
     ))}
   </g>
-  <g fill="var(--color-teal)">
-    {nodes.map((n) => (
-      <circle class="mesh-node" cx={n.x} cy={n.y} r="5" style={`animation-delay:${n.delay}s`} />
-    ))}
-  </g>
+  {nodes.map((n) => (
+    <circle class="mesh-node" cx={n.x} cy={n.y} r="5" fill={n.color} style={`animation-delay:${n.delay}s`} />
+  ))}
 </svg>

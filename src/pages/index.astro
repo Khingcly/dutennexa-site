@@ -8,48 +8,21 @@ import OSLayers from '../components/OSLayers.astro';
 import TestimonialMarquee from '../components/TestimonialMarquee.astro';
 
 const btnPrimary =
-  'inline-flex items-center justify-center rounded-lg bg-teal px-6 py-3 font-medium text-navy transition-[transform,filter] duration-200 hover:scale-[1.02] hover:brightness-105';
+  'inline-flex items-center justify-center rounded-lg bg-grad-accent px-6 py-3 font-medium text-navy transition-[transform,filter] duration-200 hover:scale-[1.02] hover:brightness-105';
 const btnSecondary =
   'inline-flex items-center justify-center rounded-lg border border-teal px-6 py-3 font-medium text-teal transition-colors duration-200 hover:bg-teal/10';
 
 const painCards = [
-  {
-    title: 'Follow-ups keep dropping.',
-    body: '[NEEDS INPUT — approved expansion line from Phase 2 copy doc]',
-  },
-  {
-    title: "I can't see what my team is doing.",
-    body: '[NEEDS INPUT — approved expansion line from Phase 2 copy doc]',
-  },
-  {
-    title: 'I build the same report every Monday.',
-    body: '[NEEDS INPUT — approved expansion line from Phase 2 copy doc]',
-  },
-  {
-    title: "Five tools. None of them talk.",
-    body: '[NEEDS INPUT — approved expansion line from Phase 2 copy doc]',
-  },
+  { title: 'Follow-ups keep dropping.', body: '[NEEDS INPUT — approved expansion line from Phase 2 copy doc]' },
+  { title: "I can't see what my team is doing.", body: '[NEEDS INPUT — approved expansion line from Phase 2 copy doc]' },
+  { title: 'I build the same report every Monday.', body: '[NEEDS INPUT — approved expansion line from Phase 2 copy doc]' },
+  { title: 'Five tools. None of them talk.', body: '[NEEDS INPUT — approved expansion line from Phase 2 copy doc]' },
 ];
 
 const steps = [
-  {
-    number: '01',
-    title: 'Audit',
-    subtitle: '5 days, fixed fee',
-    body: '[NEEDS INPUT — approved copy from Phase 2 doc]',
-  },
-  {
-    number: '02',
-    title: 'Build',
-    subtitle: 'fixed timeline, fixed price',
-    body: '[NEEDS INPUT — approved copy from Phase 2 doc]',
-  },
-  {
-    number: '03',
-    title: 'Care Plan',
-    subtitle: 'monthly, cancel anytime',
-    body: '[NEEDS INPUT — approved copy from Phase 2 doc]',
-  },
+  { number: '01', title: 'Audit', subtitle: '5 days, fixed fee', body: '[NEEDS INPUT — approved copy from Phase 2 doc]' },
+  { number: '02', title: 'Build', subtitle: 'fixed timeline, fixed price', body: '[NEEDS INPUT — approved copy from Phase 2 doc]' },
+  { number: '03', title: 'Care Plan', subtitle: 'monthly, cancel anytime', body: '[NEEDS INPUT — approved copy from Phase 2 doc]' },
 ];
 ---
 
@@ -61,12 +34,20 @@ const steps = [
   <Nav />
   <main>
     <!-- 1. Hero -->
-    <section class="relative isolate overflow-hidden bg-navy">
+    <section class="relative isolate overflow-hidden bg-grad-hero">
       <HeroMesh />
-      <div class="relative z-10 mx-auto max-w-6xl px-5 py-20 md:py-28">
+      <div class="relative z-10 mx-auto max-w-6xl px-5 pb-20 pt-28 md:pb-28 md:pt-36">
         <div class="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div>
-            <h1 class="text-h1 text-white">Growing your business is making it harder to run.</h1>
+            <span class="inline-flex items-center gap-2 rounded-full border border-border-violet bg-violet/10 px-3 py-1 text-sm font-medium text-violet-text">
+              <span class="ai-pulse inline-block h-1.5 w-1.5 rounded-full bg-violet"></span>
+              AI-powered operating systems
+            </span>
+
+            <h1 class="mt-5 text-h1 text-white">
+              Growing your business is making it <span class="grad-text">harder to run.</span>
+            </h1>
+
             <p class="mt-6 max-w-xl leading-relaxed text-text-dim">
               Follow-ups drop. Handoffs break. The Monday report takes half of Monday. Duten Nexa
               builds the operating systems that let 5–200-person companies scale without the
@@ -85,21 +66,21 @@ const steps = [
 
             <div class="mt-10 flex flex-wrap gap-x-10 gap-y-6">
               <div>
-                <p class="text-3xl font-bold text-teal">
-                  <span class="tabular-nums inline-block min-w-[3ch]" data-count="75" data-suffix="%">0%</span>
+                <p class="text-3xl font-bold">
+                  <span class="grad-text tabular-nums inline-block min-w-[3ch]" data-count="75" data-suffix="%">75%</span>
                 </p>
                 <p class="mt-1 text-sm text-text-dim">less manual reporting</p>
               </div>
               <div>
-                <p class="text-3xl font-bold text-teal">
-                  <span class="align-baseline text-base font-medium">up to</span>{' '}
-                  <span class="tabular-nums inline-block min-w-[2.5ch]" data-count="80" data-suffix="%">0%</span>
+                <p class="text-3xl font-bold">
+                  <span class="align-baseline text-base font-medium text-text-dim">up to</span>{' '}
+                  <span class="grad-text tabular-nums inline-block min-w-[2.5ch]" data-count="80" data-suffix="%">80%</span>
                 </p>
                 <p class="mt-1 text-sm text-text-dim">fewer repetitive tasks</p>
               </div>
               <div>
-                <p class="text-3xl font-bold text-teal">
-                  <span class="tabular-nums inline-block min-w-[1.5ch]" data-count="5" data-suffix=" days">0 days</span>
+                <p class="text-3xl font-bold">
+                  <span class="grad-text-ai tabular-nums inline-block min-w-[1.5ch]" data-count="5" data-suffix=" days">5 days</span>
                 </p>
                 <p class="mt-1 text-sm text-text-dim">audit turnaround</p>
               </div>
@@ -118,16 +99,15 @@ const steps = [
       <div class="mx-auto max-w-6xl px-5">
         <div class="reveal max-w-2xl" data-reveal>
           <h2 class="text-h2 text-white">Sound familiar?</h2>
-          <p class="mt-4 text-text-dim">
-            [NEEDS INPUT — approved intro paragraph from Phase 2 copy doc]
-          </p>
+          <p class="mt-4 text-text-dim">[NEEDS INPUT — approved intro paragraph from Phase 2 copy doc]</p>
         </div>
 
         <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {painCards.map((card, i) => (
             <div
-              class={`reveal d-${i + 1} rounded-xl border border-border-teal-soft bg-surface-card p-6 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-teal/40`}
+              class="reveal rounded-xl border border-border-soft bg-surface-card p-6 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-teal"
               data-reveal
+              data-reveal-delay={i + 1}
             >
               <h3 class="text-lg font-semibold text-white">{card.title}</h3>
               <p class="mt-3 text-sm text-text-dim">{card.body}</p>
@@ -138,7 +118,7 @@ const steps = [
     </section>
 
     <!-- 3. What we build -->
-    <section class="bg-navy-800 py-20 md:py-28">
+    <section class="bg-gradient-to-b from-navy to-navy-800 py-20 md:py-28" data-os-section>
       <div class="mx-auto max-w-6xl px-5">
         <div class="reveal max-w-2xl" data-reveal>
           <h2 class="text-h2 text-white">
@@ -173,22 +153,19 @@ const steps = [
         <h2 class="reveal text-h2 text-center text-white" data-reveal>Three steps. No surprises.</h2>
 
         <div class="relative mt-14">
-          <div
-            class="line-draw absolute left-0 right-0 top-8 hidden h-px bg-border-teal-soft md:block"
-            data-reveal
-            aria-hidden="true"
-          ></div>
+          <div class="absolute left-0 right-0 top-8 hidden md:block" aria-hidden="true">
+            <div class="line-draw h-px w-full bg-gradient-to-r from-indigo to-teal" data-reveal></div>
+          </div>
 
           <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
             {steps.map((step, i) => (
               <div
-                class={`reveal d-${i + 1} relative rounded-xl border border-border-teal-soft bg-surface-card p-6`}
+                class="reveal relative rounded-xl border border-border-soft bg-surface-card p-6"
                 data-reveal
+                data-reveal-delay={i + 1}
               >
-                <span class="text-sm font-semibold text-teal">{step.number}</span>
-                <h3 class="mt-2 text-lg font-semibold text-white">
-                  {step.title} — {step.subtitle}
-                </h3>
+                <span class="grad-text text-sm font-bold">{step.number}</span>
+                <h3 class="mt-2 text-lg font-semibold text-white">{step.title} — {step.subtitle}</h3>
                 <p class="mt-3 text-sm text-text-dim">{step.body}</p>
               </div>
             ))}
@@ -197,13 +174,11 @@ const steps = [
       </div>
     </section>
 
-    <!-- 6. Featured case study -->
+    <!-- 6. Featured case study (AI-tinted) -->
     <section class="bg-navy py-20 md:py-28">
       <div class="mx-auto max-w-6xl px-5">
-        <div class="reveal rounded-2xl bg-navy-800 p-8 md:p-12" data-reveal>
-          <p class="text-sm font-semibold uppercase tracking-wide text-teal">
-            Case study — Nerbugs · USA
-          </p>
+        <div class="reveal overflow-hidden rounded-2xl bg-grad-ai p-8 md:p-12" data-reveal>
+          <p class="text-sm font-semibold uppercase tracking-wide text-mint">Case study — Nerbugs · USA</p>
           <blockquote class="mt-4 max-w-3xl text-h2 text-white">
             &ldquo;The pipeline stopped leaking.&rdquo;
           </blockquote>
@@ -213,7 +188,7 @@ const steps = [
             how we make decisions.
             <span class="mt-2 block text-sm text-text-faint">— Dr. Ronak Mehta, Founder, Nerbugs</span>
           </p>
-          <a href="/case-studies/nerbugs" class="mt-6 inline-block font-medium text-teal hover:underline">
+          <a href="/case-studies/nerbugs" class="mt-6 inline-block font-medium text-mint hover:underline">
             Read the case study →
           </a>
         </div>
@@ -223,7 +198,7 @@ const steps = [
     <!-- 7. Final CTA band -->
     <section class="bg-navy">
       <div class="grid grid-cols-1 md:grid-cols-2">
-        <div class="bg-teal px-6 py-16 sm:px-10 md:px-16">
+        <div class="bg-grad-accent px-6 py-16 sm:px-10 md:px-16">
           <p class="max-w-md text-xl font-semibold text-navy">
             You've spent months guessing at what to fix. Spend 5 days actually knowing.
           </p>
