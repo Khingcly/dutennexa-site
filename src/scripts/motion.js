@@ -16,8 +16,6 @@ if (reduce) {
   // Set final states and exit: no observers, no loop, no listeners.
   revealEls.forEach((el) => el.classList.add('in-view'));
   countEls.forEach((el) => setCount(el, el.getAttribute('data-count')));
-  const staticFill = document.querySelector('[data-os-fill]');
-  if (staticFill) staticFill.style.transform = 'scaleX(1)';
 } else {
   /* --- Effect A + B: reveal + count-up, driven by one observer --- */
   function animateCount(el) {
@@ -53,9 +51,10 @@ if (reduce) {
     factor: parseFloat(el.getAttribute('data-parallax')) || 0.15,
     mesh: el.hasAttribute('data-mesh'),
   }));
-  const osSection = document.querySelector('[data-os-section]');
-  const osPulse = document.querySelector('[data-os-pulse]');
-  const osFill = document.querySelector('[data-os-fill]');
+  const pinSection = document.querySelector('[data-pin-section]');
+  const pinFrames = pinSection ? [...pinSection.querySelectorAll('[data-pin-frame]')] : [];
+  // 4 frames; frame 4 (AI) gets 15% more scroll-length than frames 1-3.
+  const pinBoundaries = [0, 0.241, 0.482, 0.7229, 1];
   const meshEl = document.querySelector('[data-mesh]');
   const desktopFine = window.matchMedia('(min-width: 768px) and (pointer: fine)').matches;
 
@@ -64,6 +63,8 @@ if (reduce) {
   let driftX = 0;
   let driftY = 0;
   let dirty = true;
+  let mx = 0;
+  let my = 0;
 
   const markDirty = () => {
     dirty = true;
@@ -71,14 +72,28 @@ if (reduce) {
   window.addEventListener('scroll', markDirty, { passive: true });
   window.addEventListener('resize', markDirty, { passive: true });
 
-  if (desktopFine && meshEl) {
+  /* --- Pointer-tilt on hover (.tilt-card), desktop + pointer:fine only --- */
+  let activeTilt = null;
+  if (desktopFine) {
+    document.querySelectorAll('.tilt-card').forEach((card) => {
+      card.addEventListener('mouseenter', () => (activeTilt = card));
+      card.addEventListener('mouseleave', () => {
+        if (activeTilt === card) activeTilt = null;
+        card.style.transform = '';
+      });
+    });
+
     window.addEventListener(
       'mousemove',
       (e) => {
-        const cx = window.innerWidth / 2;
-        const cy = window.innerHeight / 2;
-        pointerX = ((e.clientX - cx) / cx) * 8;
-        pointerY = ((e.clientY - cy) / cy) * 8;
+        mx = e.clientX;
+        my = e.clientY;
+        if (meshEl) {
+          const cx = window.innerWidth / 2;
+          const cy = window.innerHeight / 2;
+          pointerX = ((e.clientX - cx) / cx) * 8;
+          pointerY = ((e.clientY - cy) / cy) * 8;
+        }
         markDirty();
       },
       { passive: true }
@@ -116,21 +131,35 @@ if (reduce) {
         item.el.style.transform = `translate3d(${dx}px, ${-y + dy}px, 0)`;
       }
 
-      // Effect D(a): scroll-linked pulse + fill through the "what we build" connector.
-      // Map the section's travel through the viewport to 0..1 and remap the middle
-      // band to a full 0..100% sweep so the data visibly flows as you scroll.
-      if (osSection && osPulse) {
-        const rect = osSection.getBoundingClientRect();
-        const vh = window.innerHeight;
-        const raw = (vh - rect.top) / (rect.height + vh);
-        const prog = Math.max(0, Math.min(1, (raw - 0.15) / 0.6));
-        osPulse.style.transform = `translateX(${prog * 100}%)`;
-        osPulse.style.opacity = prog > 0.01 && prog < 0.99 ? '1' : '0';
-        if (osFill) osFill.style.transform = `scaleX(${prog})`;
+      // Effect D(a): pinned "what we build" sequence. pin-outer is 400vh tall;
+      // while it's pinned, rect.top runs from 0 down to -(height - 100vh).
+      // Map that to 0..1 and pick which frame's stage we're in.
+      if (pinSection && pinFrames.length) {
+        const rect = pinSection.getBoundingClientRect();
+        const total = rect.height - window.innerHeight;
+        const prog = total > 0 ? Math.max(0, Math.min(1, -rect.top / total)) : 0;
+        let activeIdx = pinBoundaries.length - 2;
+        for (let i = 0; i < pinBoundaries.length - 1; i++) {
+          if (prog < pinBoundaries[i + 1]) {
+            activeIdx = i;
+            break;
+          }
+        }
+        pinFrames.forEach((f, i) => f.classList.toggle('active', i === activeIdx));
       }
 
       dirty = false;
     }
+
+    if (activeTilt) {
+      const r = activeTilt.getBoundingClientRect();
+      const px = (mx - r.left) / r.width;
+      const py = (my - r.top) / r.height;
+      const rotateY = (px - 0.5) * 12;
+      const rotateX = (0.5 - py) * 12;
+      activeTilt.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    }
+
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);

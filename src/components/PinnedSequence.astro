@@ -1,0 +1,178 @@
+---
+const frames = [
+  {
+    title: 'ClickUp',
+    tag: 'the command center',
+    body: 'Every project, task, and handoff in one workspace, structured to how you actually run.',
+    ai: false,
+  },
+  {
+    title: 'Make',
+    tag: 'the nervous system',
+    body: 'Your tools finally talk. Leads route themselves. Invoices trigger themselves. Nothing waits on someone remembering.',
+    ai: false,
+  },
+  {
+    title: 'Dashboards',
+    tag: 'the eyes',
+    body: 'Sales, delivery, cash, team load, visible in one place, refreshed automatically. Clients have cut manual reporting time by up to 75%.',
+    ai: false,
+  },
+  {
+    title: 'AI agents',
+    tag: 'the muscle',
+    body: "Qualify inbound. Handle Tier 1 support. Research prospects. The work you'd hire someone to do, without hiring someone to do it.",
+    ai: true,
+  },
+];
+---
+
+<section id="what-we-build" class="bg-gradient-to-b from-navy to-navy-800">
+  <div class="mx-auto max-w-6xl px-5 pt-20 md:pt-28">
+    <div class="reveal mx-auto max-w-2xl text-center" data-reveal>
+      <h2 class="text-h2 text-white">
+        You don't need more tools. You need the ones you have to work together.
+      </h2>
+      <p class="mt-4 text-text-dim">We build one thing: an operating system. It has four layers.</p>
+    </div>
+  </div>
+
+  <!-- Desktop / tablet: pinned crossfade sequence. Section is tall (400vh);
+       the inner wrapper sticks to the viewport while the user scrolls
+       through it, and motion.js toggles which frame is .active based on
+       scroll progress. Frame 4 (AI) gets 15% more scroll length. -->
+  <div class="pin-outer hidden md:block" data-pin-section>
+    <div class="pin-sticky">
+      <div class="relative mx-auto h-80 w-full max-w-xl px-5">
+        {frames.map((f, i) => (
+          <div class={`pin-frame ${f.ai ? 'ai-bloom cursor-ai' : ''}`} data-pin-frame>
+            <div class={`mx-auto max-w-lg rounded-2xl border p-8 text-center ${f.ai ? 'border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}>
+              <span class={`text-xs font-semibold tracking-[0.14em] ${f.ai ? 'text-violet-text' : 'text-teal'}`}>
+                0{i + 1} / 04
+              </span>
+              <h3 class={`mt-3 text-2xl font-bold ${f.ai ? 'text-violet-text' : 'text-white'}`}>{f.title}</h3>
+              <p class="mt-1 text-sm text-text-faint">{f.tag}</p>
+              <p class="mt-4 text-text-dim">{f.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile: horizontal scroll-snap swipe deck instead of scroll-pinning -->
+  <div class="px-5 pb-4 pt-10 md:hidden">
+    <div id="swipe-deck" class="flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+      {frames.map((f, i) => (
+        <div
+          class={`swipe-card w-[85%] shrink-0 snap-center rounded-2xl border p-7 text-center ${f.ai ? 'border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}
+          data-swipe-index={i}
+        >
+          <span class={`text-xs font-semibold tracking-[0.14em] ${f.ai ? 'text-violet-text' : 'text-teal'}`}>
+            0{i + 1} / 04
+          </span>
+          <h3 class={`mt-3 text-xl font-bold ${f.ai ? 'text-violet-text' : 'text-white'}`}>{f.title}</h3>
+          <p class="mt-1 text-sm text-text-faint">{f.tag}</p>
+          <p class="mt-4 text-sm text-text-dim">{f.body}</p>
+        </div>
+      ))}
+    </div>
+    <div id="swipe-pips" class="mt-4 flex justify-center gap-2">
+      {frames.map((f, i) => (
+        <span class={`h-1.5 w-1.5 rounded-full transition-colors ${f.ai ? 'bg-violet/30' : 'bg-white/20'}`} data-pip={i}></span>
+      ))}
+    </div>
+  </div>
+
+  <div class="mx-auto max-w-6xl px-5 pb-20 md:pb-28">
+    <p class="reveal mt-4 text-center text-lg font-medium text-white" data-reveal>
+      One story, one spine, not nine services.
+    </p>
+  </div>
+</section>
+
+<style>
+  .pin-outer {
+    height: 400vh;
+    position: relative;
+  }
+  .pin-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .pin-frame {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 1.25rem;
+  }
+
+  .swipe-card {
+    scroll-snap-stop: always;
+  }
+  #swipe-pips span.active {
+    background: var(--teal);
+  }
+  #swipe-pips span[data-pip='3'].active {
+    background: var(--violet);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .pin-outer {
+      height: auto !important;
+    }
+    .pin-sticky {
+      position: static !important;
+      height: auto !important;
+      display: block !important;
+      padding: 2rem 0;
+    }
+    .pin-frame {
+      position: static !important;
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+      margin-bottom: 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  const deck = document.getElementById('swipe-deck');
+  const pips = document.querySelectorAll('#swipe-pips [data-pip]');
+  if (deck && pips.length) {
+    const cards = [...deck.querySelectorAll('[data-swipe-index]')];
+    let ticking = false;
+    const update = () => {
+      const center = deck.scrollLeft + deck.clientWidth / 2;
+      let closest = 0;
+      let closestDist = Infinity;
+      cards.forEach((card, i) => {
+        const el = card as HTMLElement;
+        const dist = Math.abs(el.offsetLeft + el.offsetWidth / 2 - center);
+        if (dist < closestDist) {
+          closestDist = dist;
+          closest = i;
+        }
+      });
+      pips.forEach((p, i) => p.classList.toggle('active', i === closest));
+      ticking = false;
+    };
+    update();
+    deck.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          ticking = true;
+          requestAnimationFrame(update);
+        }
+      },
+      { passive: true }
+    );
+  }
+</script>

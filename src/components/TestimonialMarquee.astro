@@ -65,7 +65,7 @@ const looped = [...testimonials, ...testimonials];
   <div class="marquee-track gap-6 py-2">
     {looped.map((t, i) => (
       <blockquote
-        class="w-80 shrink-0 rounded-xl border border-border-soft bg-surface-card p-6"
+        class="tilt-card w-80 shrink-0 rounded-xl border border-border-soft bg-surface-card p-6 transition-[border-color] duration-200 hover:border-teal"
         aria-hidden={i >= testimonials.length ? 'true' : undefined}
       >
         <p class="text-sm leading-relaxed text-text-dim">&ldquo;{t.quote}&rdquo;</p>

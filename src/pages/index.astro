@@ -3,15 +3,15 @@ import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import HeroMesh from '../components/HeroMesh.astro';
-import HeroStack from '../components/HeroStack.astro';
-import OSLayers from '../components/OSLayers.astro';
-import AutomationAdvisor from '../components/AutomationAdvisor.astro';
+import HeroTopology from '../components/HeroTopology.astro';
+import ToolLogoStrip from '../components/ToolLogoStrip.astro';
+import PinnedSequence from '../components/PinnedSequence.astro';
 import TestimonialMarquee from '../components/TestimonialMarquee.astro';
 
 const btnPrimary =
-  'inline-flex items-center justify-center rounded-lg bg-grad-accent px-6 py-3 font-medium text-navy transition-[transform,filter] duration-200 hover:scale-[1.02] hover:brightness-105';
+  'inline-flex w-full min-h-[52px] items-center justify-center rounded-lg bg-grad-accent px-6 py-3 font-medium text-navy transition-[filter] duration-200 hover:brightness-105 sm:w-auto';
 const btnSecondary =
-  'inline-flex items-center justify-center rounded-lg border border-teal px-6 py-3 font-medium text-teal transition-colors duration-200 hover:bg-teal/10';
+  'inline-flex w-full min-h-[52px] items-center justify-center rounded-lg border border-teal px-6 py-3 font-medium text-teal transition-colors duration-200 hover:bg-teal/10 sm:w-auto';
 
 const painCards = [
   {
@@ -61,15 +61,15 @@ const steps = [
 >
   <Nav />
   <main>
-    <!-- 1. Hero -->
+    <!-- 1. Hero (Command Deck) -->
     <section class="relative isolate overflow-hidden bg-grad-hero">
       <HeroMesh />
-      <div class="relative z-10 mx-auto max-w-6xl px-5 pb-20 pt-28 md:pb-28 md:pt-36">
+      <div class="relative z-10 mx-auto max-w-6xl px-5 pb-16 pt-28 md:pb-20 md:pt-36">
         <div class="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
           <div>
-            <span class="inline-flex items-center gap-2 rounded-full border border-border-violet bg-violet/10 px-3 py-1 text-sm font-medium text-violet-text">
+            <span class="cursor-ai inline-flex items-center gap-2 rounded-full border border-border-violet bg-violet/10 px-3 py-1 text-xs font-semibold tracking-[0.1em] text-violet-text">
               <span class="ai-pulse inline-block h-1.5 w-1.5 rounded-full bg-violet"></span>
-              AI-powered operating systems
+              AI-NATIVE OPERATING SYSTEMS
             </span>
 
             <h1 class="mt-5 text-h1 text-white">
@@ -77,20 +77,14 @@ const steps = [
             </h1>
 
             <p class="mt-6 max-w-xl leading-relaxed text-text-dim">
-              Follow-ups drop. Handoffs break. The Monday report takes half of Monday. Duten Nexa
-              builds the operating systems that let 5 to 200-person companies scale without the
-              chaos scaling with them, with a ClickUp command center, connected tools, live
-              dashboards, and AI agents doing the busywork.
+              Follow-ups drop. Handoffs break. We build the intelligent operating system that
+              scales, so the chaos doesn't.
             </p>
 
             <div class="mt-8 flex flex-wrap gap-4">
-              <a href="/audit" class={btnPrimary}>Book an Automation Audit</a>
-              <a href="/scorecard" class={btnSecondary}>Take the 2-Minute Scorecard</a>
+              <a href="/audit" class={`cursor-button ${btnPrimary}`}>Book an Automation Audit →</a>
+              <a href="/scorecard" class={`cursor-button ${btnSecondary}`}>Take the Scorecard</a>
             </div>
-
-            <p class="mt-6 text-sm text-text-faint">
-              Trusted by founders in the US, UK, Switzerland, and Australia.
-            </p>
 
             <div class="mt-10 flex flex-wrap gap-x-10 gap-y-6">
               <div>
@@ -116,11 +110,14 @@ const steps = [
           </div>
 
           <div class="flex justify-center">
-            <HeroStack />
+            <HeroTopology />
           </div>
         </div>
       </div>
     </section>
+
+    <!-- 1a. Tool logo strip -->
+    <ToolLogoStrip />
 
     <!-- 2. The problem -->
     <section class="bg-navy py-20 md:py-28">
@@ -137,9 +134,9 @@ const steps = [
         <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2">
           {painCards.map((card, i) => (
             <div
-              class="reveal rounded-xl border border-border-soft bg-surface-card p-6 transition-[transform,border-color] duration-300 hover:-translate-y-1 hover:border-teal"
+              class="tilt-card reveal rounded-xl border border-border-soft bg-surface-card p-6 transition-[border-color] duration-200"
               data-reveal
-              data-reveal-delay={i + 1}
+              style={`transition-delay:${i * 90}ms`}
             >
               <h3 class="text-lg font-semibold text-white">{card.title}</h3>
               <p class="mt-3 text-sm text-text-dim">{card.body}</p>
@@ -149,44 +146,11 @@ const steps = [
       </div>
     </section>
 
-    <!-- 3. What we build -->
-    <section class="bg-gradient-to-b from-navy to-navy-800 py-20 md:py-28" data-os-section>
-      <div class="mx-auto max-w-6xl px-5">
-        <div class="reveal max-w-2xl" data-reveal>
-          <h2 class="text-h2 text-white">
-            You don't need more tools. You need the ones you have to work together.
-          </h2>
-          <p class="mt-4 text-text-dim">We build one thing: an operating system. It has four layers.</p>
-        </div>
-
-        <div class="mt-12">
-          <OSLayers />
-        </div>
-
-        <p class="reveal mt-12 text-center text-lg font-medium text-white" data-reveal>
-          One story, one spine, not nine services.
-        </p>
-      </div>
-    </section>
-
-    <!-- 3b. Live AI advisor (see the AI layer work) -->
-    <section class="bg-navy-800 pb-20 md:pb-28">
-      <div class="mx-auto max-w-6xl px-5">
-        <div class="reveal mx-auto max-w-2xl text-center" data-reveal>
-          <h2 class="text-h2 text-white">See the AI layer work.</h2>
-          <p class="mt-4 text-text-dim">
-            Tell our automation advisor your biggest operational bottleneck. It will point you at
-            what to automate first, the same way our audit does.
-          </p>
-        </div>
-        <div class="mt-10">
-          <AutomationAdvisor />
-        </div>
-      </div>
-    </section>
+    <!-- 3. What we build (pinned scrollytelling sequence) -->
+    <PinnedSequence />
 
     <!-- 4. Proof strip -->
-    <section class="overflow-hidden bg-navy py-20 md:py-28">
+    <section id="proof" class="overflow-hidden bg-navy py-20 md:py-28">
       <div class="mx-auto max-w-6xl px-5">
         <h2 class="reveal text-h2 text-white" data-reveal>Founders like you, work we've shipped.</h2>
       </div>
@@ -196,7 +160,7 @@ const steps = [
     </section>
 
     <!-- 5. How it works -->
-    <section class="bg-navy-800 py-20 md:py-28">
+    <section id="how-it-works" class="bg-navy-800 py-20 md:py-28">
       <div class="mx-auto max-w-6xl px-5">
         <h2 class="reveal text-h2 text-center text-white" data-reveal>Three steps. No surprises.</h2>
 
@@ -210,7 +174,7 @@ const steps = [
               <div
                 class="reveal relative rounded-xl border border-border-soft bg-surface-card p-6"
                 data-reveal
-                data-reveal-delay={i + 1}
+                style={`transition-delay:${i * 120}ms`}
               >
                 <span class="grad-text text-sm font-bold">{step.number}</span>
                 <h3 class="mt-2 text-lg font-semibold text-white">{step.title} - {step.subtitle}</h3>
@@ -225,43 +189,62 @@ const steps = [
     <!-- 6. Featured case study (AI-tinted) -->
     <section class="bg-navy py-20 md:py-28">
       <div class="mx-auto max-w-6xl px-5">
-        <div class="reveal overflow-hidden rounded-2xl bg-grad-ai p-8 md:p-12" data-reveal>
-          <p class="text-sm font-semibold uppercase tracking-wide text-mint">Case study, Nerbugs · USA</p>
-          <blockquote class="mt-4 max-w-3xl text-h2 text-white">
-            &ldquo;The pipeline stopped leaking.&rdquo;
-          </blockquote>
-          <p class="mt-4 max-w-2xl text-text-dim">
-            They optimized our ClickUp workspace, integrated Apollo CRM, and built automations
-            that now handle our follow-ups automatically. The live dashboards completely changed
-            how we make decisions.
-            <span class="mt-2 block text-sm text-text-faint">Dr. Ronak Mehta, Founder, Nerbugs</span>
-          </p>
-          <a href="/case-studies/nerbugs" class="mt-6 inline-block font-medium text-mint hover:underline">
-            Read the case study →
-          </a>
+        <div
+          class="cursor-ai tilt-lift reveal relative overflow-hidden rounded-2xl bg-grad-ai p-8 md:p-12"
+          data-reveal
+        >
+          <div class="case-particles pointer-events-none absolute inset-0 overflow-hidden" data-parallax="0.6" aria-hidden="true">
+            {[
+              { top: '12%', left: '18%', size: 5, dur: 6.5 },
+              { top: '68%', left: '8%', size: 3, dur: 8 },
+              { top: '30%', left: '85%', size: 4, dur: 7.2 },
+              { top: '80%', left: '92%', size: 6, dur: 5.8 },
+              { top: '50%', left: '48%', size: 3, dur: 9 },
+              { top: '15%', left: '60%', size: 4, dur: 6.8 },
+            ].map((p) => (
+              <span
+                class="case-particle absolute"
+                style={`top:${p.top}; left:${p.left}; width:${p.size}px; height:${p.size}px; animation-duration:${p.dur}s`}
+              ></span>
+            ))}
+          </div>
+          <div class="relative">
+            <p class="text-sm font-semibold uppercase tracking-wide text-mint">Case study, Nerbugs · USA</p>
+            <blockquote class="mt-4 max-w-3xl text-h2 text-white">
+              &ldquo;The pipeline stopped leaking.&rdquo;
+            </blockquote>
+            <p class="mt-4 max-w-2xl text-text-dim">
+              Optimized ClickUp workspace, Apollo CRM integration, Make automations for follow-up
+              emails and sales workflows, and live sales dashboards for real-time decisions.
+              <span class="mt-2 block text-sm text-text-faint">Dr. Ronak Mehta, Founder, Nerbugs</span>
+            </p>
+            <a href="/case-studies/nerbugs" class="cursor-link mt-6 inline-block font-medium text-mint hover:underline">
+              Read the case study →
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- 7. Final CTA band -->
-    <section class="bg-navy">
+    <section class="overflow-hidden bg-navy">
       <div class="grid grid-cols-1 md:grid-cols-2">
-        <div class="bg-grad-accent px-6 py-16 sm:px-10 md:px-16">
+        <div class="reveal-left bg-grad-accent px-6 py-16 sm:px-10 md:px-16" data-reveal>
           <p class="max-w-md text-xl font-semibold text-navy">
             You've spent months guessing at what to fix. Spend 5 days actually knowing.
           </p>
           <a
             href="/audit"
-            class="mt-8 inline-flex items-center justify-center rounded-lg bg-navy px-6 py-3 font-medium text-white transition-[transform,filter] duration-200 hover:scale-[1.02] hover:brightness-110"
+            class="cursor-button mt-8 inline-flex w-full min-h-[52px] items-center justify-center rounded-lg bg-navy px-6 py-3 font-medium text-white transition-[filter] duration-200 hover:brightness-110 sm:w-auto"
           >
             Book an Automation Audit
           </a>
         </div>
-        <div class="bg-navy px-6 py-16 sm:px-10 md:px-16">
+        <div class="reveal-right bg-navy px-6 py-16 sm:px-10 md:px-16" data-reveal>
           <p class="max-w-md text-xl font-semibold text-white">
             Not sure you're ready? Take the 2-minute Automation Readiness Scorecard.
           </p>
-          <a href="/scorecard" class={`mt-8 ${btnSecondary}`}>Take the Scorecard</a>
+          <a href="/scorecard" class={`cursor-button mt-8 ${btnSecondary}`}>Take the Scorecard</a>
         </div>
       </div>
     </section>
