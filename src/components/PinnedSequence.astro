@@ -28,7 +28,7 @@ const frames = [
 ---
 
 <section id="what-we-build" class="bg-gradient-to-b from-navy to-navy-800">
-  <div class="mx-auto max-w-6xl px-5 pt-20 md:pt-28">
+  <div class="mx-auto max-w-6xl px-5 pt-16 md:pt-24">
     <div class="reveal mx-auto max-w-2xl text-center" data-reveal>
       <h2 class="text-h2 text-white">
         You don't need more tools. You need the ones you have to work together.
@@ -40,22 +40,38 @@ const frames = [
   <!-- Desktop / tablet: pinned crossfade sequence. Section is tall (400vh);
        the inner wrapper sticks to the viewport while the user scrolls
        through it, and motion.js toggles which frame is .active based on
-       scroll progress. Frame 4 (AI) gets 15% more scroll length. -->
+       scroll progress. Frame 4 (AI) gets 15% more scroll length.
+       A small persistent eyebrow + progress bar stay pinned alongside the
+       frame the whole time, so it never reads as a card floating with no
+       context once the full heading above has scrolled out of view. -->
   <div class="pin-outer hidden md:block" data-pin-section>
     <div class="pin-sticky">
-      <div class="relative mx-auto h-80 w-full max-w-xl px-5">
-        {frames.map((f, i) => (
-          <div class={`pin-frame ${f.ai ? 'ai-bloom cursor-ai' : ''}`} data-pin-frame>
-            <div class={`mx-auto max-w-lg rounded-2xl border p-8 text-center ${f.ai ? 'border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}>
-              <span class={`text-xs font-semibold tracking-[0.14em] ${f.ai ? 'text-violet-text' : 'text-teal'}`}>
-                0{i + 1} / 04
-              </span>
-              <h3 class={`mt-3 text-2xl font-bold ${f.ai ? 'text-violet-text' : 'text-white'}`}>{f.title}</h3>
-              <p class="mt-1 text-sm text-text-faint">{f.tag}</p>
-              <p class="mt-4 text-text-dim">{f.body}</p>
+      <div class="mx-auto w-full max-w-2xl px-5 text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-text-faint">What we build</p>
+
+        <div class="relative mt-8 h-96">
+          {frames.map((f, i) => (
+            <div class={`pin-frame ${f.ai ? 'ai-bloom cursor-ai' : ''}`} data-pin-frame>
+              <div class={`mx-auto w-full max-w-xl rounded-2xl border p-10 md:p-12 ${f.ai ? 'border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}>
+                <span class={`text-xs font-semibold tracking-[0.2em] ${f.ai ? 'text-violet-text' : 'text-teal'}`}>
+                  0{i + 1} / 04
+                </span>
+                <h3 class={`mt-4 text-3xl font-bold md:text-4xl ${f.ai ? 'text-violet-text' : 'text-white'}`}>{f.title}</h3>
+                <p class="mt-2 text-base text-text-faint">{f.tag}</p>
+                <p class="mx-auto mt-6 max-w-md text-lg leading-relaxed text-text-dim">{f.body}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        <div class="mt-8 flex items-center justify-center gap-3" id="pin-progress">
+          {frames.map((f, i) => (
+            <span
+              class={`h-1.5 w-8 rounded-full transition-colors duration-300 ${f.ai ? 'bg-violet/25' : 'bg-white/15'}`}
+              data-pin-progress={i}
+            ></span>
+          ))}
+        </div>
       </div>
     </div>
   </div>
@@ -84,7 +100,7 @@ const frames = [
     </div>
   </div>
 
-  <div class="mx-auto max-w-6xl px-5 pb-20 md:pb-28">
+  <div class="mx-auto max-w-6xl px-5 pb-16 md:pb-24">
     <p class="reveal mt-4 text-center text-lg font-medium text-white" data-reveal>
       One story, one spine, not nine services.
     </p>
@@ -119,6 +135,12 @@ const frames = [
     background: var(--teal);
   }
   #swipe-pips span[data-pip='3'].active {
+    background: var(--violet);
+  }
+  #pin-progress span.active {
+    background: var(--teal);
+  }
+  #pin-progress span[data-pin-progress='3'].active {
     background: var(--violet);
   }
 

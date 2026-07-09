@@ -53,6 +53,7 @@ if (reduce) {
   }));
   const pinSection = document.querySelector('[data-pin-section]');
   const pinFrames = pinSection ? [...pinSection.querySelectorAll('[data-pin-frame]')] : [];
+  const pinProgressDots = pinSection ? [...pinSection.querySelectorAll('[data-pin-progress]')] : [];
   // 4 frames; frame 4 (AI) gets 15% more scroll-length than frames 1-3.
   const pinBoundaries = [0, 0.241, 0.482, 0.7229, 1];
   const meshEl = document.querySelector('[data-mesh]');
@@ -146,6 +147,7 @@ if (reduce) {
           }
         }
         pinFrames.forEach((f, i) => f.classList.toggle('active', i === activeIdx));
+        pinProgressDots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
       }
 
       dirty = false;
