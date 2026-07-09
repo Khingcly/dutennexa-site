@@ -171,20 +171,27 @@
   transform: translateY(-6px);
 }
 
-/* --- Pinned "what we build" sequence: cascading card stack. Each frame is
-   a separate, physically offset card; motion.js sets transform/opacity
-   inline per-card based on its depth from the active index, and this
-   transition animates between those states as depth changes on scroll. --- */
+/* --- Pinned "what we build" sequence: orbit ring. Each frame sits on a
+   circle around a shared center; motion.js sets the outer frame's
+   translate/rotate inline every scroll tick from a continuously-computed
+   angle, so this transition is a short smoothing lag on top of that, not a
+   discrete-state swap. The frame that's angularly closest to "front" shows
+   its full orbit-card; every other frame collapses to a small orbit-node
+   pill, so the ring reads as clean small nodes with one card expanded. --- */
 .pin-frame {
-  opacity: 0;
-  transform: scale(0.96);
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
+  transition: transform 0.15s linear;
   pointer-events: none;
 }
 .pin-frame.active {
   pointer-events: auto;
 }
-.pin-frame.ai-bloom {
+.orbit-card {
+  opacity: 0;
+}
+.orbit-node {
+  opacity: 1;
+}
+.ai-bloom {
   filter: drop-shadow(0 0 24px rgba(124, 92, 255, 0.35));
 }
 

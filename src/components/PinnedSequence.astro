@@ -37,32 +37,42 @@ const frames = [
     </div>
   </div>
 
-  <!-- Desktop / tablet: pinned card-stack sequence. Section is tall (400vh);
+  <!-- Desktop / tablet: pinned orbit sequence. Section is tall (400vh);
        the inner wrapper sticks to the viewport while the user scrolls
-       through it. All 4 frames are real, separate, physically offset card
-       elements, not one card crossfading in place: motion.js computes each
-       card's "depth" (its index relative to the active one) every scroll
-       tick and sets transform/opacity directly, so upcoming cards fan out
-       behind the active one (peeking, rotated, smaller) and passed cards
-       flick up and away as you scroll past them.
+       through it. All 4 frames sit on a circle around a shared center point,
+       echoing the hub-and-spoke topology diagram in the hero: motion.js
+       computes each card's angle from continuous scroll progress and pulls
+       whichever card is angularly closest to "front" into the center at
+       full size and opacity, while the other 3 stay out on the ring,
+       smaller and dimmer. As you scroll, the whole ring rotates so each
+       card takes its turn passing through the center.
        A small persistent eyebrow + progress bar stay pinned alongside the
-       stack the whole time, so it never reads as a card floating with no
+       ring the whole time, so it never reads as a card floating with no
        context once the full heading above has scrolled out of view. -->
   <div class="pin-outer hidden md:block" data-pin-section>
     <div class="pin-sticky">
-      <div class="mx-auto w-full max-w-2xl px-5 text-center">
+      <div class="mx-auto w-full max-w-3xl px-5 text-center">
         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-text-faint">What we build</p>
 
-        <div class="relative mt-8 h-96">
+        <div class="relative mt-8 h-[480px]" data-pin-stage>
+          <div class="orbit-ring pointer-events-none absolute left-1/2 top-1/2 -z-10 rounded-full border border-dashed border-white/10" aria-hidden="true"></div>
           {frames.map((f, i) => (
-            <div class={`pin-frame ${f.ai ? 'ai-bloom cursor-ai' : ''}`} data-pin-frame>
-              <div class={`mx-auto w-full max-w-xl rounded-2xl border p-10 shadow-2xl shadow-navy-900/60 md:p-12 ${f.ai ? 'border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}>
-                <span class={`text-xs font-semibold tracking-[0.2em] ${f.ai ? 'text-violet-text' : 'text-teal'}`}>
-                  0{i + 1} / 04
-                </span>
-                <h3 class={`mt-4 text-3xl font-bold md:text-4xl ${f.ai ? 'text-violet-text' : 'text-white'}`}>{f.title}</h3>
-                <p class="mt-2 text-base text-text-faint">{f.tag}</p>
-                <p class="mx-auto mt-6 max-w-md text-lg leading-relaxed text-text-dim">{f.body}</p>
+            <div class={`pin-frame ${f.ai ? 'cursor-ai' : ''}`} data-pin-frame>
+              <div class="orbit-card" data-orbit-card>
+                <div class={`w-full max-w-sm rounded-2xl border p-8 shadow-2xl shadow-navy-900/60 md:p-9 ${f.ai ? 'ai-bloom border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}>
+                  <span class={`text-xs font-semibold tracking-[0.2em] ${f.ai ? 'text-violet-text' : 'text-teal'}`}>
+                    0{i + 1} / 04
+                  </span>
+                  <h3 class={`mt-4 text-3xl font-bold md:text-4xl ${f.ai ? 'text-violet-text' : 'text-white'}`}>{f.title}</h3>
+                  <p class="mt-2 text-base text-text-faint">{f.tag}</p>
+                  <p class="mx-auto mt-6 max-w-md text-lg leading-relaxed text-text-dim">{f.body}</p>
+                </div>
+              </div>
+              <div class="orbit-node" data-orbit-node aria-hidden="true">
+                <div class={`flex items-center gap-2 rounded-full border px-4 py-2 shadow-lg shadow-navy-900/50 ${f.ai ? 'border-border-violet bg-violet/15' : 'border-border-teal bg-surface-card'}`}>
+                  <span class={`h-2 w-2 shrink-0 rounded-full ${f.ai ? 'bg-violet' : 'bg-teal'}`}></span>
+                  <span class="whitespace-nowrap text-sm font-semibold text-white">{f.title}</span>
+                </div>
               </div>
             </div>
           ))}
@@ -127,9 +137,24 @@ const frames = [
   .pin-frame {
     position: absolute;
     inset: 0;
+    padding: 0 1.25rem;
+  }
+  .orbit-card,
+  .orbit-node {
+    position: absolute;
+    inset: 0;
     display: flex;
     align-items: center;
-    padding: 0 1.25rem;
+    justify-content: center;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  .orbit-node {
+    pointer-events: none;
+  }
+  .orbit-ring {
+    width: 460px;
+    height: 460px;
+    transform: translate(-50%, -50%);
   }
 
   .swipe-card {
@@ -160,10 +185,17 @@ const frames = [
     }
     .pin-frame {
       position: static !important;
+      margin-bottom: 1.5rem;
+    }
+    .orbit-card {
+      position: static !important;
       opacity: 1 !important;
       transform: none !important;
       filter: none !important;
-      margin-bottom: 1.5rem;
+    }
+    .orbit-node,
+    .orbit-ring {
+      display: none !important;
     }
   }
 </style>

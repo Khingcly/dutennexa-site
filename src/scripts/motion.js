@@ -53,6 +53,8 @@ if (reduce) {
   }));
   const pinSection = document.querySelector('[data-pin-section]');
   const pinFrames = pinSection ? [...pinSection.querySelectorAll('[data-pin-frame]')] : [];
+  const pinCards = pinFrames.map((f) => f.querySelector('[data-orbit-card]'));
+  const pinNodes = pinFrames.map((f) => f.querySelector('[data-orbit-node]'));
   const pinProgressDots = pinSection ? [...pinSection.querySelectorAll('[data-pin-progress]')] : [];
   // 4 frames; frame 4 (AI) gets 15% more scroll-length than frames 1-3.
   const pinBoundaries = [0, 0.241, 0.482, 0.7229, 1];
@@ -134,41 +136,78 @@ if (reduce) {
 
       // Effect D(a): pinned "what we build" sequence. pin-outer is 400vh tall;
       // while it's pinned, rect.top runs from 0 down to -(height - 100vh).
-      // Map that to 0..1 and pick which frame's stage we're in.
+      // Map that to 0..1, then to a ring rotation angle (piecewise-linear
+      // across pinBoundaries so the AI frame keeps its extra dwell time).
       if (pinSection && pinFrames.length) {
         const rect = pinSection.getBoundingClientRect();
         const total = rect.height - window.innerHeight;
         const prog = total > 0 ? Math.max(0, Math.min(1, -rect.top / total)) : 0;
-        let activeIdx = pinBoundaries.length - 2;
-        for (let i = 0; i < pinBoundaries.length - 1; i++) {
-          if (prog < pinBoundaries[i + 1]) {
-            activeIdx = i;
+
+        const n = pinFrames.length;
+        const anglePerCard = 360 / n;
+        const segAngles = [0, 90, 180, 270];
+        let rotation = segAngles[segAngles.length - 1];
+        for (let k = 0; k < pinBoundaries.length - 2; k++) {
+          if (prog <= pinBoundaries[k + 1]) {
+            const segStart = pinBoundaries[k];
+            const segEnd = pinBoundaries[k + 1];
+            const localT = segEnd > segStart ? (prog - segStart) / (segEnd - segStart) : 1;
+            rotation = segAngles[k] + localT * (segAngles[k + 1] - segAngles[k]);
             break;
           }
         }
-        // Cascading card stack: each frame is a real, separate card offset
-        // by its depth from the active card. depth 0 = front and centered;
-        // depth > 0 = upcoming cards fanned out behind, peeking; depth < 0
-        // = passed cards flicked up and away.
-        pinFrames.forEach((f, i) => {
-          const depth = i - activeIdx;
-          f.classList.toggle('active', depth === 0);
-          if (depth === 0) {
-            f.style.transform = 'translateY(0) scale(1) rotate(0deg)';
-            f.style.opacity = '1';
-            f.style.zIndex = '10';
-          } else if (depth > 0) {
-            const d = Math.min(depth, 3);
-            f.style.transform = `translateY(${d * 16}px) scale(${1 - d * 0.05}) rotate(${d * 2}deg)`;
-            f.style.opacity = String(Math.max(0.12, 0.58 - d * 0.18));
-            f.style.zIndex = String(10 - d);
-          } else {
-            const d = Math.min(-depth, 3);
-            f.style.transform = `translateY(${-d * 48}px) scale(${1 - d * 0.02}) rotate(${-d * 3}deg)`;
-            f.style.opacity = '0';
-            f.style.zIndex = String(6 - d);
+
+        // Orbit ring: every card sits on a circle around a shared center.
+        // Whichever card is angularly closest to "front" (0deg) expands
+        // into its full readable card at the center; the rest collapse to
+        // small title pills out on the ring, continuously repositioning as
+        // the ring rotation advances with scroll.
+        const baseRadius = 230;
+        const settleWindow = 0.12; // normDist span over which a card leaves/reaches the center
+        let activeIdx = 0;
+        let bestDist = Infinity;
+        const computed = pinFrames.map((f, i) => {
+          const baseAngle = i * anglePerCard;
+          let angle = baseAngle - rotation;
+          angle = ((angle % 360) + 360) % 360;
+          const signed = angle > 180 ? angle - 360 : angle;
+          const normDist = Math.abs(signed) / 180;
+          if (normDist < bestDist) {
+            bestDist = normDist;
+            activeIdx = i;
+          }
+          return { f, signed, normDist };
+        });
+
+        computed.forEach(({ f, signed, normDist }, i) => {
+          // Quick-ramp easing: a card is either at the center (t=0) or
+          // fully out on the ring (t=1), with only a brief settleWindow
+          // spent in between, so peripheral cards never linger at a
+          // half-radius that would sit inside the expanded center card.
+          const t = Math.min(normDist / settleWindow, 1);
+          const eased = t * t * (3 - 2 * t);
+          const radius = baseRadius * eased;
+          const rad = (signed * Math.PI) / 180;
+          const x = radius * Math.sin(rad);
+          const y = -radius * Math.cos(rad);
+          const tilt = signed * 0.06;
+          f.style.transform = `translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${tilt.toFixed(1)}deg)`;
+          f.style.zIndex = String(Math.round((1 - eased) * 100));
+
+          const cardOpacity = 1 - eased;
+          const nodeOpacity = eased;
+          const card = pinCards[i];
+          const node = pinNodes[i];
+          if (card) {
+            card.style.opacity = cardOpacity.toFixed(2);
+            card.style.transform = `scale(${(0.85 + cardOpacity * 0.15).toFixed(3)})`;
+          }
+          if (node) {
+            node.style.opacity = nodeOpacity.toFixed(2);
           }
         });
+
+        pinFrames.forEach((f, i) => f.classList.toggle('active', i === activeIdx));
         pinProgressDots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
       }
 
