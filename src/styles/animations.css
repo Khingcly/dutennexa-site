@@ -171,15 +171,18 @@
   transform: translateY(-6px);
 }
 
-/* --- Pinned "what we build" sequence frames --- */
+/* --- Pinned "what we build" sequence: cascading card stack. Each frame is
+   a separate, physically offset card; motion.js sets transform/opacity
+   inline per-card based on its depth from the active index, and this
+   transition animates between those states as depth changes on scroll. --- */
 .pin-frame {
   opacity: 0;
   transform: scale(0.96);
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.45s ease;
+  pointer-events: none;
 }
 .pin-frame.active {
-  opacity: 1;
-  transform: scale(1);
+  pointer-events: auto;
 }
 .pin-frame.ai-bloom {
   filter: drop-shadow(0 0 24px rgba(124, 92, 255, 0.35));

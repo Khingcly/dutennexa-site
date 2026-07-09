@@ -146,7 +146,29 @@ if (reduce) {
             break;
           }
         }
-        pinFrames.forEach((f, i) => f.classList.toggle('active', i === activeIdx));
+        // Cascading card stack: each frame is a real, separate card offset
+        // by its depth from the active card. depth 0 = front and centered;
+        // depth > 0 = upcoming cards fanned out behind, peeking; depth < 0
+        // = passed cards flicked up and away.
+        pinFrames.forEach((f, i) => {
+          const depth = i - activeIdx;
+          f.classList.toggle('active', depth === 0);
+          if (depth === 0) {
+            f.style.transform = 'translateY(0) scale(1) rotate(0deg)';
+            f.style.opacity = '1';
+            f.style.zIndex = '10';
+          } else if (depth > 0) {
+            const d = Math.min(depth, 3);
+            f.style.transform = `translateY(${d * 16}px) scale(${1 - d * 0.05}) rotate(${d * 2}deg)`;
+            f.style.opacity = String(Math.max(0.12, 0.58 - d * 0.18));
+            f.style.zIndex = String(10 - d);
+          } else {
+            const d = Math.min(-depth, 3);
+            f.style.transform = `translateY(${-d * 48}px) scale(${1 - d * 0.02}) rotate(${-d * 3}deg)`;
+            f.style.opacity = '0';
+            f.style.zIndex = String(6 - d);
+          }
+        });
         pinProgressDots.forEach((d, i) => d.classList.toggle('active', i === activeIdx));
       }
 

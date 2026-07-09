@@ -37,12 +37,16 @@ const frames = [
     </div>
   </div>
 
-  <!-- Desktop / tablet: pinned crossfade sequence. Section is tall (400vh);
+  <!-- Desktop / tablet: pinned card-stack sequence. Section is tall (400vh);
        the inner wrapper sticks to the viewport while the user scrolls
-       through it, and motion.js toggles which frame is .active based on
-       scroll progress. Frame 4 (AI) gets 15% more scroll length.
+       through it. All 4 frames are real, separate, physically offset card
+       elements, not one card crossfading in place: motion.js computes each
+       card's "depth" (its index relative to the active one) every scroll
+       tick and sets transform/opacity directly, so upcoming cards fan out
+       behind the active one (peeking, rotated, smaller) and passed cards
+       flick up and away as you scroll past them.
        A small persistent eyebrow + progress bar stay pinned alongside the
-       frame the whole time, so it never reads as a card floating with no
+       stack the whole time, so it never reads as a card floating with no
        context once the full heading above has scrolled out of view. -->
   <div class="pin-outer hidden md:block" data-pin-section>
     <div class="pin-sticky">
@@ -52,7 +56,7 @@ const frames = [
         <div class="relative mt-8 h-96">
           {frames.map((f, i) => (
             <div class={`pin-frame ${f.ai ? 'ai-bloom cursor-ai' : ''}`} data-pin-frame>
-              <div class={`mx-auto w-full max-w-xl rounded-2xl border p-10 md:p-12 ${f.ai ? 'border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}>
+              <div class={`mx-auto w-full max-w-xl rounded-2xl border p-10 shadow-2xl shadow-navy-900/60 md:p-12 ${f.ai ? 'border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}>
                 <span class={`text-xs font-semibold tracking-[0.2em] ${f.ai ? 'text-violet-text' : 'text-teal'}`}>
                   0{i + 1} / 04
                 </span>
