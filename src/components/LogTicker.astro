@@ -13,7 +13,13 @@ const LINES = [
 
 <div class="log-ticker relative hidden w-full max-w-sm overflow-hidden rounded-xl border border-border-teal bg-surface-card p-3 backdrop-blur-sm sm:block" data-lines={JSON.stringify(LINES)}>
   <div class="scan-sweep pointer-events-none absolute inset-0"></div>
-  <div id="log-ticker-rows" class="relative flex flex-col gap-2"></div>
+  <div id="log-ticker-rows" class="relative flex flex-col gap-2">
+    {LINES.slice(0, 3).map((line) => (
+      <div class="ticker-row in">
+        <span class="ticker-icon">{line.icon}</span><span>{line.text}</span><span class="ticker-age">{line.age}</span>
+      </div>
+    ))}
+  </div>
 </div>
 <p class="mt-2 hidden text-[11px] text-text-faint sm:block">Sample activity, illustrative only</p>
 
@@ -83,12 +89,10 @@ const LINES = [
       return el;
     }
 
-    let i = 0;
-    for (; i < Math.min(VISIBLE, lines.length); i++) {
-      const row = renderRow(lines[i]);
-      rows.appendChild(row);
-      requestAnimationFrame(() => row.classList.add('in'));
-    }
+    // The first VISIBLE rows are already server-rendered (progressive
+    // enhancement, no-JS/slow-connection visitors still see real content).
+    // Start rotation from the next line rather than re-creating them.
+    let i = Math.min(VISIBLE, lines.length);
 
     if (!reduce && lines.length > VISIBLE) {
       setInterval(() => {
