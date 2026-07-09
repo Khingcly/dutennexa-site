@@ -159,6 +159,10 @@ const frames = [
 
   .swipe-card {
     scroll-snap-stop: always;
+    transition: transform 0.2s ease, opacity 0.2s ease, box-shadow 0.2s ease;
+  }
+  .swipe-card.is-active {
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.35);
   }
   #swipe-pips span.active {
     background: var(--teal);
@@ -203,6 +207,7 @@ const frames = [
 <script>
   const deck = document.getElementById('swipe-deck');
   const pips = document.querySelectorAll('#swipe-pips [data-pip]');
+  const reduceSwipe = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (deck && pips.length) {
     const cards = [...deck.querySelectorAll('[data-swipe-index]')];
     let ticking = false;
@@ -217,8 +222,17 @@ const frames = [
           closestDist = dist;
           closest = i;
         }
+        if (!reduceSwipe) {
+          // Coverflow-lite: the card nearest the snap center sits full size
+          // and opacity; cards drifting toward the edges shrink and dim,
+          // continuously tracking native scroll position (no scroll-jacking).
+          const t = Math.min(dist / el.offsetWidth, 1);
+          el.style.transform = `scale(${(1 - t * 0.12).toFixed(3)})`;
+          el.style.opacity = Math.max(0.45, 1 - t * 0.55).toFixed(2);
+        }
       });
       pips.forEach((p, i) => p.classList.toggle('active', i === closest));
+      cards.forEach((card, i) => card.classList.toggle('is-active', i === closest));
       ticking = false;
     };
     update();
