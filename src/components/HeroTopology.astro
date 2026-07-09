@@ -1,12 +1,17 @@
 ---
 import LogTicker from './LogTicker.astro';
+// Real, official brand marks (simple-icons, CC0) so each node reads as a
+// recognizable tool at a glance instead of a text label you have to parse,
+// same sourcing rule as ToolLogoStrip/PinnedSequence: real marks only.
+import { siClickup, siMake, siGooglesheets } from 'simple-icons';
 
 const nodes = [
-  { key: 'clickup', title: 'ClickUp', subtitle: 'the command center', x: 10, y: 10, ai: false, delay: 0 },
-  { key: 'make', title: 'Make', subtitle: 'the nervous system', x: 175, y: 10, ai: false, delay: 0.6 },
-  { key: 'dashboards', title: 'Dashboards', subtitle: 'the eyes', x: 10, y: 390, ai: false, delay: 1.2 },
-  { key: 'ai', title: 'AI agents', subtitle: 'the muscle', x: 175, y: 390, ai: true, delay: 1.8 },
+  { key: 'clickup', title: 'ClickUp', subtitle: 'the command center', x: 10, y: 10, ai: false, delay: 0, icon: siClickup },
+  { key: 'make', title: 'Make', subtitle: 'the nervous system', x: 175, y: 10, ai: false, delay: 0.6, icon: siMake },
+  { key: 'dashboards', title: 'Dashboards', subtitle: 'the eyes', x: 10, y: 390, ai: false, delay: 1.2, icon: siGooglesheets },
+  { key: 'ai', title: 'AI agents', subtitle: 'the muscle', x: 175, y: 390, ai: true, delay: 1.8, icon: null },
 ];
+const SPARKLE = 'M12 2 L14 9 L21 11 L14 13 L12 20 L10 13 L3 11 L10 9 Z';
 const NODE_W = 155;
 const NODE_H = 80;
 const HUB = { x: 170, y: 240, r: 22 };
@@ -67,10 +72,25 @@ function center(n: { x: number; y: number }) {
             fill={n.ai ? 'rgba(124,92,255,0.14)' : 'var(--surface-card)'}
             stroke={n.ai ? 'var(--border-violet)' : 'var(--border-teal)'}
           />
-          <text x={n.x + 18} y={n.y + 32} font-size="16" font-weight="700" fill={n.ai ? 'var(--violet-text)' : 'var(--white)'}>
+          {n.icon ? (
+            <>
+              <circle cx={n.x + 22} cy={n.y + 21} r="11" fill="white" />
+              <g transform={`translate(${n.x + 14.5}, ${n.y + 13.5}) scale(0.625)`}>
+                <path d={n.icon.path} fill={`#${n.icon.hex}`} />
+              </g>
+            </>
+          ) : (
+            <>
+              <circle cx={n.x + 22} cy={n.y + 21} r="11" fill="rgba(124,92,255,0.18)" stroke="var(--border-violet)" />
+              <g transform={`translate(${n.x + 14.5}, ${n.y + 13.5}) scale(0.625)`}>
+                <path d={SPARKLE} fill="var(--violet-text)" />
+              </g>
+            </>
+          )}
+          <text x={n.x + 18} y={n.y + 48} font-size="16" font-weight="700" fill={n.ai ? 'var(--violet-text)' : 'var(--white)'}>
             {n.title}
           </text>
-          <text x={n.x + 18} y={n.y + 54} font-size="12" fill="var(--text-dim)">
+          <text x={n.x + 18} y={n.y + 68} font-size="12" fill="var(--text-dim)">
             {n.subtitle}
           </text>
         </g>
@@ -96,10 +116,25 @@ function center(n: { x: number; y: number }) {
             fill={n.ai ? 'rgba(124,92,255,0.14)' : 'var(--surface-card)'}
             stroke={n.ai ? 'var(--border-violet)' : 'var(--border-teal)'}
           />
-          <text x="28" y={10 + i * 100 + 30} font-size="15" font-weight="700" fill={n.ai ? 'var(--violet-text)' : 'var(--white)'}>
+          {n.icon ? (
+            <>
+              <circle cx="32" cy={10 + i * 100 + 16} r="10" fill="white" />
+              <g transform={`translate(25.5, ${10 + i * 100 + 9.5}) scale(0.57)`}>
+                <path d={n.icon.path} fill={`#${n.icon.hex}`} />
+              </g>
+            </>
+          ) : (
+            <>
+              <circle cx="32" cy={10 + i * 100 + 16} r="10" fill="rgba(124,92,255,0.18)" stroke="var(--border-violet)" />
+              <g transform={`translate(25.5, ${10 + i * 100 + 9.5}) scale(0.57)`}>
+                <path d={SPARKLE} fill="var(--violet-text)" />
+              </g>
+            </>
+          )}
+          <text x="28" y={10 + i * 100 + 40} font-size="15" font-weight="700" fill={n.ai ? 'var(--violet-text)' : 'var(--white)'}>
             {n.title}
           </text>
-          <text x="28" y={10 + i * 100 + 50} font-size="11" fill="var(--text-dim)">
+          <text x="28" y={10 + i * 100 + 58} font-size="11" fill="var(--text-dim)">
             {n.subtitle}
           </text>
         </>
