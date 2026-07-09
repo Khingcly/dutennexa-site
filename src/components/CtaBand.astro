@@ -1,0 +1,37 @@
+---
+// Final dual-panel CTA band, shared between the homepage and interior pages.
+// Defaults reproduce the homepage's exact copy so <CtaBand /> with no props
+// is a drop-in match for what was previously hardcoded there.
+import { btnOnAccent, btnSecondary } from '../lib/ui';
+
+interface Props {
+  leftText?: string;
+  leftHref?: string;
+  leftLabel?: string;
+  rightText?: string;
+  rightHref?: string;
+  rightLabel?: string;
+}
+
+const {
+  leftText = "You've spent months guessing at what to fix. Spend 5 days actually knowing.",
+  leftHref = '/audit',
+  leftLabel = 'Book an Automation Audit',
+  rightText = "Not sure you're ready? Take the 2-minute Automation Readiness Scorecard.",
+  rightHref = '/scorecard',
+  rightLabel = 'Take the Scorecard',
+} = Astro.props;
+---
+
+<section class="overflow-hidden bg-navy">
+  <div class="grid grid-cols-1 md:grid-cols-2">
+    <div class="reveal-left bg-grad-accent px-6 py-16 sm:px-10 md:px-16" data-reveal>
+      <p class="max-w-md text-xl font-semibold text-navy">{leftText}</p>
+      <a href={leftHref} class={`cursor-button mt-8 ${btnOnAccent}`}>{leftLabel}</a>
+    </div>
+    <div class="reveal-right bg-navy px-6 py-16 sm:px-10 md:px-16" data-reveal>
+      <p class="max-w-md text-xl font-semibold text-white">{rightText}</p>
+      <a href={rightHref} class={`cursor-button mt-8 ${btnSecondary}`}>{rightLabel}</a>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,82 @@
+---
+// Plain, calm legal page - see privacy.astro for the same styling notes.
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Terms of Service - Duten Nexa"
+  description="The terms governing use of this site and engagements with Duten Nexa."
+>
+  <Nav />
+  <main class="bg-navy py-28 md:py-36">
+    <div class="mx-auto max-w-2xl px-5">
+      <h1 class="text-h1 text-white">Terms of Service</h1>
+      <p class="mt-2 text-sm text-text-faint">Last updated: [NEEDS INPUT: date of legal sign-off]</p>
+
+      <div class="mt-6 rounded-lg border border-teal/40 bg-teal/10 px-5 py-4 text-sm text-teal">
+        This policy is pending final legal review.
+      </div>
+
+      <div class="mt-10 space-y-10 text-text-dim">
+        <section>
+          <h2 class="text-lg font-semibold text-white">Using this site</h2>
+          <p class="mt-3 leading-relaxed">
+            You're welcome to read, use, and share it. The content, brand, and design are Duten Nexa's, don't
+            republish them as your own.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">What we offer</h2>
+          <p class="mt-3 leading-relaxed">
+            Services described on this site are indicative. Pricing is a starting point; scope, timeline, and
+            price are confirmed in a written proposal before any engagement begins.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">No engagement without a signed proposal</h2>
+          <p class="mt-3 leading-relaxed">
+            Reading this site, filling a form, or booking an audit call does not create a services contract. A
+            signed proposal does.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">Third-party tools</h2>
+          <p class="mt-3 leading-relaxed">
+            We build on top of tools you own, ClickUp, Make, HubSpot, Power BI, and others. Your use of those
+            tools is governed by their own terms.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">Limitation</h2>
+          <p class="mt-3 leading-relaxed">
+            We build what we quote. Where we deliver a warranty (spelled out per engagement), we honor it. Beyond
+            that, no other warranties are implied. To the extent permitted by law, our liability in any dispute is
+            limited to the fees paid for the engagement in question.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">Governing law</h2>
+          <p class="mt-3 leading-relaxed">
+            These terms are governed by Nigerian law. Nothing here removes rights you have under the consumer laws
+            of your own country.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">Contact</h2>
+          <p class="mt-3 leading-relaxed">
+            <a href="mailto:admin@dutennexa.com" class="text-teal hover:underline">admin@dutennexa.com</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

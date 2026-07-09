@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { btnPrimary, btnSecondary } from '../lib/ui';
+---
+
+<Layout title="Page not found - Duten Nexa" description="This page doesn't exist.">
+  <Nav />
+  <main class="bg-grad-hero py-28 md:py-36">
+    <div class="mx-auto max-w-2xl px-5 text-center">
+      <h1 class="text-h1 text-white">This page doesn't exist. Your follow-up process might not either.</h1>
+      <p class="mt-6 leading-relaxed text-text-dim">
+        Broken links. Missing pages. Systems that only work if someone remembers. We fix those too.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <a href="/" class={`cursor-button ${btnPrimary}`}>Back to Home</a>
+        <a href="/audit" class={`cursor-button ${btnSecondary}`}>Book an Audit</a>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,42 @@
+---
+// Shared simple hero for interior pages (About, Contact, Blog, 404). Same
+// gradient background and typography as the homepage hero, minus the
+// topology diagram / log ticker, those are homepage-only devices.
+import { btnPrimary, btnSecondary } from '../lib/ui';
+
+interface Cta {
+  label: string;
+  href: string;
+  variant?: 'primary' | 'secondary';
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  sub: string;
+  ctas?: Cta[];
+}
+
+const { eyebrow, title, sub, ctas = [] } = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden bg-grad-hero">
+  <div class="relative z-10 mx-auto max-w-3xl px-5 pb-16 pt-28 text-center md:pb-20 md:pt-36">
+    {eyebrow && (
+      <span class="inline-flex items-center gap-2 rounded-full border border-border-teal bg-teal/10 px-3 py-1 text-xs font-semibold tracking-[0.1em] text-teal">
+        {eyebrow}
+      </span>
+    )}
+    <h1 class={`text-h1 text-white ${eyebrow ? 'mt-5' : ''}`}>{title}</h1>
+    <p class="mx-auto mt-6 max-w-xl leading-relaxed text-text-dim">{sub}</p>
+    {ctas.length > 0 && (
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        {ctas.map((c) => (
+          <a href={c.href} class={`cursor-button ${c.variant === 'secondary' ? btnSecondary : btnPrimary}`}>
+            {c.label}
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</section>

@@ -1,0 +1,28 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import { btnPrimary } from '../../lib/ui';
+---
+
+<Layout
+  title="Insights - Coming soon"
+  description="Practical writing on automation, ClickUp, and building operating systems. Coming soon. Take the Automation Readiness Scorecard in the meantime."
+>
+  <Nav />
+  <main>
+    <section class="bg-grad-hero py-28 md:py-36">
+      <div class="mx-auto max-w-2xl px-5 text-center">
+        <h1 class="text-h1 text-white">Insights coming soon.</h1>
+        <p class="mt-6 leading-relaxed text-text-dim">
+          We're building the content engine. Meanwhile, the fastest way to see where your business sits is the
+          scorecard.
+        </p>
+        <div class="mt-8 flex justify-center">
+          <a href="/scorecard" class={`cursor-button ${btnPrimary}`}>Take the Scorecard</a>
+        </div>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

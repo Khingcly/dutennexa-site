@@ -1,0 +1,146 @@
+---
+// Copy is verbatim from the approved PHASE-2-COPY-v2 doc, with one
+// deliberate exception: three lines used em dashes, which conflicts with
+// the project's standing no-em-dash style rule. Wording is unchanged;
+// only those three dashes were swapped for commas (flagged to the user,
+// same resolution used for the homepage hero earlier in this build).
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const founders = [
+  {
+    name: 'David Akporohwo',
+    role: 'CEO / Founder',
+    initials: 'DA',
+    bio: "David leads client strategy and delivery. Over five years working across digital project management, data analytics, and business automation before formalizing Duten Nexa in Q3 2024. Certified across ClickUp University, PMI, Google Project Management, Scrum Alliance (CSP-SM), and Microsoft Power Platform. He runs the discovery side of every engagement, the sharp questions clients like Khalid Abdulla have publicly credited.",
+  },
+  {
+    name: 'Kingsley Andy',
+    role: 'Co-Founder',
+    initials: 'KA',
+    bio: "Kingsley leads build and technical architecture. Certified across Make Academy, Power BI, and Microsoft Power Platform Fundamentals. His focus is turning what discovery uncovers into systems that run reliably, Make scenarios with proper error handling, dashboards that don't break, AI agents that stay in scope.",
+  },
+];
+
+// NEEDS INPUT: the brief pointed to "full text in copy doc" for these four
+// cards without pasting it, so only the titles are approved copy. Body
+// copy below is a placeholder, not invented marketing claims, swap in the
+// real text before launch.
+const howWeWork = [
+  {
+    title: 'Expert-led, not template-led',
+    body: '[NEEDS INPUT: full card copy from PHASE-2-COPY-v2]',
+  },
+  {
+    title: 'Speed of execution',
+    body: '[NEEDS INPUT: full card copy from PHASE-2-COPY-v2]',
+  },
+  {
+    title: 'Confidentiality by default',
+    body: '[NEEDS INPUT: full card copy from PHASE-2-COPY-v2]',
+  },
+  {
+    title: 'Warranty-backed delivery',
+    body: '[NEEDS INPUT: full card copy from PHASE-2-COPY-v2]',
+  },
+];
+
+// Certification badges: none of these exist as real logo assets in the
+// sourcing set already used for ToolLogoStrip (simple-icons covers company/
+// product brand marks, not training-certification badge artwork), so per
+// the brief's own fallback these render as clean text/wordmark labels
+// rather than fabricated badge graphics.
+const certifications = [
+  'ClickUp University',
+  'Make Academy',
+  'PMI',
+  'Google Project Management',
+  'Scrum Alliance (CSP-SM)',
+  'Microsoft Power Platform Fundamentals',
+  'Power BI',
+  'LinkedIn Learning Data Analyst',
+  'PSMI',
+  'BlackTECH Academy',
+];
+---
+
+<Layout
+  title="About Duten Nexa - Operating systems for growing companies"
+  description="Two-founder team with 5+ years' operational experience each. Building operating systems for UK/US/GCC SMBs. Expert-led. Fixed-price. Warranty-backed."
+>
+  <Nav />
+  <main>
+    <PageHero
+      title="We build what we run on."
+      sub="Duten Nexa is a two-founder team building operating systems for growing companies. Every system we sell is one we've either built for ourselves or shipped for someone like you. We don't do templates, and we don't bill by the hour."
+    />
+
+    <!-- Founders -->
+    <section class="bg-navy py-16 md:py-24">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
+          {founders.map((f) => (
+            <div class="reveal rounded-xl border border-border-soft bg-surface-card p-8" data-reveal>
+              <!-- HUMAN TASK: real founder photo needed; placeholder monogram until supplied -->
+              <div class="flex h-20 w-20 items-center justify-center rounded-full border border-border-teal bg-teal/10 text-xl font-bold text-teal">
+                {f.initials}
+              </div>
+              <h2 class="mt-5 text-xl font-bold text-white">{f.name}</h2>
+              <p class="mt-1 text-sm font-medium text-teal">{f.role}</p>
+              <p class="mt-4 text-sm leading-relaxed text-text-dim">{f.bio}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- How we work -->
+    <section class="bg-navy-800 py-16 md:py-24">
+      <div class="mx-auto max-w-6xl px-5">
+        <h2 class="reveal text-h2 text-white" data-reveal>How we work</h2>
+        <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2">
+          {howWeWork.map((card, i) => (
+            <div
+              class="tilt-card reveal rounded-xl border border-border-soft bg-surface-card p-6 transition-[border-color] duration-200"
+              data-reveal
+              style={`transition-delay:${i * 90}ms`}
+            >
+              <h3 class="text-lg font-semibold text-white">{card.title}</h3>
+              <p class="mt-3 text-sm text-text-dim">{card.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications strip -->
+    <div class="reveal border-y border-border-soft bg-navy-900/60 py-8" data-reveal>
+      <div class="mx-auto max-w-6xl px-5">
+        <p class="text-center text-xs font-medium uppercase tracking-[0.14em] text-text-faint">
+          Certified across the tools we build on
+        </p>
+        <div class="mt-6 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+          {certifications.map((name) => (
+            <span class="rounded border border-white/10 px-3 py-1.5 text-xs text-white/50">{name}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Positioning statement band -->
+    <section class="bg-navy py-16 md:py-24">
+      <div class="mx-auto max-w-4xl px-5 text-center">
+        <p class="reveal text-2xl font-semibold leading-relaxed text-white md:text-3xl" data-reveal>
+          We help growing businesses eliminate manual work, fix broken processes, and make faster decisions,
+          using <span class="text-teal">automation</span>, structured data systems, and the right digital tools.
+        </p>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+  <Footer />
+</Layout>

@@ -1,0 +1,93 @@
+---
+// Plain, calm legal page: no cards, no reveal/tilt animations, no
+// cursor-aware classes on the body content, per the brief. Nav/Footer are
+// the shared components (unavoidable ambient cursor/pulse effects live
+// there already) - not a page-specific variant.
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout
+  title="Privacy Policy - Duten Nexa"
+  description="How Duten Nexa collects, uses, and protects information submitted through this site."
+>
+  <Nav />
+  <main class="bg-navy py-28 md:py-36">
+    <div class="mx-auto max-w-2xl px-5">
+      <h1 class="text-h1 text-white">Privacy Policy</h1>
+      <p class="mt-2 text-sm text-text-faint">Last updated: [NEEDS INPUT: date of legal sign-off]</p>
+
+      <div class="mt-6 rounded-lg border border-teal/40 bg-teal/10 px-5 py-4 text-sm text-teal">
+        This policy is pending final legal review.
+      </div>
+
+      <div class="mt-10 space-y-10 text-text-dim">
+        <section>
+          <h2 class="text-lg font-semibold text-white">Who we are</h2>
+          <p class="mt-3 leading-relaxed">
+            Duten Nexa is registered in Nigeria. Registered address: Liverpool Estate, Satellite Town, Lagos,
+            Nigeria. We serve clients internationally.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">What we collect</h2>
+          <p class="mt-3 leading-relaxed">
+            When you fill in a form on this site, we collect what you type: your name, email, company, and
+            message. When you take the scorecard, we also collect your answers and headcount range. When you book
+            a call, our booking tool collects your name, email, and time zone.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">How we use it</h2>
+          <p class="mt-3 leading-relaxed">
+            To reply to you. To send the scorecard breakdown you asked for. To keep a record of the conversation.
+            We do not sell your data. We do not run drip email campaigns you didn't ask for.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">Who else sees it</h2>
+          <p class="mt-3 leading-relaxed">
+            Form submissions flow through Make (make.com) to our ClickUp workspace. Our booking tool stores
+            appointment details. Google Analytics 4 records anonymized usage of this site so we can improve it.
+            That's the list.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">Cookies</h2>
+          <p class="mt-3 leading-relaxed">
+            GA4 sets analytics cookies. No advertising cookies. Details in the cookie banner.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">Your rights</h2>
+          <p class="mt-3 leading-relaxed">
+            Email <a href="mailto:admin@dutennexa.com" class="text-teal hover:underline">admin@dutennexa.com</a> to
+            see what we hold on you, correct it, or ask us to delete it. We respond within 30 days.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">Changes</h2>
+          <p class="mt-3 leading-relaxed">
+            If we change this policy, we update the effective date. If the change is material, we notify people
+            we've corresponded with.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="text-lg font-semibold text-white">Contact</h2>
+          <p class="mt-3 leading-relaxed">
+            <a href="mailto:admin@dutennexa.com" class="text-teal hover:underline">admin@dutennexa.com</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</Layout>

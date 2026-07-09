@@ -7,11 +7,8 @@ import HeroTopology from '../components/HeroTopology.astro';
 import ToolLogoStrip from '../components/ToolLogoStrip.astro';
 import PinnedSequence from '../components/PinnedSequence.astro';
 import TestimonialMarquee from '../components/TestimonialMarquee.astro';
-
-const btnPrimary =
-  'inline-flex w-full min-h-[52px] items-center justify-center rounded-lg bg-grad-accent px-6 py-3 font-medium text-navy transition-[filter] duration-200 hover:brightness-105 sm:w-auto';
-const btnSecondary =
-  'inline-flex w-full min-h-[52px] items-center justify-center rounded-lg border border-teal px-6 py-3 font-medium text-teal transition-colors duration-200 hover:bg-teal/10 sm:w-auto';
+import CtaBand from '../components/CtaBand.astro';
+import { btnPrimary, btnSecondary } from '../lib/ui';
 
 const painCards = [
   {
@@ -227,27 +224,7 @@ const steps = [
     </section>
 
     <!-- 7. Final CTA band -->
-    <section class="overflow-hidden bg-navy">
-      <div class="grid grid-cols-1 md:grid-cols-2">
-        <div class="reveal-left bg-grad-accent px-6 py-16 sm:px-10 md:px-16" data-reveal>
-          <p class="max-w-md text-xl font-semibold text-navy">
-            You've spent months guessing at what to fix. Spend 5 days actually knowing.
-          </p>
-          <a
-            href="/audit"
-            class="cursor-button mt-8 inline-flex w-full min-h-[52px] items-center justify-center rounded-lg bg-navy px-6 py-3 font-medium text-white transition-[filter] duration-200 hover:brightness-110 sm:w-auto"
-          >
-            Book an Automation Audit
-          </a>
-        </div>
-        <div class="reveal-right bg-navy px-6 py-16 sm:px-10 md:px-16" data-reveal>
-          <p class="max-w-md text-xl font-semibold text-white">
-            Not sure you're ready? Take the 2-minute Automation Readiness Scorecard.
-          </p>
-          <a href="/scorecard" class={`cursor-button mt-8 ${btnSecondary}`}>Take the Scorecard</a>
-        </div>
-      </div>
-    </section>
+    <CtaBand />
   </main>
   <Footer />
 </Layout>
