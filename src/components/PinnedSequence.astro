@@ -1,10 +1,18 @@
 ---
 // Real, official brand marks (simple-icons, CC0) on the ClickUp/Make/
 // Dashboards frames so the tools read as instantly recognizable rather than
-// making visitors guess from a text label alone — same sourcing rule as
+// making visitors guess from a text label alone, same sourcing rule as
 // ToolLogoStrip.astro (real marks only, never hand-drawn). "AI agents" is
 // Duten Nexa's own build, not a resold product, so it keeps the plain
 // violet dot instead of a third-party logo.
+//
+// Dashboards additionally lists Power BI, Tableau, and SQL. Power BI and
+// Tableau have no real logo in simple-icons (same Microsoft/Tableau
+// licensing gap documented in ToolLogoStrip.astro) so they render as
+// dashed text placeholders pending real brand assets. "SQL" isn't a single
+// company/brand at all, so there's no logo to source, it gets an original
+// generic database glyph instead, same treatment as the AI sparkle: not
+// presented as anyone's trademark.
 import { siClickup, siMake, siGooglesheets } from 'simple-icons';
 
 const frames = [
@@ -28,6 +36,11 @@ const frames = [
     body: 'Sales, delivery, cash, team load, visible in one place, refreshed automatically. Clients have cut manual reporting time by up to 75%.',
     ai: false,
     icon: siGooglesheets,
+    extraIcons: [
+      { kind: 'placeholder', label: 'Power BI' },
+      { kind: 'placeholder', label: 'Tableau' },
+      { kind: 'sql' },
+    ],
   },
   {
     title: 'AI agents',
@@ -72,17 +85,39 @@ const frames = [
             <div class={`pin-frame ${f.ai ? 'cursor-ai' : ''}`} data-pin-frame>
               <div class="orbit-card" data-orbit-card>
                 <div class={`w-full max-w-sm rounded-2xl border p-8 shadow-2xl shadow-navy-900/60 md:p-9 ${f.ai ? 'ai-bloom border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}>
-                  <div class="flex justify-center">
-                    {f.icon ? (
+                  <div class="flex flex-wrap justify-center gap-2">
+                    {f.icon && (
                       <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-md" style={`--brand:#${f.icon.hex}`}>
                         <svg viewBox="0 0 24 24" width="26" height="26" fill="var(--brand)" aria-hidden="true"><path d={f.icon.path}></path></svg>
                       </span>
-                    ) : (
+                    )}
+                    {!f.icon && !f.extraIcons && (
                       <span class="flex h-12 w-12 items-center justify-center rounded-xl border border-border-violet bg-violet/15">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--violet-text)" stroke-width="1.6" aria-hidden="true">
                           <path d="M12 2 L14 9 L21 11 L14 13 L12 20 L10 13 L3 11 L10 9 Z" stroke-linejoin="round" />
                         </svg>
                       </span>
+                    )}
+                    {f.extraIcons?.map((x) =>
+                      x.kind === 'placeholder' ? (
+                        <span
+                          class="flex h-12 items-center justify-center rounded-xl border border-dashed border-white/20 px-2.5 text-[10px] font-semibold uppercase tracking-wide text-text-faint"
+                          title={`${x.label} logo pending official brand asset`}
+                        >
+                          {x.label}
+                        </span>
+                      ) : (
+                        <span
+                          class="flex h-12 w-12 items-center justify-center rounded-xl border border-teal/30 bg-teal/10"
+                          title="SQL / relational database"
+                        >
+                          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.6" aria-hidden="true">
+                            <ellipse cx="12" cy="6" rx="8" ry="3"></ellipse>
+                            <path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6"></path>
+                            <path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"></path>
+                          </svg>
+                        </span>
+                      )
                     )}
                   </div>
                   <span class={`mt-4 block text-center text-xs font-semibold tracking-[0.2em] ${f.ai ? 'text-violet-text' : 'text-teal'}`}>
@@ -129,17 +164,39 @@ const frames = [
           class={`swipe-card w-[85%] shrink-0 snap-center rounded-2xl border p-7 text-center ${f.ai ? 'border-border-violet bg-violet/10' : 'border-border-teal bg-surface-card'}`}
           data-swipe-index={i}
         >
-          <div class="flex justify-center">
-            {f.icon ? (
+          <div class="flex flex-wrap justify-center gap-2">
+            {f.icon && (
               <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-md" style={`--brand:#${f.icon.hex}`}>
                 <svg viewBox="0 0 24 24" width="22" height="22" fill="var(--brand)" aria-hidden="true"><path d={f.icon.path}></path></svg>
               </span>
-            ) : (
+            )}
+            {!f.icon && !f.extraIcons && (
               <span class="flex h-10 w-10 items-center justify-center rounded-xl border border-border-violet bg-violet/15">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--violet-text)" stroke-width="1.6" aria-hidden="true">
                   <path d="M12 2 L14 9 L21 11 L14 13 L12 20 L10 13 L3 11 L10 9 Z" stroke-linejoin="round" />
                 </svg>
               </span>
+            )}
+            {f.extraIcons?.map((x) =>
+              x.kind === 'placeholder' ? (
+                <span
+                  class="flex h-10 items-center justify-center rounded-xl border border-dashed border-white/20 px-2 text-[9px] font-semibold uppercase tracking-wide text-text-faint"
+                  title={`${x.label} logo pending official brand asset`}
+                >
+                  {x.label}
+                </span>
+              ) : (
+                <span
+                  class="flex h-10 w-10 items-center justify-center rounded-xl border border-teal/30 bg-teal/10"
+                  title="SQL / relational database"
+                >
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="1.6" aria-hidden="true">
+                    <ellipse cx="12" cy="6" rx="8" ry="3"></ellipse>
+                    <path d="M4 6v6c0 1.66 3.58 3 8 3s8-1.34 8-3V6"></path>
+                    <path d="M4 12v6c0 1.66 3.58 3 8 3s8-1.34 8-3v-6"></path>
+                  </svg>
+                </span>
+              )
             )}
           </div>
           <span class={`mt-3 block text-xs font-semibold tracking-[0.14em] ${f.ai ? 'text-violet-text' : 'text-teal'}`}>

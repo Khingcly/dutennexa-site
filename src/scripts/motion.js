@@ -163,7 +163,15 @@ if (reduce) {
         // small title pills out on the ring, continuously repositioning as
         // the ring rotation advances with scroll.
         const baseRadius = 230;
-        const settleWindow = 0.12; // normDist span over which a card leaves/reaches the center
+        // normDist span over which a card leaves/reaches the center. With 4
+        // cards spaced 90deg apart, the handoff between neighbors happens at
+        // the 45deg midpoint (normDist 0.25), so this needs to be at least
+        // that wide or there's a dead zone mid-segment where the "closest"
+        // card has already receded past the window before the incoming one
+        // has entered it, and nothing is expanded at all. 0.32 keeps both
+        // neighbors partially visible through the handoff for a crossfade
+        // instead of a hard cut.
+        const settleWindow = 0.32;
         let activeIdx = 0;
         let bestDist = Infinity;
         const computed = pinFrames.map((f, i) => {
