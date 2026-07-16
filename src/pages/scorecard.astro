@@ -11,9 +11,8 @@
 // Resolved in favor of the explicit "do not" constraint: tiers progress
 // muted-gray -> indigo -> teal -> bright teal+mint instead, no violet.
 //
-// Per-tier quick-win recommendation copy is confirmed NEEDS INPUT by the
-// user directly (not yet drafted), so those three cards per tier are
-// placeholders, not invented advice.
+// Per-tier quick-win recommendation copy supplied directly by the user
+// (flagged as a draft, not fully locked, swap in freely if it's revised).
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -100,10 +99,54 @@ const questions = [
 ];
 
 const tiers = [
-  { min: 0, max: 25, name: 'Firefighting', desc: 'You are the operating system your business runs on.', color: '#8A94A6' },
-  { min: 26, max: 50, name: 'Foundations', desc: "You've got some structure. The gaps are the problem.", color: '#1E5AE8' },
-  { min: 51, max: 75, name: 'Ready to Automate', desc: 'The pieces exist. Time to connect them.', color: '#3FE0D0' },
-  { min: 76, max: 100, name: 'Optimizing', desc: "You're in good shape.", color: '#8BF5E8' },
+  {
+    min: 0,
+    max: 25,
+    name: 'Firefighting',
+    desc: 'You are the operating system your business runs on.',
+    color: '#8A94A6',
+    quickWins: [
+      'Move everything out of email/WhatsApp into one shared task tool this week.',
+      'Write down your top 3 recurring processes exactly as they happen.',
+      'Book the Audit before adding any new tool.',
+    ],
+  },
+  {
+    min: 26,
+    max: 50,
+    name: 'Foundations',
+    desc: "You've got some structure. The gaps are the problem.",
+    color: '#1E5AE8',
+    quickWins: [
+      'Fix the one tool-gap causing the most pain first.',
+      "Turn your most-repeated report into a template until it's automated.",
+      'Document the handoff points where work drops.',
+    ],
+  },
+  {
+    min: 51,
+    max: 75,
+    name: 'Ready to Automate',
+    desc: 'The pieces exist. Time to connect them.',
+    color: '#3FE0D0',
+    quickWins: [
+      'Automate your highest-volume manual handoff first.',
+      'Connect your two most-used tools via Make before building anything custom.',
+      'Put up one live dashboard for the number leadership asks about most.',
+    ],
+  },
+  {
+    min: 76,
+    max: 100,
+    name: 'Optimizing',
+    desc: "You're in good shape.",
+    color: '#8BF5E8',
+    quickWins: [
+      "Find one zero-judgment process still done by a human, that's your next AI agent.",
+      'Audit automations quarterly, silent breaks cost more than gaps.',
+      'Document your best workflow so it survives a team change.',
+    ],
+  },
 ];
 
 const headcounts = ['5-20', '21-50', '51-100', '100+'];
@@ -208,10 +251,10 @@ const headcounts = ['5-20', '21-50', '51-100', '100+'];
         <p id="sc-tier-desc" class="mx-auto mt-3 max-w-md text-text-dim"></p>
 
         <div class="mt-10 grid grid-cols-1 gap-4 text-left sm:grid-cols-3">
-          {[1, 2, 3].map((n) => (
+          {[0, 1, 2].map((i) => (
             <div class="rounded-xl border border-border-soft bg-surface-card p-5">
-              <p class="text-xs font-semibold uppercase tracking-wide text-teal">Quick win {n}</p>
-              <p class="mt-2 text-sm text-text-dim">[NEEDS INPUT: per-tier recommendation copy]</p>
+              <p class="text-xs font-semibold uppercase tracking-wide text-teal">Quick win {i + 1}</p>
+              <p id={`sc-quickwin-${i}`} class="mt-2 text-sm text-text-dim"></p>
             </div>
           ))}
         </div>
@@ -372,6 +415,10 @@ const headcounts = ['5-20', '21-50', '51-100', '100+'];
     document.getElementById('sc-tier-name').textContent = tier.name;
     document.getElementById('sc-tier-name').style.color = tier.color;
     document.getElementById('sc-tier-desc').textContent = tier.desc;
+    tier.quickWins.forEach((w, i) => {
+      const el = document.getElementById(`sc-quickwin-${i}`);
+      if (el) el.textContent = w;
+    });
 
     showFrame('reveal');
 

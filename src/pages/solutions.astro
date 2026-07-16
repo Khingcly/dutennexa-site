@@ -1,10 +1,6 @@
 ---
-// Verbatim from the Round 2 brief: package names and pricing. The brief
-// describes what structure each card needs (a "for" line, "you get"
-// bullets, timeline, ROI framing) but doesn't supply that copy for
-// packages 2-6 (only Audit's detail exists, on the /audit page itself).
-// Rather than inventing SaaS-pricing-page filler, those fields are marked
-// NEEDS INPUT until the real copy lands.
+// Verbatim copy for all six packages, including packages 2-6's for/you
+// get/timeline/ROI fields, supplied directly by the human.
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
@@ -26,52 +22,52 @@ const packages = [
   {
     n: '02',
     name: 'ClickUp Command Center Setup',
-    for_: '[NEEDS INPUT]',
-    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
-    timeline: '[NEEDS INPUT]',
+    for_: 'Teams of 5–50 whose ClickUp is half-set-up or a mess.',
+    gets: ['Workspace architecture', 'Custom fields', 'Permissions', 'Dashboards', 'Templates', '2 hrs team training'],
+    timeline: '2 weeks',
     price: 'from $1,497',
-    roi: '[NEEDS INPUT]',
+    roi: "One shared source of truth for what everyone's working on.",
     ai: false,
   },
   {
     n: '03',
     name: 'Automation Sprint',
-    for_: '[NEEDS INPUT]',
-    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
-    timeline: '[NEEDS INPUT]',
+    for_: 'Teams doing the same handoffs manually daily.',
+    gets: ['3–5 fully built Make scenarios', 'Error-handling', 'Notifications', 'Documentation'],
+    timeline: '2 weeks',
     price: 'from $1,997',
-    roi: '[NEEDS INPUT]',
+    roi: 'Clients have seen repetitive task loads drop 50–80% within weeks.',
     ai: false,
   },
   {
     n: '04',
     name: 'Dashboard-in-a-Week',
-    for_: '[NEEDS INPUT]',
-    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
-    timeline: '[NEEDS INPUT]',
+    for_: "Leadership who wants Monday's numbers before Monday's meeting.",
+    gets: ['A live Power BI or Looker dashboard connected to your source systems', 'Refreshes automatically'],
+    timeline: '5 business days',
     price: 'from $1,497',
-    roi: '[NEEDS INPUT]',
+    roi: 'Cut manual reporting time by up to 75%.',
     ai: false,
   },
   {
     n: '05',
     name: 'AI Agent Build',
-    for_: '[NEEDS INPUT]',
-    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
-    timeline: '[NEEDS INPUT]',
+    for_: 'Companies with a repetitive, judgment-light process.',
+    gets: ['A scoped AI agent (inbound qualifier, support tier-1, prospect research, or bespoke)', 'Built on Make + Relevance AI + Claude'],
+    timeline: '3–4 weeks',
     price: 'from $2,997',
-    roi: '[NEEDS INPUT]',
+    roi: "Handles the work you can't afford to hire for.",
     ai: true,
   },
   {
     n: '06',
     name: 'Care Plan',
     ongoing: true,
-    for_: '[NEEDS INPUT]',
-    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
-    timeline: 'Ongoing, cancel anytime',
+    for_: "Anyone we've built for, or anyone whose systems exist but nobody's watching them.",
+    gets: ['Monthly monitoring', 'Error resolution', 'Small extensions', 'Quarterly review'],
+    timeline: 'Monthly, cancel anytime',
     price: 'from $497/month',
-    roi: '[NEEDS INPUT]',
+    roi: 'A broken automation costs more than the retainer.',
     ai: false,
   },
 ];
