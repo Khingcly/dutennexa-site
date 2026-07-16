@@ -1,0 +1,157 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Nav from '../../components/Nav.astro';
+import Footer from '../../components/Footer.astro';
+import PageHero from '../../components/PageHero.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { siClickup, siMake, siGooglesheets, siGoogleappsscript, siHubspot } from 'simple-icons';
+
+const featured = [
+  {
+    slug: 'nerbugs',
+    name: 'Nerbugs',
+    place: 'USA',
+    outcome: 'The pipeline stopped leaking, follow-ups and dashboards now run themselves.',
+    tools: [
+      { name: 'ClickUp', icon: siClickup },
+      { name: 'Apollo CRM', icon: null },
+      { name: 'Make', icon: siMake },
+    ],
+  },
+  {
+    slug: 'k-brands',
+    name: 'K-Brands',
+    place: 'Texas, USA',
+    outcome: 'ClickUp and Google Sheets stay in sync automatically, no more manual reconciliation.',
+    tools: [
+      { name: 'ClickUp', icon: siClickup },
+      { name: 'Google Sheets', icon: siGooglesheets },
+      { name: 'Make', icon: siMake },
+      { name: 'Apps Script', icon: siGoogleappsscript },
+    ],
+  },
+  {
+    slug: 'playground-centre',
+    name: 'Playground Centre',
+    place: 'USA',
+    outcome: 'A single Power BI reporting layer, shipped across a 12-hour time-zone gap.',
+    tools: [
+      { name: 'Power BI', icon: null },
+      { name: 'HubSpot', icon: siHubspot },
+    ],
+  },
+];
+
+// Quote wall: the remaining 5 testimonials, same data set as the homepage
+// marquee, reused here static/grid rather than scrolling.
+const quotes = [
+  {
+    quote:
+      'A game-changer for our team. Their deep ClickUp knowledge helped us completely reorganize our workflows for better efficiency and clarity.',
+    name: 'Leon Sarkis',
+    role: 'Founder, Aquirio',
+    country: 'Switzerland',
+  },
+  {
+    quote:
+      "Incredibly intuitive, extremely helpful, and highly knowledgeable. Their expertise made a real difference in our project's success.",
+    name: 'Jonathan Jordan',
+    role: 'CEO, Haven Cleaning',
+    country: 'USA',
+  },
+  {
+    quote:
+      'They really know their stuff when it comes to project management. They helped me get my tasks organized and made everything easier to handle.',
+    name: 'Anandaraj TK',
+    role: 'CEO, Pixio Digital Marketing',
+    country: 'Australia',
+  },
+  {
+    quote:
+      "They didn't just set things up, they took the time to explain how everything works. It felt more like a personalized training session than a typical service.",
+    name: 'Juanita Lewis',
+    role: 'Founder, Fitness Company',
+    country: 'USA',
+  },
+  {
+    quote:
+      'They greatly helped us build Power Automate flows for our business. Communication was great throughout, super pleasant to work with.',
+    name: 'Daniel Meka',
+    role: 'Founder, Duelix Pte. Ltd',
+    country: 'USA',
+  },
+];
+---
+
+<Layout
+  title="Case Studies - Duten Nexa"
+  description="Three engagements, in detail. Five more, in the words of the founders who lived them."
+>
+  <Nav />
+  <main>
+    <PageHero
+      title="The systems behind the results."
+      sub="Three engagements, in detail. Five more, in the words of the founders who lived them."
+    />
+
+    <!-- Featured case studies: heavier visual weight than a blog index -
+         these are evidence, not articles. -->
+    <section class="bg-navy py-16 md:py-24">
+      <div class="mx-auto max-w-6xl px-5">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+          {featured.map((c) => (
+            <a
+              href={`/case-studies/${c.slug}`}
+              class="tilt-card reveal cursor-link group flex flex-col rounded-2xl border border-border-teal bg-surface-card p-7 shadow-xl shadow-navy-900/40 transition-[border-color] duration-200"
+              data-reveal
+            >
+              <p class="text-xs font-semibold uppercase tracking-[0.2em] text-teal">{c.name} · {c.place}</p>
+              <p class="mt-4 flex-1 text-lg font-medium leading-relaxed text-white">{c.outcome}</p>
+              <div class="mt-6 flex flex-wrap items-center gap-2">
+                {c.tools.map((t) =>
+                  t.icon ? (
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white" title={t.name}>
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill={`#${t.icon.hex}`} aria-hidden="true"><path d={t.icon.path}></path></svg>
+                    </span>
+                  ) : (
+                    <span class="rounded-full border border-dashed border-white/20 px-2 py-1 text-[10px] text-text-faint" title={`${t.name} logo pending official brand asset`}>
+                      {t.name}
+                    </span>
+                  )
+                )}
+              </div>
+              <span class="mt-6 inline-flex items-center gap-1 text-sm font-semibold text-teal group-hover:underline">
+                Read case study →
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Quote wall: static grid, not scrolling -->
+    <section class="bg-navy-800 py-16 md:py-24">
+      <div class="mx-auto max-w-6xl px-5">
+        <h2 class="reveal text-h2 text-white" data-reveal>More founders, same result.</h2>
+        <div class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {quotes.map((t, i) => (
+            <blockquote
+              class="tilt-card reveal rounded-xl border border-border-soft bg-surface-card p-6 transition-[border-color] duration-200"
+              data-reveal
+              style={`transition-delay:${i * 60}ms`}
+            >
+              <p class="text-sm leading-relaxed text-text-dim">&ldquo;{t.quote}&rdquo;</p>
+              <footer class="mt-4 text-sm">
+                <p class="font-semibold text-white">{t.name}</p>
+                <p class="text-text-faint">{t.role} · {t.country}</p>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+  <Footer />
+</Layout>

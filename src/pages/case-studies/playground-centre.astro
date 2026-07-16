@@ -1,0 +1,25 @@
+---
+import CaseStudyLayout from '../../components/CaseStudyLayout.astro';
+import { siHubspot } from 'simple-icons';
+---
+
+<CaseStudyLayout
+  title="Playground Centre - Enterprise Power BI across a 12-hour time gap"
+  description="Complex HubSpot data delivered as a Power BI reporting layer, built for an enterprise client across a 12-hour time-zone difference. On tight timelines."
+  h1="Complex HubSpot data. One reporting layer. 12 hours apart."
+  deck="Playground Centre · Enterprise · USA · Contact: Deanna Walker"
+  context="Playground Centre runs a complex HubSpot deployment where the data structure had outgrown what HubSpot's native reporting could answer. Leadership needed a single reporting view. The team needed it fast."
+  problem="HubSpot's out-of-the-box reports flattened the picture. Every recurring question, sales trends, pipeline health, activity by segment, required manual pivot-table rebuilding somewhere else. Not sustainable, and not Deanna's job."
+  whatWeBuilt={[
+    "A Power BI reporting layer connected directly to the HubSpot data model, respecting its actual relationships.",
+    'Custom measures and dashboards for the specific views leadership wanted, refreshing automatically.',
+    "Delivered across a 12-hour time-zone gap and a tight timeline, running discovery in the client's late morning (our late evening), then shipping overnight work that landed by the client's next morning.",
+  ]}
+  outcome="An exceptional outcome, in Deanna's own words. The complex HubSpot project shipped on time despite the 12-hour gap. Leadership got the single reporting view they came for."
+  quote="Duten Nexa is instrumental in delivering high-quality Power BI reporting for a complex HubSpot project within a tight time frame. Their aptitude, diligence, and problem-solving skills enabled us to seamlessly navigate challenges, despite a 12-hour time difference, and achieve an exceptional outcome. We highly recommend Duten Nexa for their expertise, perseverance, and commitment to excellence."
+  quoteAuthor="Deanna Walker, Playground Centre Ltd."
+  tools={[
+    { name: 'Power BI', icon: null },
+    { name: 'HubSpot', icon: siHubspot },
+  ]}
+/>

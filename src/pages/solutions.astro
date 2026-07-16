@@ -1,0 +1,202 @@
+---
+// Verbatim from the Round 2 brief: package names and pricing. The brief
+// describes what structure each card needs (a "for" line, "you get"
+// bullets, timeline, ROI framing) but doesn't supply that copy for
+// packages 2-6 (only Audit's detail exists, on the /audit page itself).
+// Rather than inventing SaaS-pricing-page filler, those fields are marked
+// NEEDS INPUT until the real copy lands.
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import PageHero from '../components/PageHero.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+const packages = [
+  {
+    n: '01',
+    name: 'Automation Opportunity Audit',
+    door: true,
+    for_: 'Anyone who wants to know what to fix before spending a dollar building it.',
+    gets: ['Workflow inventory', 'Opportunity map', 'ROI estimates', '90-day roadmap'],
+    timeline: '5 business days',
+    price: 'from $497',
+    roi: 'Fixed fee, credited toward any build we do with you afterwards.',
+    ai: false,
+  },
+  {
+    n: '02',
+    name: 'ClickUp Command Center Setup',
+    for_: '[NEEDS INPUT]',
+    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
+    timeline: '[NEEDS INPUT]',
+    price: 'from $1,497',
+    roi: '[NEEDS INPUT]',
+    ai: false,
+  },
+  {
+    n: '03',
+    name: 'Automation Sprint',
+    for_: '[NEEDS INPUT]',
+    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
+    timeline: '[NEEDS INPUT]',
+    price: 'from $1,997',
+    roi: '[NEEDS INPUT]',
+    ai: false,
+  },
+  {
+    n: '04',
+    name: 'Dashboard-in-a-Week',
+    for_: '[NEEDS INPUT]',
+    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
+    timeline: '[NEEDS INPUT]',
+    price: 'from $1,497',
+    roi: '[NEEDS INPUT]',
+    ai: false,
+  },
+  {
+    n: '05',
+    name: 'AI Agent Build',
+    for_: '[NEEDS INPUT]',
+    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
+    timeline: '[NEEDS INPUT]',
+    price: 'from $2,997',
+    roi: '[NEEDS INPUT]',
+    ai: true,
+  },
+  {
+    n: '06',
+    name: 'Care Plan',
+    ongoing: true,
+    for_: '[NEEDS INPUT]',
+    gets: ['[NEEDS INPUT]', '[NEEDS INPUT]', '[NEEDS INPUT]'],
+    timeline: 'Ongoing, cancel anytime',
+    price: 'from $497/month',
+    roi: '[NEEDS INPUT]',
+    ai: false,
+  },
+];
+
+const unfit = [
+  "You're a solopreneur with no team to hand systems to.",
+  "You don't use any digital tools yet, there's nothing to connect.",
+  'You want custom-built software, not configured operating systems.',
+  'You have a full internal IT team already doing this work.',
+];
+---
+
+<Layout
+  title="Solutions - Duten Nexa operating system packages"
+  description="Six fixed-price packages, in the order most companies buy them. From a 5-day audit to an ongoing Care Plan. No hourly billing."
+>
+  <Nav />
+  <main>
+    <PageHero
+      title="You don't need nine services. You need an operating system."
+      sub="Most consultancies sell you a menu and bill you by the hour. We sell you the outcome, at a fixed price, on a fixed timeline. Six packages, in the order most companies buy them."
+    />
+
+    <!-- Package rail: a connected sequence, not six isolated boxes. A
+         vertical trace runs down the center (desktop) / left edge (mobile)
+         connecting all six cards in order, echoing the OS-layer idea from
+         the homepage rather than reading as a SaaS pricing table. -->
+    <section class="relative bg-navy py-16 md:py-24">
+      <div class="mx-auto max-w-4xl px-5">
+        <div class="relative">
+          <div class="rail-line absolute left-5 top-0 bottom-0 w-px bg-gradient-to-b from-teal/60 via-indigo/40 to-violet/40 md:left-1/2" aria-hidden="true"></div>
+
+          <div class="space-y-8">
+            {packages.map((p, i) => (
+              <div class={`relative pl-14 md:w-1/2 md:pl-0 ${i % 2 === 0 ? 'md:pr-14 md:text-right' : 'md:ml-auto md:pl-14'}`}>
+                <div
+                  class={`rail-dot absolute left-5 top-8 h-3 w-3 -translate-x-1/2 rounded-full border-2 ${p.ai ? 'border-violet bg-navy' : 'border-teal bg-navy'} md:left-auto md:right-[-7px] md:translate-x-0 ${i % 2 !== 0 ? 'md:left-[-7px] md:right-auto' : ''}`}
+                  aria-hidden="true"
+                ></div>
+
+                <div
+                  class={`tilt-card reveal rounded-2xl border p-6 md:p-7 ${
+                    p.ai
+                      ? 'ai-bloom border-border-violet bg-violet/10'
+                      : p.ongoing
+                        ? 'care-pulse border-border-teal bg-surface-card'
+                        : 'border-border-teal bg-surface-card'
+                  } ${p.door ? 'ring-1 ring-teal/40' : ''}`}
+                  data-reveal
+                >
+                  {p.door && (
+                    <span class="mb-3 inline-block rounded-full border border-teal/50 bg-teal/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-teal">
+                      The door in
+                    </span>
+                  )}
+                  {p.ongoing && (
+                    <span class="mb-3 inline-flex items-center gap-1.5 rounded-full border border-teal/50 bg-teal/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-wide text-teal">
+                      <span class="ai-pulse inline-block h-1.5 w-1.5 rounded-full bg-teal"></span>
+                      Ongoing
+                    </span>
+                  )}
+                  <span class={`text-xs font-semibold tracking-[0.2em] ${p.ai ? 'text-violet-text' : 'text-teal'}`}>{p.n} / 06</span>
+                  <h2 class={`mt-2 text-2xl font-bold ${p.ai ? 'text-violet-text' : 'text-white'}`}>{p.name}</h2>
+                  <p class="mt-2 text-sm text-text-dim">{p.for_}</p>
+
+                  <ul class="mt-4 space-y-1.5 text-sm text-text-dim">
+                    {p.gets.map((g) => (
+                      <li class="flex items-start gap-2">
+                        <span class={`mt-1.5 h-1 w-1 shrink-0 rounded-full ${p.ai ? 'bg-violet-text' : 'bg-teal'}`}></span>
+                        <span>{g}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <div class="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                    <span class="text-lg font-bold text-white">{p.price}</span>
+                    <span class="text-xs text-text-faint">{p.timeline}</span>
+                  </div>
+                  <p class="mt-2 text-xs text-text-faint">{p.roi}</p>
+
+                  <a
+                    href="/audit"
+                    class={`cursor-link mt-5 inline-flex items-center gap-1 text-sm font-semibold ${p.ai ? 'text-violet-text' : 'text-teal'} hover:underline`}
+                  >
+                    Book the Audit →
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Honest-fit filter: restrained, muted, quiet-honesty tone -->
+    <section class="bg-navy-900/60 py-14 md:py-20">
+      <div class="mx-auto max-w-2xl px-5">
+        <h2 class="reveal text-center text-lg font-semibold text-text-faint" data-reveal>We're not the right fit if…</h2>
+        <ul class="reveal mt-6 space-y-3" data-reveal>
+          {unfit.map((line) => (
+            <li class="flex items-start gap-3 text-sm text-text-faint">
+              <span class="mt-1 h-1 w-1 shrink-0 rounded-full bg-white/25"></span>
+              <span>{line}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .care-pulse {
+    animation: care-pulse-glow 3s ease-in-out infinite;
+  }
+  @keyframes care-pulse-glow {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(63, 224, 208, 0); }
+    50% { box-shadow: 0 0 24px 2px rgba(63, 224, 208, 0.12); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .care-pulse {
+      animation: none;
+    }
+  }
+</style>

@@ -1,0 +1,115 @@
+---
+// Shared template for all 3 case studies (Context -> Problem -> What we
+// built -> Outcome -> pull quote -> CTA). Per the brief: these aren't
+// AI-specific engagements, so the pull quote gets a clean teal/typographic
+// treatment, not the violet particle-drift used for the homepage's
+// AI-tinted case study, violet stays reserved for AI-specific content only.
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import CtaBand from '../components/CtaBand.astro';
+
+interface Tool {
+  name: string;
+  icon?: { path: string; hex: string } | null;
+}
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  deck: string;
+  context: string;
+  problem: string;
+  whatWeBuilt: string[];
+  outcome: string;
+  quote: string;
+  quoteAuthor: string;
+  tools: Tool[];
+  ctaNote?: string;
+}
+
+const { title, description, h1, deck, context, problem, whatWeBuilt, outcome, quote, quoteAuthor, tools, ctaNote } =
+  Astro.props;
+---
+
+<Layout title={title} description={description}>
+  <Nav />
+  <main>
+    <section class="bg-grad-hero py-28 md:py-36">
+      <div class="mx-auto max-w-3xl px-5 text-center">
+        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-teal">{deck}</p>
+        <h1 class="mt-4 text-h1 text-white">{h1}</h1>
+      </div>
+    </section>
+
+    <section class="bg-navy py-16 md:py-24">
+      <div class="mx-auto max-w-2xl px-5 space-y-10">
+        <div class="reveal" data-reveal>
+          <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-teal">Context</h2>
+          <p class="mt-3 leading-relaxed text-text-dim">{context}</p>
+        </div>
+        <div class="reveal" data-reveal>
+          <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-teal">Problem</h2>
+          <p class="mt-3 leading-relaxed text-text-dim">{problem}</p>
+        </div>
+        <div class="reveal" data-reveal>
+          <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-teal">What we built</h2>
+          <ul class="mt-3 space-y-3">
+            {whatWeBuilt.map((item) => (
+              <li class="flex items-start gap-3 text-text-dim">
+                <span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-teal"></span>
+                <span class="leading-relaxed">{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          {tools.length > 0 && (
+            <div class="mt-6 flex flex-wrap items-center gap-3">
+              {tools.map((t) =>
+                t.icon ? (
+                  <span class="flex items-center gap-2 rounded-full border border-border-soft bg-surface-card py-1.5 pl-1.5 pr-3 text-xs text-text-dim">
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white" style={`--brand:#${t.icon.hex}`}>
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="var(--brand)" aria-hidden="true"><path d={t.icon.path}></path></svg>
+                    </span>
+                    {t.name}
+                  </span>
+                ) : (
+                  <span
+                    class="rounded-full border border-dashed border-white/20 px-3 py-1.5 text-xs text-text-faint"
+                    title={`${t.name} logo pending official brand asset`}
+                  >
+                    {t.name}
+                  </span>
+                )
+              )}
+            </div>
+          )}
+        </div>
+        <div class="reveal" data-reveal>
+          <h2 class="text-xs font-semibold uppercase tracking-[0.2em] text-teal">Outcome</h2>
+          <p class="mt-3 leading-relaxed text-text-dim">{outcome}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pull quote: the proof lands here, give it room. -->
+    <section class="bg-navy-800 py-20 md:py-28">
+      <div class="mx-auto max-w-3xl px-5 text-center">
+        <blockquote class="reveal text-2xl font-semibold leading-relaxed text-white md:text-3xl" data-reveal>
+          &ldquo;{quote}&rdquo;
+        </blockquote>
+        <p class="reveal mt-6 text-sm font-medium text-teal" data-reveal>{quoteAuthor}</p>
+      </div>
+    </section>
+
+    {ctaNote && (
+      <div class="bg-navy-800 pb-16 text-center md:pb-24">
+        <p class="mx-auto max-w-md px-5 text-sm text-text-faint">{ctaNote}</p>
+      </div>
+    )}
+
+    <CtaBand />
+  </main>
+  <Footer />
+</Layout>

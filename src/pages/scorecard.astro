@@ -1,0 +1,451 @@
+---
+// Verbatim questions/scoring/tiers from the Round 2 missing-content doc.
+// Two answer options used em dashes ("Not much — we're documented" /
+// "Nothing — it's all in systems") - converted to commas per the standing
+// no-em-dash rule, wording unchanged.
+//
+// Tier color note: the brief suggested the 4 score tiers "could shift
+// along the same teal->indigo->violet gradient logic used elsewhere" -
+// that directly conflicts with the SAME brief's own "Do not use violet
+// outside AI-specific content" rule (a scorecard result isn't AI-specific).
+// Resolved in favor of the explicit "do not" constraint: tiers progress
+// muted-gray -> indigo -> teal -> bright teal+mint instead, no violet.
+//
+// Per-tier quick-win recommendation copy is confirmed NEEDS INPUT by the
+// user directly (not yet drafted), so those three cards per tier are
+// placeholders, not invented advice.
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { btnPrimary } from '../lib/ui';
+
+// import.meta.env only resolves in frontmatter/modules, not inside a
+// define:vars script (Astro treats those as plain inline scripts), so it's
+// read here and passed through define:vars below.
+const webhookUrl = import.meta.env.PUBLIC_CONTACT_WEBHOOK_URL ?? '';
+
+const questions = [
+  {
+    q: 'Where does work live today?',
+    options: [
+      { label: 'Email, WhatsApp, and memory', pts: 0 },
+      { label: 'Mostly spreadsheets', pts: 2 },
+      { label: 'A project tool, half-adopted', pts: 5 },
+      { label: 'ClickUp/Asana/Monday, fully adopted', pts: 10 },
+    ],
+  },
+  {
+    q: 'When you want to know what your team is working on right now, you…',
+    options: [
+      { label: 'Ask them', pts: 0 },
+      { label: 'Check a shared chat or doc', pts: 2 },
+      { label: 'Open the project tool and look', pts: 5 },
+      { label: 'Open a dashboard', pts: 10 },
+    ],
+  },
+  {
+    q: "How many of your tools don't talk to each other?",
+    options: [
+      { label: 'Five or more', pts: 0 },
+      { label: 'Three to four', pts: 3 },
+      { label: 'One or two', pts: 7 },
+      { label: "Everything's connected", pts: 10 },
+    ],
+  },
+  {
+    q: 'Your weekly or monthly report is built…',
+    options: [
+      { label: "We don't really have one", pts: 0 },
+      { label: 'Manually, by copy-paste', pts: 2 },
+      { label: 'Semi-manually, from live tools', pts: 5 },
+      { label: 'Automatically, delivered on schedule', pts: 10 },
+    ],
+  },
+  {
+    q: "When a lead or client enquiry comes in, it's followed up…",
+    options: [
+      { label: 'If we remember', pts: 0 },
+      { label: 'Within a few days', pts: 3 },
+      { label: "Within 24 hours, by whoever's free", pts: 5 },
+      { label: 'Automatically routed and tracked', pts: 10 },
+    ],
+  },
+  {
+    q: 'Which of these describes your documentation?',
+    options: [
+      { label: 'Nothing formal', pts: 0 },
+      { label: 'Some things, scattered', pts: 2 },
+      { label: 'Most key processes, in one place', pts: 5 },
+      { label: 'Everything documented and actually followed', pts: 10 },
+    ],
+  },
+  {
+    q: 'When someone leaves the team, what breaks?',
+    options: [
+      { label: 'A lot', pts: 0 },
+      { label: 'Some things', pts: 3 },
+      { label: "Not much, we're documented", pts: 7 },
+      { label: "Nothing, it's all in systems", pts: 10 },
+    ],
+  },
+  {
+    q: 'Budget to fix this?',
+    options: [
+      { label: 'Not right now', pts: 0 },
+      { label: 'Yes, if I see specific ROI first', pts: 5 },
+      { label: 'Yes, if the plan is clear', pts: 8 },
+      { label: 'Yes, actively looking', pts: 10 },
+    ],
+  },
+];
+
+const tiers = [
+  { min: 0, max: 25, name: 'Firefighting', desc: 'You are the operating system your business runs on.', color: '#8A94A6' },
+  { min: 26, max: 50, name: 'Foundations', desc: "You've got some structure. The gaps are the problem.", color: '#1E5AE8' },
+  { min: 51, max: 75, name: 'Ready to Automate', desc: 'The pieces exist. Time to connect them.', color: '#3FE0D0' },
+  { min: 76, max: 100, name: 'Optimizing', desc: "You're in good shape.", color: '#8BF5E8' },
+];
+
+const headcounts = ['5-20', '21-50', '51-100', '100+'];
+---
+
+<Layout
+  title="Automation Readiness Scorecard - Duten Nexa"
+  description="Eight honest questions. Two minutes. See your score before we ask for your email, and leave with three things you can act on this week."
+>
+  <Nav />
+  <main class="relative overflow-hidden bg-navy">
+    <!-- Frame 1: Landing -->
+    <section id="sc-frame-landing" class="sc-frame relative isolate overflow-hidden bg-grad-hero py-28 md:py-36">
+      <svg class="pointer-events-none absolute inset-0 h-full w-full opacity-50" viewBox="0 0 800 400" fill="none" aria-hidden="true">
+        <line x1="400" y1="200" x2="220" y2="90" stroke="var(--teal)" stroke-width="1" opacity="0.4" />
+        <line x1="400" y1="200" x2="580" y2="90" stroke="var(--teal)" stroke-width="1" opacity="0.4" />
+        <line x1="400" y1="200" x2="220" y2="310" stroke="var(--indigo)" stroke-width="1" opacity="0.4" />
+        <line x1="400" y1="200" x2="580" y2="310" stroke="var(--indigo)" stroke-width="1" opacity="0.4" />
+        <circle cx="400" cy="200" r="10" fill="var(--teal)" opacity="0.8" />
+        <circle cx="220" cy="90" r="4" fill="var(--teal)" opacity="0.6" />
+        <circle cx="580" cy="90" r="4" fill="var(--teal)" opacity="0.6" />
+        <circle cx="220" cy="310" r="4" fill="var(--indigo)" opacity="0.6" />
+        <circle cx="580" cy="310" r="4" fill="var(--indigo)" opacity="0.6" />
+      </svg>
+      <div class="relative z-10 mx-auto max-w-2xl px-5 text-center">
+        <h1 class="text-h1 text-white">How automation-ready is your business, really?</h1>
+        <p class="mx-auto mt-6 max-w-xl leading-relaxed text-text-dim">
+          Eight honest questions. Two minutes. You'll see your score before we ask for your email, and you'll leave
+          with three things you can act on this week.
+        </p>
+        <button id="sc-start" type="button" class={`cursor-button mt-8 ${btnPrimary}`}>Start the Scorecard ↓</button>
+      </div>
+    </section>
+
+    <!-- Frame 2: Questions, one at a time -->
+    <section id="sc-frame-questions" class="sc-frame hidden bg-navy py-16 md:py-24">
+      <div class="mx-auto max-w-xl px-5">
+        <div class="flex items-center gap-3">
+          <button id="sc-back" type="button" class="cursor-link flex items-center gap-1 text-sm text-text-faint hover:text-white" aria-label="Back">
+            <span aria-hidden="true">←</span> Back
+          </button>
+          <div class="flex flex-1 gap-1.5" role="progressbar" aria-valuemin="1" aria-valuemax="8" id="sc-progress">
+            {questions.map((_, i) => (
+              <span class="sc-seg h-1.5 flex-1 rounded-full bg-white/10" data-seg={i}></span>
+            ))}
+          </div>
+          <span id="sc-progress-label" class="shrink-0 text-xs font-semibold text-text-faint">Q1 of 8</span>
+        </div>
+
+        <div id="sc-question-viewport" class="relative mt-10 overflow-hidden">
+          <div id="sc-question-track" class="flex">
+            {questions.map((item, qi) => (
+              <div class="sc-question w-full shrink-0 px-1" data-question={qi}>
+                <h2 class="text-xl font-bold text-white md:text-2xl">{item.q}</h2>
+                <div class="mt-6 space-y-3">
+                  {item.options.map((opt) => (
+                    <button
+                      type="button"
+                      class="sc-option cursor-button flex w-full min-h-[56px] items-center rounded-xl border border-border-soft bg-surface-card px-5 py-4 text-left text-base text-white transition-colors duration-150 hover:border-teal"
+                      data-question={qi}
+                      data-points={opt.pts}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Frame 3: The reveal -->
+    <section id="sc-frame-reveal" class="sc-frame hidden bg-grad-hero py-20 md:py-28">
+      <div class="mx-auto max-w-2xl px-5 text-center">
+        <p class="reveal-in text-xs font-semibold uppercase tracking-[0.2em] text-text-faint">Your score</p>
+
+        <div class="relative mx-auto mt-6 h-56 w-56">
+          <svg viewBox="0 0 200 200" class="h-full w-full -rotate-90">
+            <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="12" />
+            <circle
+              id="sc-ring"
+              cx="100"
+              cy="100"
+              r="88"
+              fill="none"
+              stroke="var(--teal)"
+              stroke-width="12"
+              stroke-linecap="round"
+              stroke-dasharray="553"
+              stroke-dashoffset="553"
+            />
+          </svg>
+          <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <span id="sc-score-number" class="text-5xl font-bold text-white">0</span>
+            <span class="text-xs text-text-faint">out of 100</span>
+          </div>
+        </div>
+
+        <p id="sc-tier-name" class="mt-8 text-3xl font-bold text-white"></p>
+        <p id="sc-tier-desc" class="mx-auto mt-3 max-w-md text-text-dim"></p>
+
+        <div class="mt-10 grid grid-cols-1 gap-4 text-left sm:grid-cols-3">
+          {[1, 2, 3].map((n) => (
+            <div class="rounded-xl border border-border-soft bg-surface-card p-5">
+              <p class="text-xs font-semibold uppercase tracking-wide text-teal">Quick win {n}</p>
+              <p class="mt-2 text-sm text-text-dim">[NEEDS INPUT: per-tier recommendation copy]</p>
+            </div>
+          ))}
+        </div>
+
+        <button id="sc-to-capture" type="button" class={`cursor-button mt-10 ${btnPrimary}`}>Get my full breakdown →</button>
+      </div>
+    </section>
+
+    <!-- Frame 4: Email capture -->
+    <section id="sc-frame-capture" class="sc-frame hidden bg-navy py-20 md:py-28">
+      <div class="mx-auto max-w-md px-5 text-center">
+        <h2 class="text-h2 text-white">Want the full breakdown?</h2>
+        <p class="mt-4 text-text-dim">
+          A personalized 90-day roadmap and a 15-minute call with our team. Drop your email, no drip campaigns, no
+          lead-nurture spam.
+        </p>
+
+        <form id="sc-form" class="mt-8 space-y-4 text-left" novalidate>
+          <div>
+            <label for="sc-name" class="block text-sm font-medium text-text-dim">Name</label>
+            <input id="sc-name" name="name" type="text" required class="mt-2 w-full rounded-lg border border-border-soft bg-surface-card px-4 py-3 text-white focus:border-teal focus:outline-none" />
+          </div>
+          <div>
+            <label for="sc-email" class="block text-sm font-medium text-text-dim">Email</label>
+            <input id="sc-email" name="email" type="email" required class="mt-2 w-full rounded-lg border border-border-soft bg-surface-card px-4 py-3 text-white focus:border-teal focus:outline-none" />
+          </div>
+          <div>
+            <label for="sc-company" class="block text-sm font-medium text-text-dim">Company</label>
+            <input id="sc-company" name="company" type="text" class="mt-2 w-full rounded-lg border border-border-soft bg-surface-card px-4 py-3 text-white focus:border-teal focus:outline-none" />
+          </div>
+          <div>
+            <label for="sc-headcount" class="block text-sm font-medium text-text-dim">Headcount</label>
+            <select id="sc-headcount" name="headcount" required class="mt-2 w-full rounded-lg border border-border-soft bg-surface-card px-4 py-3 text-white focus:border-teal focus:outline-none">
+              <option value="" disabled selected>Choose one</option>
+              {headcounts.map((h) => <option value={h}>{h}</option>)}
+            </select>
+          </div>
+          <button type="submit" class={`cursor-button min-h-[52px] w-full ${btnPrimary}`}>Send me the full breakdown</button>
+          <p id="sc-form-status" class="text-sm text-text-dim" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Frame 5: Post-capture -->
+    <section id="sc-frame-postcapture" class="sc-frame hidden bg-navy py-20 md:py-28">
+      <div class="mx-auto max-w-lg px-5 text-center">
+        <h2 class="text-h2 text-white">Ready to skip ahead?</h2>
+        <p class="mt-4 text-text-dim">
+          Book the 5-day Automation Opportunity Audit, the recommendations above will be baked into your roadmap.
+        </p>
+        <a href="/audit" class={`cursor-button mt-8 inline-flex ${btnPrimary}`}>Book an Audit</a>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .sc-frame {
+    transition: opacity 300ms ease;
+  }
+  #sc-question-track {
+    transition: transform 300ms ease;
+  }
+  .sc-seg.done {
+    background: var(--teal);
+  }
+  #sc-ring {
+    transition: stroke-dashoffset 1.1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .sc-frame,
+    #sc-question-track,
+    #sc-ring {
+      transition: none !important;
+    }
+  }
+</style>
+
+<script define:vars={{ questionsData: questions, tiersData: tiers, webhookUrl }}>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const frames = {
+    landing: document.getElementById('sc-frame-landing'),
+    questions: document.getElementById('sc-frame-questions'),
+    reveal: document.getElementById('sc-frame-reveal'),
+    capture: document.getElementById('sc-frame-capture'),
+    postcapture: document.getElementById('sc-frame-postcapture'),
+  };
+
+  function showFrame(name) {
+    Object.values(frames).forEach((f) => f.classList.add('hidden'));
+    frames[name].classList.remove('hidden');
+    window.scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  }
+
+  const answers = new Array(questionsData.length).fill(null);
+  let current = 0;
+
+  const track = document.getElementById('sc-question-track');
+  const progressLabel = document.getElementById('sc-progress-label');
+  const segs = [...document.querySelectorAll('.sc-seg')];
+  const backBtn = document.getElementById('sc-back');
+
+  function renderQuestion() {
+    track.style.transform = `translateX(-${current * 100}%)`;
+    progressLabel.textContent = `Q${current + 1} of ${questionsData.length}`;
+    segs.forEach((s, i) => s.classList.toggle('done', i <= current));
+    backBtn.textContent = current === 0 ? '← Start over' : '← Back';
+  }
+
+  document.getElementById('sc-start')?.addEventListener('click', () => {
+    current = 0;
+    renderQuestion();
+    showFrame('questions');
+  });
+
+  backBtn?.addEventListener('click', () => {
+    if (current === 0) {
+      showFrame('landing');
+    } else {
+      current -= 1;
+      renderQuestion();
+    }
+  });
+
+  document.querySelectorAll('.sc-option').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const qi = parseInt(btn.dataset.question, 10);
+      answers[qi] = parseInt(btn.dataset.points, 10);
+      if (qi < questionsData.length - 1) {
+        current = qi + 1;
+        renderQuestion();
+      } else {
+        revealScore();
+      }
+    });
+  });
+
+  function computeTier(score) {
+    return tiersData.find((t) => score >= t.min && score <= t.max) || tiersData[tiersData.length - 1];
+  }
+
+  function revealScore() {
+    const raw = answers.reduce((sum, v) => sum + (v || 0), 0);
+    const score = Math.round((raw / 80) * 100);
+    const tier = computeTier(score);
+
+    const ring = document.getElementById('sc-ring');
+    const circumference = 553;
+    const target = circumference - (score / 100) * circumference;
+    ring.style.stroke = tier.color;
+    if (score >= 76) {
+      ring.style.filter = `drop-shadow(0 0 12px ${tier.color})`;
+    }
+
+    const numberEl = document.getElementById('sc-score-number');
+    document.getElementById('sc-tier-name').textContent = tier.name;
+    document.getElementById('sc-tier-name').style.color = tier.color;
+    document.getElementById('sc-tier-desc').textContent = tier.desc;
+
+    showFrame('reveal');
+
+    if (reduce) {
+      ring.style.strokeDashoffset = String(target);
+      numberEl.textContent = String(score);
+      return;
+    }
+
+    // Kick the ring transition on the next frame so the browser registers
+    // the starting stroke-dashoffset first, then animates to the target.
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        ring.style.strokeDashoffset = String(target);
+      });
+    });
+
+    const duration = 1100;
+    const start = performance.now();
+    function tick(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      numberEl.textContent = String(Math.round(score * eased));
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+  }
+
+  document.getElementById('sc-to-capture')?.addEventListener('click', () => showFrame('capture'));
+
+  const form = document.getElementById('sc-form');
+  const status = document.getElementById('sc-form-status');
+
+  function mailtoFallback(data) {
+    const subject = encodeURIComponent('Scorecard breakdown request');
+    const body = encodeURIComponent(
+      `Name: ${data.name}\nEmail: ${data.email}\nCompany: ${data.company}\nHeadcount: ${data.headcount}\nScore: ${data.score}\nTier: ${data.tier}`
+    );
+    window.location.href = `mailto:admin@dutennexa.com?subject=${subject}&body=${body}`;
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const raw = answers.reduce((sum, v) => sum + (v || 0), 0);
+    const score = Math.round((raw / 80) * 100);
+    const tier = computeTier(score);
+    const fd = new FormData(form);
+    const data = {
+      name: fd.get('name') || '',
+      email: fd.get('email') || '',
+      company: fd.get('company') || '',
+      headcount: fd.get('headcount') || '',
+      score,
+      tier: tier.name,
+      source: 'scorecard',
+    };
+
+    status.textContent = 'Sending...';
+
+    if (webhookUrl) {
+      try {
+        const res = await fetch(webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        if (!res.ok) throw new Error(`webhook responded ${res.status}`);
+        showFrame('postcapture');
+        return;
+      } catch (err) {
+        // fall through to mailto
+      }
+    }
+    mailtoFallback(data);
+    showFrame('postcapture');
+  });
+</script>

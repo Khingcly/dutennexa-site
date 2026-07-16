@@ -1,0 +1,27 @@
+---
+import CaseStudyLayout from '../../components/CaseStudyLayout.astro';
+import { siClickup, siMake, siGooglesheets, siGoogleappsscript } from 'simple-icons';
+---
+
+<CaseStudyLayout
+  title="K-Brands - Shipping operations at machine speed"
+  description="A Texas-based shipping company connected ClickUp, Google Sheets, and their operational data through Make and custom App Script. One clean spine, no manual re-entry."
+  h1="One spine. Every shipment. No manual re-entry."
+  deck="K-Brands · Shipping &amp; Logistics · Texas, USA · CEO: Khalid Abdulla"
+  context="K-Brands is a US shipping company where visibility and automation are, in Khalid's own words, crucial to daily operations. The team lived in ClickUp for task management and Google Sheets for the operational data, but the two systems didn't know about each other."
+  problem="ClickUp had the work. Sheets had the numbers. Neither had the truth. Updates in one meant re-entry in the other. Data drift was constant, and reporting meant reconciliation before it meant analysis."
+  whatWeBuilt={[
+    'A ClickUp ↔ Google Sheets integration via Make, so updates in either system propagated to the other in near real-time.',
+    "Custom Google Apps Script for the transformations Make couldn't handle natively, the logic-heavy pieces specific to K-Brands' shipment workflow.",
+    'A discovery process Khalid publicly credited: sharp questions, operational understanding, no template proposals.',
+  ]}
+  outcome="ClickUp and Google Sheets now stay in sync automatically. No more manual reconciliation between the two systems. The shipping team has the visibility and automation the operation depends on."
+  quote="Duten Nexa delivered exactly what we needed, an integrated system connecting ClickUp with Google Sheets using Make and custom App Script. As a shipping company, visibility and automation are crucial for us, and they nailed it. What really impressed me was how sharp and insightful they were, asking the right questions from the start and clearly understanding our operations. Smart, efficient, and genuinely great to work with."
+  quoteAuthor="Khalid Abdulla, CEO, K-Brands"
+  tools={[
+    { name: 'ClickUp', icon: siClickup },
+    { name: 'Google Sheets', icon: siGooglesheets },
+    { name: 'Make', icon: siMake },
+    { name: 'Google Apps Script', icon: siGoogleappsscript },
+  ]}
+/>

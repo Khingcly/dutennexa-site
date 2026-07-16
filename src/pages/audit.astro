@@ -1,0 +1,247 @@
+---
+// Verbatim copy from the Round 2 brief + missing-content doc. Three spots
+// used em dashes as label:content separators (the CTA, page title, and the
+// three timeline day-labels) - converted to colons per the project's
+// standing no-em-dash rule, wording unchanged. Numeric ranges like
+// "60-90 min" use an en dash, which is a different, unflagged convention.
+import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { btnPrimary } from '../lib/ui';
+
+const gets = [
+  { title: 'Workflow inventory', body: 'Every recurring process in your business, mapped visually.' },
+  { title: 'Opportunity map', body: 'Every workflow scored on time drain, error rate, and automation feasibility.' },
+  { title: 'ROI estimates', body: 'Hours per week and dollars per month recoverable, per workflow.' },
+  { title: '90-day roadmap', body: 'The exact order to tackle them in, with estimated build effort for each.' },
+];
+
+const timeline = [
+  { day: 'Day 1', label: 'Discovery call', detail: '60-90 min. We walk your business with you. Every recurring workflow, every tool, every handoff.' },
+  { day: 'Days 2-4', label: 'Analysis', detail: 'We map what we heard, quantify each opportunity, and stress-test our own recommendations against what your data actually says.' },
+  { day: 'Day 5', label: 'Walkthrough call', detail: '60 min. We hand over the audit document and walk you through it live. You leave the call with a plan.' },
+];
+
+const personas = [
+  { title: 'Founders, 5-100 headcount', body: "Growing but drowning. You know something needs to change." },
+  { title: 'Ops managers and COOs', body: 'You\'ve been told to "fix the back office." You need a defensible plan for leadership.' },
+  { title: 'Startup founders post-PMF', body: "Investors are asking for cleaner metrics. Your systems can't answer them yet." },
+];
+
+const faq = [
+  {
+    q: 'What does the $497 buy me exactly?',
+    a: 'A 60-90 min discovery call, three days of our analysis, a 60-min walkthrough call, and a written audit document you keep whether or not you build with us. If you do build with us, the $497 comes off the build cost.',
+  },
+  {
+    q: 'What access do you need?',
+    a: 'Read-only access to your main systems (ClickUp/Asana/Monday, CRM, one or two spreadsheets). We sign an NDA if needed.',
+  },
+  {
+    q: 'What tools does the audit cover?',
+    a: "All of them. ClickUp, Make, Zapier, Power Automate, HubSpot, Apollo, Salesforce, spreadsheets, custom tools, we're stack-agnostic in the audit and only recommend what fits.",
+  },
+  {
+    q: "What if we're not ready to build?",
+    a: "That's fine, the roadmap is yours to run on your own timeline. Most clients start within 30 days; some start six months later.",
+  },
+  {
+    q: 'What time zones do you cover?',
+    a: 'UK and US business hours. We run discovery in yours.',
+  },
+  {
+    q: 'Is there a guarantee?',
+    a: "If after the walkthrough call you feel the audit didn't identify at least 10 hours a week of automation opportunity, we refund the fee.",
+  },
+];
+---
+
+<Layout
+  title="Automation Opportunity Audit: 5 days, fixed price, actionable"
+  description="We map your workflows, quantify the biggest time and money leaks, and hand you a prioritized 90-day roadmap. 5 days. Fixed fee, credited toward any build."
+>
+  <Nav />
+  <main>
+    <section class="relative isolate overflow-hidden bg-grad-hero">
+      <div class="relative z-10 mx-auto max-w-3xl px-5 pb-16 pt-28 text-center md:pb-20 md:pt-36">
+        <h1 class="text-h1 text-white">Stop guessing at what to automate.</h1>
+        <p class="mx-auto mt-6 max-w-xl leading-relaxed text-text-dim">
+          In 5 business days, we map your workflows, quantify what's costing you the most time and money, and hand
+          you a prioritized 90-day roadmap. Fixed fee. Credited toward any build we do with you afterwards. No
+          obligation to continue.
+        </p>
+        <div class="mt-8 flex justify-center">
+          <a href="#booking" class={`cursor-button ${btnPrimary}`}>Book the Audit: $497 →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- What you actually get: a stylized audit-report document preview
+         rather than plain icon+text cards, showing the deliverable builds
+         more confidence than describing it. Content bars are illustrative
+         (redacted-looking), not real client figures. -->
+    <section class="bg-navy py-16 md:py-24">
+      <div class="mx-auto max-w-4xl px-5">
+        <h2 class="reveal text-center text-h2 text-white" data-reveal>What you actually get</h2>
+
+        <div class="reveal mt-10 overflow-hidden rounded-2xl border border-border-teal bg-surface-card shadow-2xl shadow-navy-900/60" data-reveal>
+          <div class="flex items-center gap-2 border-b border-border-soft bg-navy-900/60 px-5 py-3">
+            <span class="h-2.5 w-2.5 rounded-full bg-white/15"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-white/15"></span>
+            <span class="h-2.5 w-2.5 rounded-full bg-white/15"></span>
+            <span class="ml-3 text-xs font-medium text-text-faint">automation-audit-report.pdf</span>
+          </div>
+          <div class="grid grid-cols-1 gap-px bg-border-soft sm:grid-cols-2">
+            {gets.map((g, i) => (
+              <div class="bg-surface-card p-6">
+                <p class="text-xs font-semibold uppercase tracking-[0.14em] text-teal">0{i + 1}</p>
+                <h3 class="mt-2 text-base font-semibold text-white">{g.title}</h3>
+                <p class="mt-2 text-sm text-text-dim">{g.body}</p>
+                {i === 0 && (
+                  <div class="mt-4 space-y-1.5" aria-hidden="true">
+                    <div class="h-2 w-full rounded bg-white/10"></div>
+                    <div class="h-2 w-5/6 rounded bg-white/10"></div>
+                    <div class="h-2 w-3/4 rounded bg-white/10"></div>
+                  </div>
+                )}
+                {i === 1 && (
+                  <div class="mt-4 flex h-16 items-end gap-1.5" aria-hidden="true">
+                    <div class="w-full rounded-t bg-teal/30" style="height:40%"></div>
+                    <div class="w-full rounded-t bg-teal/50" style="height:70%"></div>
+                    <div class="w-full rounded-t bg-teal/70" style="height:55%"></div>
+                    <div class="w-full rounded-t bg-teal" style="height:90%"></div>
+                    <div class="w-full rounded-t bg-teal/40" style="height:35%"></div>
+                  </div>
+                )}
+                {i === 2 && (
+                  <div class="mt-4 flex items-baseline gap-2" aria-hidden="true">
+                    <div class="h-6 w-16 rounded bg-white/10"></div>
+                    <span class="text-xs text-text-faint">hrs/week recoverable</span>
+                  </div>
+                )}
+                {i === 3 && (
+                  <div class="mt-4 space-y-2" aria-hidden="true">
+                    <div class="flex items-center gap-2">
+                      <span class="h-4 w-4 shrink-0 rounded-full border border-teal/50"></span>
+                      <div class="h-2 w-4/5 rounded bg-white/10"></div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="h-4 w-4 shrink-0 rounded-full border border-white/15"></span>
+                      <div class="h-2 w-2/3 rounded bg-white/10"></div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                      <span class="h-4 w-4 shrink-0 rounded-full border border-white/15"></span>
+                      <div class="h-2 w-3/5 rounded bg-white/10"></div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How the 5 days run: a real horizontal timeline (vertical on mobile
+         via flex-col), not three stacked paragraphs. The teal dot on Day 1
+         stands in for a "you are here" marker - motion note: in a fuller
+         build this would animate/advance on scroll or interaction, static
+         here. -->
+    <section class="bg-navy-800 py-16 md:py-24">
+      <div class="mx-auto max-w-5xl px-5">
+        <h2 class="reveal text-center text-h2 text-white" data-reveal>How the 5 days run</h2>
+
+        <div class="relative mt-14 flex flex-col gap-10 md:flex-row md:gap-6">
+          <div class="absolute left-[15px] top-2 bottom-2 w-px bg-gradient-to-b from-teal via-indigo to-violet/60 md:left-0 md:right-0 md:top-[15px] md:bottom-auto md:h-px md:w-auto md:bg-gradient-to-r" aria-hidden="true"></div>
+
+          {timeline.map((t, i) => (
+            <div class="reveal relative flex-1 pl-10 md:pl-0 md:text-center" data-reveal style={`transition-delay:${i * 120}ms`}>
+              <span
+                class={`absolute left-0 top-1 h-4 w-4 rounded-full border-2 border-navy-800 md:left-1/2 md:top-0 md:-translate-x-1/2 ${
+                  i === 0 ? 'timeline-marker bg-teal' : 'bg-white/20'
+                }`}
+                aria-hidden="true"
+              ></span>
+              <p class="text-xs font-semibold uppercase tracking-[0.16em] text-teal">{t.day}</p>
+              <h3 class="mt-2 text-lg font-bold text-white">{t.label}</h3>
+              <p class="mx-auto mt-2 max-w-xs text-sm text-text-dim">{t.detail}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Who this is for -->
+    <section class="bg-navy py-16 md:py-24">
+      <div class="mx-auto max-w-5xl px-5">
+        <h2 class="reveal text-center text-h2 text-white" data-reveal>Who this is for</h2>
+        <div class="mt-10 grid grid-cols-1 gap-6 md:grid-cols-3">
+          {personas.map((p, i) => (
+            <div
+              class="tilt-card reveal rounded-xl border border-border-soft bg-surface-card p-6 transition-[border-color] duration-200"
+              data-reveal
+              style={`transition-delay:${i * 100}ms`}
+            >
+              <h3 class="text-lg font-semibold text-white">{p.title}</h3>
+              <p class="mt-3 text-sm text-text-dim">{p.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ accordion -->
+    <section class="bg-navy-800 py-16 md:py-24">
+      <div class="mx-auto max-w-2xl px-5">
+        <h2 class="reveal text-center text-h2 text-white" data-reveal>Questions, answered</h2>
+        <div class="mt-10 space-y-3">
+          {faq.map((item, i) => (
+            <details class="reveal group rounded-xl border border-border-soft bg-surface-card p-5" data-reveal style={`transition-delay:${i * 40}ms`}>
+              <summary class="cursor-button flex cursor-pointer list-none items-center justify-between gap-4 text-left text-base font-semibold text-white">
+                {item.q}
+                <span class="shrink-0 text-teal transition-transform duration-200 group-open:rotate-45">+</span>
+              </summary>
+              <p class="mt-3 text-sm leading-relaxed text-text-dim">{item.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Booking -->
+    <section id="booking" class="bg-navy py-16 md:py-24">
+      <div class="mx-auto max-w-3xl px-5">
+        <h2 class="reveal text-center text-h2 text-white" data-reveal>Book the Audit</h2>
+        <div
+          class="reveal mt-8 flex min-h-[280px] flex-col items-center justify-center rounded-xl border border-dashed border-white/20 bg-surface-card p-10 text-center"
+          data-reveal
+        >
+          <p class="text-sm font-semibold uppercase tracking-[0.14em] text-text-faint">Booking embed placeholder</p>
+          <p class="mt-3 max-w-md text-sm text-text-dim">
+            HUMAN TASK: confirm Zoho Bookings vs Calendly, then the real embed goes here.
+          </p>
+        </div>
+        <p class="reveal mt-6 text-center text-sm text-text-dim" data-reveal>
+          Prefer email? <a href="mailto:admin@dutennexa.com" class="text-teal hover:underline">admin@dutennexa.com</a>.
+          We reply within one UK/US business day.
+        </p>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .timeline-marker {
+    animation: timeline-pulse 2s ease-in-out infinite;
+  }
+  @keyframes timeline-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(63, 224, 208, 0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(63, 224, 208, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-marker {
+      animation: none;
+    }
+  }
+</style>
