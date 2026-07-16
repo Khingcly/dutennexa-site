@@ -4,21 +4,19 @@
 // use case). ClickUp / Make / Zapier / Google Analytics / Google Sheets are
 // available there.
 //
-// Excel and Power BI's real official icons (public/brand/excel.png,
-// public/brand/powerbi.png) were supplied directly by the human and
-// committed to the repo; simple-icons doesn't carry either. Both source
-// files had a solid black canvas baked in (not real transparency), keyed
-// out programmatically since black isn't part of either icon's actual
-// design (confirmed by sampling all four corners before touching them).
+// Excel, Power BI, and Power Automate's real official icons
+// (public/brand/excel.png, powerbi.png, powerautomate.png) were supplied
+// directly by the human and committed to the repo; simple-icons doesn't
+// carry any of them. All three source files had a solid black canvas
+// baked in (not real transparency), keyed out programmatically since
+// black isn't part of any of their actual designs (confirmed by sampling
+// all four corners before touching them), then cropped to their real
+// content bounds so they don't sit shrunken inside leftover padding.
 // Rendered as an <img> with a grayscale-by-default filter so they dim/
 // brighten on hover the same way the SVG icons do, instead of always
-// showing full color while their neighbors are dimmed.
-//
-// NEEDS ASSET: Power Automate is still a real gap. Microsoft doesn't
-// license it into open icon sets, and this build environment's network
-// policy blocks reaching Microsoft's brand pages or CDN directly. Human
-// task: same process as Excel/Power BI, supply the official file and I'll
-// swap this last placeholder for the real mark.
+// showing full color while their neighbors are dimmed. Excel's source
+// icon is a tall document glyph rather than a square app tile, so it
+// renders a bit larger than the rest to read at the same visual weight.
 import { siClickup, siMake, siZapier, siGoogleanalytics, siGooglesheets } from 'simple-icons';
 
 const tools = [
@@ -30,11 +28,10 @@ const tools = [
 ];
 
 const rasterTools = [
-  { name: 'Excel', src: '/brand/excel.png' },
-  { name: 'Power BI', src: '/brand/powerbi.png' },
+  { name: 'Excel', src: '/brand/excel.png', size: 34 },
+  { name: 'Power BI', src: '/brand/powerbi.png', size: 26 },
+  { name: 'Power Automate', src: '/brand/powerautomate.png', size: 26 },
 ];
-
-const pending = ['Power Automate'];
 ---
 
 <div class="reveal border-y border-border-soft bg-navy-900/60 py-8" data-reveal>
@@ -59,18 +56,10 @@ const pending = ['Power Automate'];
           <img
             src={t.src}
             alt={t.name}
-            width="26"
-            height="26"
+            width={t.size}
+            height={t.size}
             class="tool-raster-icon opacity-50 grayscale transition-[filter,opacity] duration-200 hover:opacity-100 hover:grayscale-0"
           />
-        </div>
-      ))}
-      {pending.map((name) => (
-        <div
-          class="rounded border border-dashed border-white/15 px-2.5 py-1 text-[11px] text-text-faint"
-          title={`${name} logo pending official brand asset`}
-        >
-          {name}
         </div>
       ))}
     </div>
