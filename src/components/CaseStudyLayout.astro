@@ -12,6 +12,7 @@ import CtaBand from '../components/CtaBand.astro';
 interface Tool {
   name: string;
   icon?: { path: string; hex: string } | null;
+  src?: string;
 }
 
 interface Props {
@@ -71,6 +72,13 @@ const { title, description, h1, deck, context, problem, whatWeBuilt, outcome, qu
                   <span class="flex items-center gap-2 rounded-full border border-border-soft bg-surface-card py-1.5 pl-1.5 pr-3 text-xs text-text-dim">
                     <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white" style={`--brand:#${t.icon.hex}`}>
                       <svg viewBox="0 0 24 24" width="14" height="14" fill="var(--brand)" aria-hidden="true"><path d={t.icon.path}></path></svg>
+                    </span>
+                    {t.name}
+                  </span>
+                ) : t.src ? (
+                  <span class="flex items-center gap-2 rounded-full border border-border-soft bg-surface-card py-1.5 pl-1.5 pr-3 text-xs text-text-dim">
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white">
+                      <img src={t.src} alt="" width="16" height="16" />
                     </span>
                     {t.name}
                   </span>

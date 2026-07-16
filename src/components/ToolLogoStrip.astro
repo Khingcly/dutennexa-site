@@ -4,20 +4,21 @@
 // use case). ClickUp / Make / Zapier / Google Analytics / Google Sheets are
 // available there.
 //
-// Excel's real official icon (public/brand/excel.png) was supplied directly
-// by the human and committed to the repo; simple-icons doesn't carry it.
-// The source file had a solid black canvas baked in (not real transparency),
-// keyed out programmatically since black isn't part of the icon's actual
-// design (confirmed by sampling all four corners before touching it).
-// Rendered as an <img> with a grayscale-by-default filter so it dims/
-// brightens on hover the same way the SVG icons do, instead of always
-// showing full color while its neighbors are dimmed.
+// Excel and Power BI's real official icons (public/brand/excel.png,
+// public/brand/powerbi.png) were supplied directly by the human and
+// committed to the repo; simple-icons doesn't carry either. Both source
+// files had a solid black canvas baked in (not real transparency), keyed
+// out programmatically since black isn't part of either icon's actual
+// design (confirmed by sampling all four corners before touching them).
+// Rendered as an <img> with a grayscale-by-default filter so they dim/
+// brighten on hover the same way the SVG icons do, instead of always
+// showing full color while their neighbors are dimmed.
 //
-// NEEDS ASSET: Power BI and Power Automate are still real gaps. Microsoft
-// doesn't license those into open icon sets, and this build environment's
-// network policy blocks reaching Microsoft's brand pages or CDN directly.
-// Human task: same process as Excel, supply the official files and I'll
-// swap these two remaining placeholders for the real marks.
+// NEEDS ASSET: Power Automate is still a real gap. Microsoft doesn't
+// license it into open icon sets, and this build environment's network
+// policy blocks reaching Microsoft's brand pages or CDN directly. Human
+// task: same process as Excel/Power BI, supply the official file and I'll
+// swap this last placeholder for the real mark.
 import { siClickup, siMake, siZapier, siGoogleanalytics, siGooglesheets } from 'simple-icons';
 
 const tools = [
@@ -28,9 +29,12 @@ const tools = [
   { name: 'Google Sheets', icon: siGooglesheets },
 ];
 
-const rasterTools = [{ name: 'Excel', src: '/brand/excel.png' }];
+const rasterTools = [
+  { name: 'Excel', src: '/brand/excel.png' },
+  { name: 'Power BI', src: '/brand/powerbi.png' },
+];
 
-const pending = ['Power BI', 'Power Automate'];
+const pending = ['Power Automate'];
 ---
 
 <div class="reveal border-y border-border-soft bg-navy-900/60 py-8" data-reveal>

@@ -6,10 +6,12 @@
 // Duten Nexa's own build, not a resold product, so it keeps the plain
 // violet dot instead of a third-party logo.
 //
-// Dashboards additionally lists Power BI, Tableau, and SQL. Power BI and
-// Tableau have no real logo in simple-icons (same Microsoft/Tableau
-// licensing gap documented in ToolLogoStrip.astro) so they render as
-// dashed text placeholders pending real brand assets. "SQL" isn't a single
+// Dashboards additionally lists Power BI, Tableau, and SQL. Power BI's
+// real icon (public/brand/powerbi.png) was supplied directly by the human,
+// same black-canvas key-out process as ToolLogoStrip.astro's Excel icon.
+// Tableau still has no sourceable real logo (same Microsoft/Tableau
+// licensing gap documented in ToolLogoStrip.astro) so it renders as a
+// dashed text placeholder pending a real brand asset. "SQL" isn't a single
 // company/brand at all, so there's no logo to source, it gets an original
 // generic database glyph instead, same treatment as the AI sparkle: not
 // presented as anyone's trademark.
@@ -37,7 +39,7 @@ const frames = [
     ai: false,
     icon: siGooglesheets,
     extraIcons: [
-      { kind: 'placeholder', label: 'Power BI' },
+      { kind: 'raster', label: 'Power BI', src: '/brand/powerbi.png' },
       { kind: 'placeholder', label: 'Tableau' },
       { kind: 'sql' },
     ],
@@ -99,7 +101,11 @@ const frames = [
                       </span>
                     )}
                     {f.extraIcons?.map((x) =>
-                      x.kind === 'placeholder' ? (
+                      x.kind === 'raster' ? (
+                        <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-md" title={x.label}>
+                          <img src={x.src} alt="" width="26" height="26" />
+                        </span>
+                      ) : x.kind === 'placeholder' ? (
                         <span
                           class="flex h-12 items-center justify-center rounded-xl border border-dashed border-white/20 px-2.5 text-[10px] font-semibold uppercase tracking-wide text-text-faint"
                           title={`${x.label} logo pending official brand asset`}
@@ -178,7 +184,11 @@ const frames = [
               </span>
             )}
             {f.extraIcons?.map((x) =>
-              x.kind === 'placeholder' ? (
+              x.kind === 'raster' ? (
+                <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-white shadow-md" title={x.label}>
+                  <img src={x.src} alt="" width="22" height="22" />
+                </span>
+              ) : x.kind === 'placeholder' ? (
                 <span
                   class="flex h-10 items-center justify-center rounded-xl border border-dashed border-white/20 px-2 text-[9px] font-semibold uppercase tracking-wide text-text-faint"
                   title={`${x.label} logo pending official brand asset`}

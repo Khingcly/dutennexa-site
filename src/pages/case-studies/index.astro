@@ -6,7 +6,13 @@ import PageHero from '../../components/PageHero.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import { siClickup, siMake, siGooglesheets, siGoogleappsscript, siHubspot } from 'simple-icons';
 
-const featured = [
+interface Tool {
+  name: string;
+  icon?: { path: string; hex: string } | null;
+  src?: string;
+}
+
+const featured: { slug: string; name: string; place: string; outcome: string; tools: Tool[] }[] = [
   {
     slug: 'nerbugs',
     name: 'Nerbugs',
@@ -36,7 +42,7 @@ const featured = [
     place: 'New Zealand',
     outcome: 'A single Power BI reporting layer, shipped across a 12-hour time-zone gap.',
     tools: [
-      { name: 'Power BI', icon: null },
+      { name: 'Power BI', src: '/brand/powerbi.png' },
       { name: 'HubSpot', icon: siHubspot },
     ],
   },
@@ -112,6 +118,10 @@ const quotes = [
                   t.icon ? (
                     <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white" title={t.name}>
                       <svg viewBox="0 0 24 24" width="14" height="14" fill={`#${t.icon.hex}`} aria-hidden="true"><path d={t.icon.path}></path></svg>
+                    </span>
+                  ) : t.src ? (
+                    <span class="flex h-6 w-6 items-center justify-center rounded-full bg-white" title={t.name}>
+                      <img src={t.src} alt="" width="14" height="14" />
                     </span>
                   ) : (
                     <span class="rounded-full border border-dashed border-white/20 px-2 py-1 text-[10px] text-text-faint" title={`${t.name} logo pending official brand asset`}>
