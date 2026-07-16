@@ -155,7 +155,7 @@ const faq = [
           <div class="absolute left-[15px] top-2 bottom-2 w-px bg-gradient-to-b from-teal via-indigo to-violet/60 md:left-0 md:right-0 md:top-[15px] md:bottom-auto md:h-px md:w-auto md:bg-gradient-to-r" aria-hidden="true"></div>
 
           {timeline.map((t, i) => (
-            <div class="reveal relative flex-1 pl-10 md:pl-0 md:text-center" data-reveal style={`transition-delay:${i * 120}ms`}>
+            <div class="reveal relative flex-1 pl-10 md:pl-0 md:pt-8 md:text-center" data-reveal style={`transition-delay:${i * 120}ms`}>
               <span
                 class={`absolute left-0 top-1 h-4 w-4 rounded-full border-2 border-navy-800 md:left-1/2 md:top-0 md:-translate-x-1/2 ${
                   i === 0 ? 'timeline-marker bg-teal' : 'bg-white/20'
