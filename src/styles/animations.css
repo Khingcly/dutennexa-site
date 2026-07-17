@@ -143,12 +143,12 @@
 
 /* --- Connector line draw-in on reveal (how-it-works steps) --- */
 .line-draw {
-  stroke-dasharray: 1000;
-  stroke-dashoffset: 1000;
-  transition: stroke-dashoffset 1.2s ease-out;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.2s ease-out;
 }
 .line-draw.in-view {
-  stroke-dashoffset: 0;
+  transform: scaleX(1);
 }
 
 /* --- Case study particle drift (cheap single-layer parallax via motion.js) --- */
@@ -227,7 +227,7 @@
     opacity: 0.3 !important;
   }
   .line-draw {
-    stroke-dashoffset: 0 !important;
+    transform: none !important;
     transition: none !important;
   }
 }
