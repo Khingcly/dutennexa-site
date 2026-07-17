@@ -15,18 +15,14 @@ const founders = [
     name: 'David Akporohwo',
     role: 'CEO / Founder',
     initials: 'DA',
-    // Human task: upload the real photo to public/founders/david.jpg on this
-    // branch, then set this to '/founders/david.jpg'.
-    photo: null,
+    photo: '/founders/david.jpg',
     bio: "David leads client strategy and delivery. Over five years working across digital project management, data analytics, and business automation before formalizing Duten Nexa in Q3 2024. Certified across ClickUp University, PMI, Google Project Management, Scrum Alliance (CSP-SM), and Microsoft Power Platform. He runs the discovery side of every engagement, the sharp questions clients like Khalid Abdulla have publicly credited.",
   },
   {
     name: 'Kingsley Andy',
     role: 'Co-Founder',
     initials: 'KA',
-    // Human task: upload the real photo to public/founders/kingsley.jpg on
-    // this branch, then set this to '/founders/kingsley.jpg'.
-    photo: null,
+    photo: '/founders/kingsley.jpg',
     bio: "Kingsley leads build and technical architecture. Certified across Make Academy, Power BI, and Microsoft Power Platform Fundamentals. His focus is turning what discovery uncovers into systems that run reliably, Make scenarios with proper error handling, dashboards that don't break, AI agents that stay in scope.",
   },
 ];
@@ -87,7 +83,7 @@ const certifications = [
           {founders.map((f) => (
             <div class="reveal rounded-xl border border-border-soft bg-surface-card p-8" data-reveal>
               {f.photo ? (
-                <img src={f.photo} alt={f.name} class="h-20 w-20 rounded-full border border-border-teal object-cover" />
+                <img src={f.photo} alt={f.name} class="h-20 w-20 rounded-full border border-border-teal object-cover object-top" />
               ) : (
                 <div class="flex h-20 w-20 items-center justify-center rounded-full border border-border-teal bg-teal/10 text-xl font-bold text-teal">
                   {f.initials}
