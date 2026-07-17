@@ -15,12 +15,18 @@ const founders = [
     name: 'David Akporohwo',
     role: 'CEO / Founder',
     initials: 'DA',
+    // Human task: upload the real photo to public/founders/david.jpg on this
+    // branch, then set this to '/founders/david.jpg'.
+    photo: null,
     bio: "David leads client strategy and delivery. Over five years working across digital project management, data analytics, and business automation before formalizing Duten Nexa in Q3 2024. Certified across ClickUp University, PMI, Google Project Management, Scrum Alliance (CSP-SM), and Microsoft Power Platform. He runs the discovery side of every engagement, the sharp questions clients like Khalid Abdulla have publicly credited.",
   },
   {
     name: 'Kingsley Andy',
     role: 'Co-Founder',
     initials: 'KA',
+    // Human task: upload the real photo to public/founders/kingsley.jpg on
+    // this branch, then set this to '/founders/kingsley.jpg'.
+    photo: null,
     bio: "Kingsley leads build and technical architecture. Certified across Make Academy, Power BI, and Microsoft Power Platform Fundamentals. His focus is turning what discovery uncovers into systems that run reliably, Make scenarios with proper error handling, dashboards that don't break, AI agents that stay in scope.",
   },
 ];
@@ -80,10 +86,13 @@ const certifications = [
         <div class="grid grid-cols-1 gap-10 md:grid-cols-2">
           {founders.map((f) => (
             <div class="reveal rounded-xl border border-border-soft bg-surface-card p-8" data-reveal>
-              <!-- HUMAN TASK: real founder photo needed; placeholder monogram until supplied -->
-              <div class="flex h-20 w-20 items-center justify-center rounded-full border border-border-teal bg-teal/10 text-xl font-bold text-teal">
-                {f.initials}
-              </div>
+              {f.photo ? (
+                <img src={f.photo} alt={f.name} class="h-20 w-20 rounded-full border border-border-teal object-cover" />
+              ) : (
+                <div class="flex h-20 w-20 items-center justify-center rounded-full border border-border-teal bg-teal/10 text-xl font-bold text-teal">
+                  {f.initials}
+                </div>
+              )}
               <h2 class="mt-5 text-xl font-bold text-white">{f.name}</h2>
               <p class="mt-1 text-sm font-medium text-teal">{f.role}</p>
               <p class="mt-4 text-sm leading-relaxed text-text-dim">{f.bio}</p>
