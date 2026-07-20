@@ -7,6 +7,7 @@
 import Layout from '../layouts/Layout.astro';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import CalendlyEmbed from '../components/CalendlyEmbed.astro';
 import { btnPrimary } from '../lib/ui';
 
 const gets = [
@@ -212,14 +213,8 @@ const faq = [
     <section id="booking" class="bg-navy py-16 md:py-24">
       <div class="mx-auto max-w-3xl px-5">
         <h2 class="reveal text-center text-h2 text-white" data-reveal>Book the Audit</h2>
-        <div
-          class="reveal mt-8 flex min-h-[280px] flex-col items-center justify-center rounded-xl border border-dashed border-white/20 bg-surface-card p-10 text-center"
-          data-reveal
-        >
-          <p class="text-sm font-semibold uppercase tracking-[0.14em] text-text-faint">Booking embed placeholder</p>
-          <p class="mt-3 max-w-md text-sm text-text-dim">
-            HUMAN TASK: confirm Zoho Bookings vs Calendly, then the real embed goes here.
-          </p>
+        <div class="reveal mt-8" data-reveal>
+          <CalendlyEmbed />
         </div>
         <p class="reveal mt-6 text-center text-sm text-text-dim" data-reveal>
           Prefer email? <a href="mailto:admin@dutennexa.com" class="text-teal hover:underline">admin@dutennexa.com</a>.
