@@ -59,7 +59,7 @@ const calendlyUrl = import.meta.env.PUBLIC_CALENDLY_URL ?? '';
       if (window.Calendly && container) {
         const separator = calendlyUrl.includes('?') ? '&' : '?';
         window.Calendly.initInlineWidget({
-          url: `${calendlyUrl}${separator}background_color=002141&text_color=002141&primary_color=3fe0d0&hide_gdpr_banner=1`,
+          url: `${calendlyUrl}${separator}hide_event_type_details=1&hide_gdpr_banner=1&background_color=002141&text_color=002141&primary_color=3fe0d0`,
           parentElement: container,
           resize: true,
         });
