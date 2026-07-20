@@ -13,7 +13,11 @@ const LINES = [
 
 <div class="log-ticker relative hidden w-full max-w-sm overflow-hidden rounded-xl border border-border-teal bg-surface-card p-3 backdrop-blur-sm sm:block" data-lines={JSON.stringify(LINES)}>
   <div class="scan-sweep pointer-events-none absolute inset-0"></div>
-  <div id="log-ticker-rows" class="relative flex flex-col gap-2">
+  <!-- Fixed height + overflow-hidden: the rotation script below appends the
+       next row 400ms before removing the outgoing one (for the cross-fade),
+       so there's a brief 4-row moment. Without a height clamp that expands
+       this box every 6s, a real, measurable layout shift above the fold. -->
+  <div id="log-ticker-rows" class="relative flex flex-col gap-2 overflow-hidden" style="height:76px;">
     {LINES.slice(0, 3).map((line) => (
       <div class="ticker-row in">
         <span class="ticker-icon">{line.icon}</span><span>{line.text}</span><span class="ticker-age">{line.age}</span>
