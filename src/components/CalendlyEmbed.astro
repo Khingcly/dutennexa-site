@@ -66,18 +66,24 @@ const calendlyUrl = import.meta.env.PUBLIC_CALENDLY_URL ?? '';
       }
     };
     script.onerror = () => {
+      console.error(
+        '[CalendlyEmbed] widget.js failed to load from assets.calendly.com (network error, DNS failure, or blocked by an ad/tracker blocker or CSP). PUBLIC_CALENDLY_URL was set, so this is not a missing-config issue.'
+      );
       revealWidget();
       if (container) {
         container.innerHTML =
-          '<div class="flex h-full items-center justify-center px-4 text-center text-sm text-navy/50">Booking calendar unavailable right now, use the email link below.</div>';
+          '<div class="flex h-full items-center justify-center px-4 text-center text-sm text-navy/50">Booking calendar unavailable right now (script failed to load), use the email link below.</div>';
       }
     };
     document.body.appendChild(script);
   } else {
+    console.error(
+      '[CalendlyEmbed] PUBLIC_CALENDLY_URL is not set for this deployment, no request to Calendly was made. Set it in the project Environment Variables (Vercel dashboard) and redeploy.'
+    );
     const skeleton = document.getElementById('calendly-skeleton');
     if (skeleton) {
       skeleton.innerHTML =
-        '<p class="text-sm text-navy/50 px-4 text-center">Booking calendar unavailable right now, use the email link below.</p>';
+        '<p class="text-sm text-navy/50 px-4 text-center">Booking calendar unavailable right now (not configured), use the email link below.</p>';
     }
   }
 </script>
